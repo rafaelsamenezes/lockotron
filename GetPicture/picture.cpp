@@ -27,7 +27,7 @@ void Picture::begin(string path){
         else
             cout << "Saved: " << path << "frame.jpg" << endl;
 
-       usleep(1000);
+       usleep(1000000);
 
     }
 
