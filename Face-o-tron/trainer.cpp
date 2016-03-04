@@ -2,6 +2,7 @@
 #include "facedetection.h"
 #include <opencv2/face.hpp>
 #include <opencv2/core.hpp>
+#define UNKNOWN_PERSON_THRESHOLD 0
 
 Trainer::Trainer(unsigned short int mode){
     this->trainerMode = mode;
@@ -38,9 +39,64 @@ void Trainer::train(string path, vector<string> name, int quantity){
     this->model->train(images, labels);
 }
 
+
+double Trainer::getSimilarity(Mat A, Mat B){
+    if ( A.rows > 0 && A.rows == B.rows && A.cols > 0 && A.cols == B.cols ) {
+        // Calculate the L2 relative error between images.
+        double errorL2 = norm( A, B, CV_L2 );
+        // Convert to a reasonable scale, since L2 error is summed across all pixels of the image.
+        double similarity = errorL2 / (double)( A.rows * A.cols );
+        return similarity;
+    }
+    else {
+        //Images have a different size
+        return 100000000.0;  // Return a bad value
+    }
+}
+
+bool Trainer::isGoodRecognition(Mat f, int p){
+/*
+
+    Mat W = this->model->getEigenVectors();
+
+    Mat mean = this->model->getMean();
+    Mat evs = Mat(W, Range::all(), Range(0, 30));
+    Mat frame;
+    f.copyTo(frame);
+
+    // Project the input image onto the eigenspace.
+
+
+    Mat projection = LDA::subspaceProject(W, mean, f.reshape(1.1));
+  //LDA::
+
+    // Generate the reconstructed face back from the eigenspace.
+
+    Mat reconstructionRow = LDA::subspaceReconstruct(eigenVectors, averageFaceRow, projection);
+
+    Mat reconstructionMat = reconstructionRow.reshape(1, 40);
+
+    Mat reconstructedFace = Mat(reconstructionMat.size(), CV_8U);
+    reconstructionMat.convertTo(reconstructedFace, CV_8U, 1, 0);
+    double similarity = getSimilarity(f, reconstructedFace);
+
+    cout << "Similaridade: " << similarity << endl;
+
+    if (similarity > UNKNOWN_PERSON_THRESHOLD) {
+        return false;
+    // Unknown person.
+    }
+*/
+    return true;
+
+}
+
+
+
 void Trainer::load(string path, string name){
     this->model->load(path+name);
 }
+
 
 int Trainer::recognize(Mat frame){
     int predicted;
@@ -48,13 +104,12 @@ int Trainer::recognize(Mat frame){
     //this->model->predict()
     this->model->predict(frame, predicted, confidence);
     cout << "Certeza: " << confidence << endl;
-    /*
-    if (predicted < this->numberModels){
-        //cout << confidence << endl;
+
+    if (this->isGoodRecognition(frame,0)){
         return predicted;
     }
-    */
-    return predicted;
+
+    return -1;
 }
 
 void Trainer::readWebcam(){
@@ -72,6 +127,7 @@ void Trainer::readWebcam(){
         if(this->fp.isGoodFrame()){
             imshow("teste", this->fp.getFrame());
             int confidence = this->recognize(this->fp.getFrame());
+
             if(confidence >= 0){
                 //cout << "Olá " << this->getName(confidence) << endl;
                 cout << "Olá " << confidence << endl;
