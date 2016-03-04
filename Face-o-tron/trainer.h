@@ -8,6 +8,7 @@
 
 #define TRAINER_FISHERFACE 0
 #define TRAINER_EIGENFACE 1
+#define TRAINER_LBPH 2
 
 
 using namespace cv;
@@ -23,6 +24,7 @@ private:
     FacePre fp;
     bool isGoodRecognition(Mat frame, int p);
     string getName(int p);
+    double getSimilarity(Mat a, Mat b);
 public:
     Trainer(unsigned short int mode);
     //~Trainer() { model.release();}
