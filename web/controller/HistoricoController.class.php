@@ -14,6 +14,17 @@ class HistoricoController
         $this->conn = (new DbConnect())->getConnection();
     }
 
+    function insert(Historico $log) {
+        $stmt = $this->conn->prepare("INSERT INTO historico (usuario_id, data_hora, status) "
+                                        . "VALUES (?, ?, ?)");
+        $stmt->bindParam(1, $log->getUsuario()->getId());
+        $stmt->bindParam(2, $log->getData());
+        $stmt->bindParam(3, $log->getEstado());
+        $stmt->execute();
+        $log->setId($this->conn->lastInsertId());
+        return $log;
+    }
+
     function getAll() {
         $stmt = $this->conn->query('SELECT * FROM historico ORDER BY data_hora DESC');
         $data = $stmt->fetchAll();

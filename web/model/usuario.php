@@ -15,6 +15,16 @@ class Usuario
         $this->nome = $nome;
     }
 
+    /**
+     * Retrieves the currently set id.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     function toArray()
     {
         return array(
