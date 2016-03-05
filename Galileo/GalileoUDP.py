@@ -5,7 +5,6 @@ import socket
 
 udp_receive_port = 5005
 
-
 sock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 
