@@ -14,7 +14,8 @@ class GalileoNetwork:
     def __getURLContents(self, page):
         url = self.server_url + page
         response = urlopen(url)
-        return response.read()
+        html = response.read()
+        return html
 
     def askPermission(self, person_id):
         """Ask to webservice if the person_id is authorized to enter"""
@@ -27,7 +28,7 @@ class GalileoNetwork:
 
     def getFrame(self):
         """Receive image from webservice"""
-        return self.__getURLContents('/frame')
+        return self.__getURLContents('/frame.php')
 
     def getFaces(self):
         """Receives new xml from webservice"""
