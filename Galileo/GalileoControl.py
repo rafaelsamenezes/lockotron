@@ -3,3 +3,6 @@ class GalileoControl:
 
     def openDoor():
         return 0
+
+    def updateSystem():
+        return 0
