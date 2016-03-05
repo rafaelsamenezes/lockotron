@@ -7,20 +7,18 @@ class GalileoNetwork:
     def __init__(self, server_url):
         self.server_url = server_url
 
-    def __getJSON_(url):
-        data = urllib.urlopen(url).read()
+    def __getJSON(self, url):
+        data = urlopen(url).read()
         return json.loads(data)
 
-    def __getURLContents__(page):
+    def __getURLContents(self, page):
         url = self.server_url + page
-        response = urllib.urlopen(url)
+        response = urlopen(url)
         return response.read()
 
     def askPermission(self, person_id):
         """Ask to webservice if the person_id is authorized to enter"""
-        jsonResponse = self.__getJSON_(self.server_url
-                                       + 'access.php?user_id='
-                                       + person_id)
+        jsonResponse = self.__getJSON(self.server_url + 'access.php?user_id=' + person_id)
         permission = jsonResponse['access']
         if (permission == 'true'):
             return True
@@ -29,8 +27,8 @@ class GalileoNetwork:
 
     def getFrame(self):
         """Receive image from webservice"""
-        return self.__getURLContents__('/frame')
+        return self.__getURLContents('/frame')
 
     def getFaces(self):
         """Receives new xml from webservice"""
-        return self.__getURLContents__('/faces')
+        return self.__getURLContents('/faces')
