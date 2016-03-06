@@ -4,5 +4,8 @@ eigenface_model = 'faces.xml'
 frame           = 'frame.jpg'
 update          = 'new-faces.xml'
 
-doorGPPort = 13
+doorLock = 50
+motionDetector = 49
+servo = 48
+
 gp_path    = "/sys/class/gpio/"
