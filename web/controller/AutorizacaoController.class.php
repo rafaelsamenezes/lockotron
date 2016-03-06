@@ -22,6 +22,19 @@ class AutorizacaoController
         return $data;
     }
 
+    function insert(Autorizacao $access) {
+        $stmt = $this->conn->prepare("INSERT INTO autorizacao (usuario_id, dia, horario_inicio, horario_fim)"
+                                                ."VALUES (?, ?, ?, ?)"
+                                    );
+        $stmt->bindParam(1, $access->getUsuario()->getId());
+        $stmt->bindParam(2, $access->getDia());
+        $stmt->bindParam(3, $access->getHorarioInicio());
+        $stmt->bindParam(4, $access->getHorarioFim());
+        $stmt->execute();
+        $access->setId($this->conn->lastInsertId());
+        return $access;
+    }
+
     function getForUser($user_id) {
         $stmt = $this->conn->prepare('SELECT * FROM autorizacao WHERE usuario_id = :user_id ORDER BY dia ASC, horario_inicio ASC');
         $stmt->execute(array(':user_id' => $user_id));

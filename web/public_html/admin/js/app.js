@@ -5,6 +5,9 @@ var app = {
         $('.new-user-button').click(function(){
             userDialog.insert();
         });
+        $('.users-refresh').click(function() {
+            app.loadUsers();
+        });
     },
 
     weekDays: ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"],
@@ -69,6 +72,7 @@ var app = {
 };
 
 var userDialog = {
+    rules: 0,
     edit: function(user) {
         userDialog.show(user)
     },
@@ -79,7 +83,7 @@ var userDialog = {
 
     show: function(user) {
         var dialog = $('#user-dialog');
-        if (! dialog.showModal) {
+        if (! dialog[0].showModal) {
             dialogPolyfill.registerDialog(dialog[0]);
         }
 
@@ -88,50 +92,53 @@ var userDialog = {
         if (user.id === null) {
             dialog.find('.mdl-dialog__title').text("Novo usuário");
             dialog.find('#user-name').val("");
-            dialog.find('#day').val("");
-            dialog.find('#horario-inicio').val("");
-            dialog.find('#horario-fim').val("");
+            user.name = "";
+            user.access = [];
 
         } else {
             dialog.find('.mdl-dialog__title').text("Editar usuário");
         }
 
         dialog[0].showModal();
-        dialog.find('#access-add').click(function() {
+        dialog.find('#access-add').unbind('click').click(function() {
             userDialog.newRule();
         });
-        dialog.find('#user-close').click(function() {
+        dialog.find('#user-close').unbind('click').click(function() {
             dialog[0].close();
         });
-        dialog.find('#user-save').click(function() {
+        dialog.find('#user-save').unbind('click').click(function() {
             user['name'] = dialog.find('#user-name').val();
 
             var rules = dialog.find('.rule');
             var access = [];
             rules.each(function(i, el) {
                 access.push({
-                    'day': $(el).find('#day').val(),
-                    'horario-inicio': $(el).find('#horario-inicio').val(),
-                    'horario-fim': $(el).find('#horario-fim').val(),
+                    'id': $(el).find('.access-id').val(),
+                    'day': $(el).find('.access-day').val(),
+                    'time-start': $(el).find('.access-time-start').val(),
+                    'time-end': $(el).find('.access-time-end').val(),
                 });
             });
 
             user.access = access;
 
             userDialog.save(user);
+            dialog[0].close();
         });
     },
 
     emptyRules: function() {
         $('#access-rules').empty();
+        userDialog.rules = 0;
     },
 
     newRule: function(access) {
         $('#access-rules').append('\
         <div class="rule mdl-grid mdl-grid--no-spacing">\
             <div class="mdl-cell mdl-cell--12-col">\
+                <input type="hidden" class="access-id">\
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">\
-                    <select class="mdl-textfield__input" id="day">\
+                    <select class="mdl-textfield__input access-day" id="day-{n}">\
                         <option value="0">Todo domingo</option>\
                         <option value="1">Toda segunda</option>\
                         <option value="2">Toda terça</option>\
@@ -140,28 +147,36 @@ var userDialog = {
                         <option value="5">Toda sexta</option>\
                         <option value="6">Todo sábado</option>\
                     </select>\
-                    <label class="mdl-textfield__label" for="day">Dia</label>\
+                    <label class="mdl-textfield__label" for="day-{n}">Dia</label>\
                 </div>\
             </div>\
             <div class="mdl-cell mdl-cell--6-col">\
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">\
-                    <input class="mdl-textfield__input" type="text" id="horario-inicio" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?">\
-                    <label class="mdl-textfield__label" for="horario-inicio">De</label>\
+                    <input class="mdl-textfield__input access-time-start" type="text" id="horario-inicio-{n}" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?">\
+                    <label class="mdl-textfield__label" for="horario-inicio-{n}">De</label>\
                     <span class="mdl-textfield__error">Insira um horário válido!</span>\
                 </div>\
             </div>\
             <div class="mdl-cell mdl-cell--6-col">\
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">\
-                    <input class="mdl-textfield__input" type="text" id="horario-fim" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?">\
-                    <label class="mdl-textfield__label" for="horario-fim">Até</label>\
+                    <input class="mdl-textfield__input access-time-end" type="text" id="horario-fim-{n}" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?">\
+                    <label class="mdl-textfield__label" for="horario-fim-{n}">Até</label>\
                 </div>\
             </div>\
-        </div>');
+        </div>'
+        .replace(/{n}/g, userDialog.rules)
+        );
+        userDialog.rules = userDialog.rules + 1;
         componentHandler.upgradeDom();
     },
 
     save: function (user) {
         console.log(user);
+        $.post("/users.php?insert", {name: user.name, access: JSON.stringify(user.access)})
+        .done(function(data) {
+            console.log(data);
+        });
+        app.loadUsers();
     },
 
 };

@@ -13,6 +13,17 @@ class Autorizacao
         $this->horario_inicio = $horario_inicio;
         $this->horario_fim = $horario_fim;
     }
+    
+    public function setId($id)
+    {
+       $this->id = $id;
+       return $this;
+    }
+
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
 
     function getHorarioInicio() {
         return $this->horario_inicio;

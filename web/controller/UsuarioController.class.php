@@ -13,6 +13,14 @@ class UsuarioController
         $this->conn = (new DbConnect())->getConnection();
     }
 
+    function insert(Usuario $user) {
+        $stmt = $this->conn->prepare("INSERT INTO usuario (nome) VALUES (?)");
+        $stmt->bindParam(1, $user->getNome());
+        $stmt->execute();
+        $user->setId($this->conn->lastInsertId());
+        return $user;
+    }
+
     function getAll() {
         $stmt = $this->conn->query('SELECT * FROM usuario');
         $data = $stmt->fetchAll();

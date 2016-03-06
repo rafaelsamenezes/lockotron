@@ -16,6 +16,29 @@ class Usuario
     }
 
     /**
+     * Retrieves the currently set nome.
+     *
+     * @return mixed
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
+     * Sets the nome to use.
+     *
+     * @param mixed $nome
+     *
+     * @return $this
+     */
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+        return $this;
+    }
+
+    /**
      * Retrieves the currently set id.
      *
      * @return mixed
@@ -23,6 +46,19 @@ class Usuario
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Sets the id to use.
+     *
+     * @param mixed $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     function toArray()
