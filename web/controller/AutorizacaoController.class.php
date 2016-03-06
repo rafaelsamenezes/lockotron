@@ -23,7 +23,7 @@ class AutorizacaoController
     }
 
     function getForUser($user_id) {
-        $stmt = $this->conn->prepare('SELECT * FROM autorizacao WHERE usuario_id = :user_id');
+        $stmt = $this->conn->prepare('SELECT * FROM autorizacao WHERE usuario_id = :user_id ORDER BY dia ASC, horario_inicio ASC');
         $stmt->execute(array(':user_id' => $user_id));
         $data = $stmt->fetchAll();
         foreach ($data as $i => $row) {

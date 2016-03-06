@@ -1,0 +1,25 @@
+a {
+    outline: 0;
+}
+
+.mdl-layout__content {
+    background-color: #CFD8DC;
+}
+
+.page-content > .mdl-card {
+    width: 850px;
+    margin: auto;
+}
+
+@media (max-width:900px) {
+    .page-content > .mdl-card {
+        max-width: 700px;
+        width: 100%;
+    }
+}
+
+.page-content > .mdl-card > .mdl-data-table {
+    border-right: none;
+    border-left: none;
+    width: 100%;
+}
