@@ -18,29 +18,34 @@
             </div>
             <!-- Tabs -->
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-              <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Histórico</a>
-              <a href="#scroll-tab-2" class="mdl-layout__tab">Usuários</a>
+              <a href="#tab-log" class="mdl-layout__tab is-active">Histórico</a>
+              <a href="#tab-users" class="mdl-layout__tab">Usuários</a>
             </div>
           </header>
           <main class="mdl-layout__content">
-            <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+            <section class="mdl-layout__tab-panel is-active" id="tab-log">
               <div class="page-content">
                 <div class="mdl-card mdl-shadow--2dp">
-                  <table id="log-table" class="mdl-data-table mdl-js-data-table">
-                      <thead>
-                          <tr>
-                              <th class="mdl-data-table__header--sorted-descending mdl-data-table__cell--non-numeric">Data e hora</th>
-                              <th class="mdl-data-table__cell--non-numeric">Pessoa</th>
-                              <th class="mdl-data-table__cell--non-numeric">Ação</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                  </table>
+                <div class="loading-container">
+                    <div id="log-table-mask" class="loading-mask">
+                        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                    </div>
+                    <table id="log-table" class="mdl-data-table mdl-js-data-table">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__header--sorted-descending mdl-data-table__cell--non-numeric">Data e hora</th>
+                                <th class="mdl-data-table__cell--non-numeric">Pessoa</th>
+                                <th class="mdl-data-table__cell--non-numeric">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
                 </div>
               </div>
             </section>
-            <section class="mdl-layout__tab-panel" id="scroll-tab-2">
+            <section class="mdl-layout__tab-panel" id="tab-users">
               <div class="page-content">
                     <div class="mdl-card mdl-shadow--2dp">
                       <div class="mdl-card__title">
@@ -49,23 +54,31 @@
                       <div class="mdl-card__supporting-text">
                       </div>
                       <div class="mdl-card__menu">
-                          <button class="mdl-button mdl-js-button mdl-js-ripple-effect users-refresh"><i class="material-icons">refresh</i></button>
+                          <button id="users-refresh" class="mdl-button mdl-js-button mdl-js-ripple-effect users-refresh">
+                              <i class="material-icons">refresh</i>
+                          </button>
+                          <div class="mdl-tooltip" for="users-refresh">Recarregar</div>
                           <button class="mdl-button mdl-js-button mdl-js-ripple-effect new-user-button">
                               <i class="material-icons">add</i> Novo
                           </button>
                       </div>
-                      <table id="users-table" class="mdl-data-table mdl-js-data-table">
-                          <thead>
-                              <tr>
-                                  <th>#</th>
-                                  <th class="mdl-data-table__header--sorted-ascending mdl-data-table__cell--non-numeric">Nome</th>
-                                  <th class="mdl-data-table__cell--non-numeric">Acesso autorizado</th>
-                                  <th class="mdl-data-table__cell--non-numeric">Excluir</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                      </table>
+                      <div class="loading-container">
+                          <div id="users-table-mask" class="loading-mask">
+                              <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                          </div>
+                          <table id="users-table" class="mdl-data-table mdl-js-data-table">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      <th class="mdl-data-table__header--sorted-ascending mdl-data-table__cell--non-numeric">Nome</th>
+                                      <th class="mdl-data-table__cell--non-numeric">Acesso autorizado</th>
+                                      <th class="mdl-data-table__cell--non-numeric">Ação</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div>
                     </div>
               </div>
             </section>

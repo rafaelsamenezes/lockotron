@@ -14,6 +14,7 @@ var app = {
     weekDaysShort: ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"],
 
     loadUsers: function() {
+        $('#users-table-mask').show();
          $.ajax("/users.php")
             .done(function(data){
                 $('#users-table tbody').empty();
@@ -34,6 +35,9 @@ var app = {
                         <td class="mdl-data-table__cell--non-numeric">{access}\
                         </td>\
                         <td class="mdl-data-table__cell--non-numeric">\
+                            <span id="edit-{id}"><button class="mdl-button mdl-js-button mdl-button--icon">\
+                                <i class="material-icons">edit</i>\
+                            </button></span>\
                             <span id="delete-{id}"><button class="mdl-button mdl-js-button mdl-button--icon">\
                                 <i class="material-icons">delete</i>\
                             </button></span>\
@@ -45,11 +49,14 @@ var app = {
                     .replace(/{access}/g, access)
                     );
                 });
+
+                $('#users-table-mask').hide();
             });
     },
 
 
     loadLog: function() {
+        $('#log-table-mask').show();
          $.ajax("/log.php")
             .done(function(data){
                 $('#log-table tbody').empty();
@@ -67,6 +74,7 @@ var app = {
                     );
                 });
             });
+        $('#log-table-mask').hide();
     }
 
 };
