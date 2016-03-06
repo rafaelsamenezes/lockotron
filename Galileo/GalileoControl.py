@@ -33,7 +33,8 @@ class GalileoControl:
 
     @staticmethod
     def openDoor():
-        gpio_set_value(gv.doorGPPort, gv.HIGH)
+        gpio_set_value(gv.doorLock, gv.HIGH)
+        servoOpen()
 
     @staticmethod
     def updateSystem():
@@ -52,6 +53,21 @@ class GalileoControl:
         fo = open(file_name, 'wb')
         fo.write(contents)
         fo.close()
+
+    @staticmethod
+    def servoOpen():
+        pass
+
+    def servoClose():
+        pass
+
+    @staticmethod
+    def renameFile(src_name, out_name):
+        fi = open(src_name, 'rb')
+        data = fi.read()
+        fi.close()
+        createFile(out_name, data)
+        os.remove(src_name)
 
     @staticmethod
     def isUpdateAvailable():
