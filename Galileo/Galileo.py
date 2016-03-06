@@ -1,13 +1,13 @@
 #!/usr/bin/python
-from GalileoControl import GalileoControl as gc
-from GalileoNetwork import GalileoNetwork as gn
-from RecognizeFace import RecognizeFace as rf
+from lib_galileo.GalileoControl import GalileoControl as gc
+from lib_galileo.GalileoNetwork import GalileoNetwork as gn
+from lib_opencv.RecognizeFace import RecognizeFace as rf
 import GlobalVariables as gv
 import time
 
 def checkUpdate():
     if(gc.isUpdateAvailable()):
-        gc.renameFile(gv.update, gv.eigenface_model)
+        gc.renameFile(gv.update, gv.model)
 
 def checkPerson(person_id):
     conn = gn.GalileoNetwork(gv.server_url)
@@ -20,7 +20,6 @@ def setupGPIO():
     gc.gpio_set_mode(gv.doorGPPort, gc.INPUT)
     gc.gpio_set_mode(gv.motionDetector, gc.OUTPUT)
     gc.gpio_set_mode(gv.servo, gc.OUTPUT)
-
 
 def checkMotion():
     value = gc.gpio_get_value(gv.motionDetector)
@@ -35,5 +34,5 @@ if __name__ == 'main':
         if(checkMotion == gc.HIGH):
             gc.getFrame()
             prediction = rf.predict()
-            if (rf.isGoodPrediction(prediction)):
+            if (rf.isGoodPrediction(prediction) and checkPerson(prediction)):
                 gc.openDoor()
