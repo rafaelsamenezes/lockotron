@@ -12,22 +12,22 @@ class GalileoControl:
     @staticmethod
     def gpio_export(gpio_num):
         fo = open(gv.gp_path + 'export', 'w')
-        fo.write(gpio_num)
+        fo.write(str(gpio_num))
         fo.close()
 
     @staticmethod
     def gpio_set_mode(gpio_num, mode):
-        fo = open(gv.gp_path + 'gpio' + gpio_num + '/direction', 'w')
+        fo = open(gv.gp_path + 'gpio' + str(gpio_num) + '/direction', 'w')
         fo.write(mode)
 
     @staticmethod
     def gpio_set_value(gpio_num, value):
-        fo = open(gv.gp_path + 'gpio' + gpio_num + '/value', 'w')
+        fo = open(gv.gp_path + 'gpio' + str(gpio_num) + '/value', 'w')
         fo.write(value)
 
     @staticmethod
     def gpio_get_value(gpio_num):
-        fo = open(gv.gp_path + 'gpio' + gpio_num + '/value', 'r')
+        fo = open(gv.gp_path + 'gpio' + str(gpio_num) + '/value', 'r')
         value = fo.read()
         return value
 

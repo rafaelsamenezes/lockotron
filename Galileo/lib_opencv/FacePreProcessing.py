@@ -31,20 +31,20 @@ class FacePreProcessing:
 
     @staticmethod
     def __getEyes(frame):
-        leftX = cv2.cvRound(frame.cols * FacePreProcessing.EYE_SX)
-        topY = cv2.cvRound(frame.rows * FacePreProcessing.EYE_SY)
-        widthX = cv2.cvRound(frame.cols * FacePreProcessing.EYE_SW)
-        heightY = cv2.cvRound(frame.rows * FacePreProcessing.EYE_SH)
-        rightX = cv2.cvRound(frame.cols * (1.0 - FacePreProcessing.EYE_SX - FacePreProcessing.EYE_SW))
+        leftX = np.round(frame.cols * FacePreProcessing.EYE_SX)
+        topY = np.round(frame.rows * FacePreProcessing.EYE_SY)
+        widthX = np.round(frame.cols * FacePreProcessing.EYE_SW)
+        heightY = np.round(frame.rows * FacePreProcessing.EYE_SH)
+        rightX = np.round(frame.cols * (1.0 - FacePreProcessing.EYE_SX - FacePreProcessing.EYE_SW))
         topLeft = frame(cv2.Rect(leftX, topY, widthX, heightY))
         topRight = frame(cv2.Rect(rightX, topY, widthX, heightY))
         return topLeft, topRight
 
     @staticmethod
     def __procEyes(topLeft, topRight, frame):
-        leftX = cv2.cvRound(frame.cols * FacePreProcessing.EYE_SX)
-        topY = cv2.cvRound(frame.rows * FacePreProcessing.EYE_SY)
-        rightX = cv2.cvRound(frame.cols * (1.0 - FacePreProcessing.EYE_SX - FacePreProcessing.EYE_SW))
+        leftX = np.round(frame.cols * FacePreProcessing.EYE_SX)
+        topY = np.round(frame.rows * FacePreProcessing.EYE_SY)
+        rightX = np.round(frame.cols * (1.0 - FacePreProcessing.EYE_SX - FacePreProcessing.EYE_SW))
         leftEyeFound, rightEyeFound = False, False
 
         eyeDetector = h.EyeHaarcascades()
@@ -81,7 +81,7 @@ class FacePreProcessing:
     @staticmethod
     def __finishMat(lp, rp, frame):
         warped = FacePreProcessing.__geometricTransformation(lp, rp, frame)
-        
+
 
 
     @staticmethod

@@ -16,6 +16,13 @@ class FaceHaarcascades:
         faces = self.haarcascade.detectMultiScale(gray, 1.1, 5, cv2.CASCADE_FIND_BIGGEST_OBJECT)
         return faces[0]
 
+    def getFaceVector(self, frame):
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.equalizeHist(gray, gray)
+        faces = self.haarcascade.detectMultiScale(gray, 1.1, 5, cv2.CASCADE_FIND_BIGGEST_OBJECT)
+        return faces
+
+
 class EyeHaarcascades:
     def __init__(self):
         self.haarcascade = cv2.CascadeClassifier(eyeHaarCascade)
