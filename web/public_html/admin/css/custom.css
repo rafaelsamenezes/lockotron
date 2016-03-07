@@ -42,6 +42,18 @@ a {
     bottom: 50%;
 }
 
+#log-table .material-icons {
+    font-size: 18px;
+}
+
+#log-table .icon-ok {
+    color: #4CAF50;
+}
+
+#log-table .icon-no {
+    color: #f44336;
+}
+
 #access-rules {
     max-height: 250px;
     overflow-y: scroll;

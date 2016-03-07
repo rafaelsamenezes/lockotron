@@ -72,11 +72,11 @@ var app = {
                         <tr>\
                             <td class="mdl-data-table__cell--non-numeric">{date}</td>\
                             <td class="mdl-data-table__cell--non-numeric">{name}</td>\
-                            <td class="mdl-data-table__cell--non-numeric">{action}</td>\
+                            <td class="mdl-data-table__cell--non-numeric"><div style="display:inline-flex;vertical-align:middle;">{action}</div></td>\
                         </tr>'
                     .replace(/{date}/g, el.data)
                     .replace(/{name}/g, el.usuario.nome)
-                    .replace(/{action}/g, el.estado ? "Autorizado" : "Proibido")
+                    .replace(/{action}/g, el.estado == 1 ? "<i class=\"material-icons icon-ok\">check_circle</i>&nbsp;Autorizado" : "<i class=\"material-icons icon-no\">remove_circle</i>&nbsp;Proibido")
                     );
                 });
             });
