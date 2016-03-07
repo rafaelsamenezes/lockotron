@@ -25,7 +25,7 @@ def checkMotion():
     value = gc.gpio_get_value(gv.motionDetector)
     return value
 
-if __name__ == 'main':
+if __name__ == '__main__':
     checkUpdate()
     setupGPIO()
     recognizer = rf.RecognizeFace()
