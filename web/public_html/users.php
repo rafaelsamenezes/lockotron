@@ -25,9 +25,6 @@ if (isset($_GET['insert'])) {
 		isset($_POST['access']) && $_POST['access'] != '')
 	{
 		$access = json_decode($_POST['access'], true);
-		if (count($access) == 0) {
-			$error = true;
-		}
 	} else {
 		$error = true;
 	}
@@ -57,9 +54,6 @@ if (isset($_GET['insert'])) {
 		isset($_POST['access']) && $_POST['access'] != '')
 	{
 		$access = json_decode($_POST['access'], true);
-		if (count($access) == 0) {
-			$error = true;
-		}
 	} else {
 		$error = true;
 	}
@@ -80,6 +74,30 @@ if (isset($_GET['insert'])) {
 		echo json_encode(array(
 			'success' => true,
 			'data' => array($data),
+		));
+	}
+} else if (isset($_GET['delete'])) {
+	// CREATE
+	$error = false;
+	if (isset($_POST['id']) && $_POST['id'] != '')
+	{
+		$result = $user->deleteId($_POST['id']);
+		if (!$result) {
+			http_response_code(404);
+			$error = true;
+		}
+	} else {
+		http_response_code(400);
+		$error = true;
+	}
+
+	if ($error) {
+		echo json_encode(array(
+			'success' => false,
+		));
+	} else {
+		echo json_encode(array(
+			'success' => true,
 		));
 	}
 } else {

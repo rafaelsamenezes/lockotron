@@ -50,6 +50,10 @@ var app = {
                     row.find('.user-edit-button').click(function() {
                         userDialog.edit(el);
                     });
+
+                    row.find('.user-delete-button').click(function() {
+                        userDialog.delete(el);
+                    });
                 });
 
                 $('#users-table-mask').hide();
@@ -89,6 +93,34 @@ var userDialog = {
 
     insert: function() {
         userDialog.show({id:null});
+    },
+
+    delete: function(user) {
+        console.log("delete", user);
+        var dialog = $('#user-delete-dialog');
+        if (! dialog[0].showModal) {
+            dialogPolyfill.registerDialog(dialog[0]);
+        }
+
+        dialog.find('.mdl-dialog__content').text("Excluir " + user.nome + "?");
+        dialog.find('#user-delete-cancel').unbind('click').click(function() {
+            dialog[0].close();
+        });
+        dialog.find('#user-delete-confirm').unbind('click').click(function() {
+            $.post("/users.php?delete", {id:user.id})
+            .done(function(data) {
+                var msg = "";
+                if (data.success) {
+                    msg = "Usuário(a) \"{0}\" excluído(a)."
+                } else {
+                    msg = "Erro ao excluir \"{0}\"."
+                }
+                $('#snackbar')[0].MaterialSnackbar.showSnackbar({message: msg.replace(/\{0\}/g, user.nome)});
+                app.loadUsers();
+                dialog[0].close();
+            });
+        });
+        dialog[0].showModal();
     },
 
     show: function(user) {
@@ -195,14 +227,14 @@ var userDialog = {
             // UPDATE
             $.post("/users.php?edit", {id:user.id, name: user.name, access: JSON.stringify(user.access)})
             .done(function(data) {
-                console.log(data);
+                console.log("edited", data);
                 app.loadUsers();
             });
         } else {
             // CREATE
             $.post("/users.php?insert", {name: user.name, access: JSON.stringify(user.access)})
             .done(function(data) {
-                console.log(data);
+                console.log("inserted", data);
                 app.loadUsers();
             });
         }
