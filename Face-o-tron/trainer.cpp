@@ -10,6 +10,8 @@ Trainer::Trainer(unsigned short int mode){
         this->model = createFisherFaceRecognizer();
     if(mode == TRAINER_EIGENFACE)
         this->model = createEigenFaceRecognizer();
+    else
+        this->model = createLBPHFaceRecognizer();
 }
 
 void Trainer::saveTrainer(string path, string name){
@@ -67,12 +69,12 @@ bool Trainer::isGoodRecognition(Mat f, int p){
     // Project the input image onto the eigenspace.
 
 
-    Mat projection = LDA::subspaceProject(W, mean, f.reshape(1.1));
+    Mat projection = LDA::subspaceProject(W, mean, f);
   //LDA::
 
     // Generate the reconstructed face back from the eigenspace.
 
-    Mat reconstructionRow = LDA::subspaceReconstruct(eigenVectors, averageFaceRow, projection);
+    Mat reconstructionRow = LDA::subspaceReconstruct(W, mean, projection);
 
     Mat reconstructionMat = reconstructionRow.reshape(1, 40);
 

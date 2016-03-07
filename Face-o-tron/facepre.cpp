@@ -111,7 +111,7 @@ void FacePre::geometricTransformation(){
     eyesCenter.y = (this->leftEye.y + this->rightEye.y) * 0.5f;
 
     double dx = (this->rightEye.x - this->leftEye.x);
-    double dy = (this->rightEye.y - this->rightEye.y);
+    double dy = (this->rightEye.y - this->leftEye.y);
     double len = sqrt(dx*dx + dy*dy);
     double angle = atan2(dy, dx) * 180.0/CV_PI;
 

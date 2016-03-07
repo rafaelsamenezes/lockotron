@@ -1,5 +1,5 @@
 #include "haarcascade.h"
 
-string HaarCascade::faceHaarCascade = "cascade/haarcascade_frontalface_alt.xml";
-string HaarCascade::eyeHaarCascade = "cascade/haarcascade_eye.xml";
-string HaarCascade::glassesHaarCascade = "cascade/haarcascade_eye_tree_eyeglasses.xml";
+string HaarCascade::faceHaarCascade = "/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml";
+string HaarCascade::eyeHaarCascade = "/usr/local/share/OpenCV/haarcascades/haarcascade_eye.xml";
+string HaarCascade::glassesHaarCascade = "/usr/local/share/OpenCV/haarcascades/haarcascade_eye_tree_eyeglasses.xml";

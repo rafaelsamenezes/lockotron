@@ -18,7 +18,7 @@ class Trainer
 {
 private:
     unsigned short int trainerMode;
-    Ptr<BasicFaceRecognizer> model;
+    Ptr<FaceRecognizer> model;
     vector<string> names;
     int numberModels;
     FacePre fp;
