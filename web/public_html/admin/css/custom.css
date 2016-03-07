@@ -11,10 +11,28 @@ a {
     margin: auto;
 }
 
+.mdl-navigation {
+    visibility: hidden;
+}
+
+.mdl-navigation .mdl-button--icon {
+    padding: 30px;
+}
+
 @media (max-width:900px) {
     .page-content > .mdl-card {
         max-width: 700px;
         width: 100%;
+    }
+}
+
+@media (max-width:1100px) {
+    .page-content > .mdl-card .mdl-card__title,
+    .page-content > .mdl-card .mdl-card__supporting-text {
+        display: none;
+    }
+    .mdl-navigation {
+        visibility: visible;
     }
 }
 

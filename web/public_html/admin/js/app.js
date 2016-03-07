@@ -2,11 +2,15 @@ var app = {
     init: function() {
         app.loadUsers();
         app.loadLog();
+        app.refreshNavigation();
         $('.new-user-button').click(function(){
             userDialog.insert();
         });
-        $('.users-refresh').click(function() {
+        $('.refresh-button').click(function() {
             app.loadUsers();
+        });
+        $('.mdl-layout__tab').click(function(e) {
+            app.refreshNavigation(e.currentTarget);
         });
     },
 
@@ -81,8 +85,20 @@ var app = {
                 });
             });
         $('#log-table-mask').hide();
-    }
+    },
 
+    refreshNavigation: function(el) {
+        if (el == null) {
+            el = $('.mdl-layout__tab.is-active');
+        }
+        switch ($(el).attr('href')) {
+            case "#tab-users":
+                $('#new-user-button').show();
+                break;
+            default:
+                $('#new-user-button').hide();
+        };
+    },
 };
 
 var userDialog = {

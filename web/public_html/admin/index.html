@@ -15,6 +15,17 @@
             <div class="mdl-layout__header-row">
               <!-- Title -->
               <span class="mdl-layout-title">Lock-o-tron</span>
+              <div class="mdl-layout-spacer"></div>
+              <nav class="mdl-navigation">
+                  <button id="refresh-button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect refresh-button">
+                      <i class="material-icons">refresh</i>
+                  </button>
+                  <div class="mdl-tooltip" for="refresh-button">Recarregar</div>
+                  <button id="new-user-button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect new-user-button">
+                      <i class="material-icons">add</i>
+                  </button>
+                  <div class="mdl-tooltip" for="new-user-button">Novo usuário</div>
+              </nav>
             </div>
             <!-- Tabs -->
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
@@ -54,10 +65,10 @@
                       <div class="mdl-card__supporting-text">
                       </div>
                       <div class="mdl-card__menu">
-                          <button id="users-refresh" class="mdl-button mdl-js-button mdl-js-ripple-effect users-refresh">
+                          <button id="users-refresh-button" class="mdl-button mdl-js-button mdl-js-ripple-effect refresh-button">
                               <i class="material-icons">refresh</i>
                           </button>
-                          <div class="mdl-tooltip" for="users-refresh">Recarregar</div>
+                          <div class="mdl-tooltip" for="users-refresh-button">Recarregar</div>
                           <button class="mdl-button mdl-js-button mdl-js-ripple-effect new-user-button">
                               <i class="material-icons">add</i> Novo
                           </button>
