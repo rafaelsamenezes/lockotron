@@ -45,7 +45,7 @@ class UsuarioController
     }
 
     function getAll() {
-        $stmt = $this->conn->query('SELECT * FROM usuario');
+        $stmt = $this->conn->query('SELECT * FROM usuario ORDER BY usuario.nome ASC');
         $data = $stmt->fetchAll();
         foreach ($data as $i => $row) {
             $data[$i] = $this->arrayToObject($row);
