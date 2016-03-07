@@ -45,6 +45,12 @@ class AutorizacaoController
         return $data;
     }
 
+    function deleteAllOfUser($user_id)
+    {
+        $stmt = $this->conn->prepare('DELETE FROM autorizacao WHERE usuario_id = :user_id');
+        return $stmt->execute(array(':user_id' => $user_id));
+    }
+
     private function arrayToObject(array $array) {
         return new Autorizacao($array['id'],
                     $array['usuario_id'],

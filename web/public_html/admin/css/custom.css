@@ -41,3 +41,8 @@ a {
     top: 50%;
     bottom: 50%;
 }
+
+#access-rules {
+    max-height: 250px;
+    overflow-y: scroll;
+}

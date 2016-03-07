@@ -19,6 +19,7 @@ function accessToUserArray(array &$user)
 }
 
 if (isset($_GET['insert'])) {
+	// CREATE
 	$error = false;
 	if (isset($_POST['name']) && $_POST['name'] != '' &&
 		isset($_POST['access']) && $_POST['access'] != '')
@@ -38,6 +39,39 @@ if (isset($_GET['insert'])) {
 		));
 	} else {
 		$new = $user->insert(new Usuario(null, $_POST['name']));
+		foreach ($access as $i => $rule) {
+			$accessController->insert(new Autorizacao(null, $new, $rule['day'], $rule['time-start'], $rule['time-end']));
+		}
+		$data = $new->toArray();
+		accessToUserArray($data);
+		echo json_encode(array(
+			'success' => true,
+			'data' => array($data),
+		));
+	}
+} else if (isset($_GET['edit'])) {
+	// EDIT
+	$error = false;
+	if (isset($_POST['id']) && $_POST['id'] != '' &&
+		isset($_POST['name']) && $_POST['name'] != '' &&
+		isset($_POST['access']) && $_POST['access'] != '')
+	{
+		$access = json_decode($_POST['access'], true);
+		if (count($access) == 0) {
+			$error = true;
+		}
+	} else {
+		$error = true;
+	}
+
+	if ($error) {
+		http_response_code(400);
+		echo json_encode(array(
+			'success' => false,
+		));
+	} else {
+		$new = $user->edit(new Usuario($_POST['id'], $_POST['name']));
+		$accessController->deleteAllOfUser($_POST['id']);
 		foreach ($access as $i => $rule) {
 			$accessController->insert(new Autorizacao(null, $new, $rule['day'], $rule['time-start'], $rule['time-end']));
 		}

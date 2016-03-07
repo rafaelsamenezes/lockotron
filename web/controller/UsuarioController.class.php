@@ -21,6 +21,14 @@ class UsuarioController
         return $user;
     }
 
+    function edit(Usuario $user) {
+        $stmt = $this->conn->prepare("UPDATE usuario SET nome = ? WHERE usuario.id = ?");
+        $stmt->bindParam(1, $user->getNome());
+        $stmt->bindParam(2, $user->getId());
+        $stmt->execute();
+        return $user;
+    }
+
     function getAll() {
         $stmt = $this->conn->query('SELECT * FROM usuario');
         $data = $stmt->fetchAll();

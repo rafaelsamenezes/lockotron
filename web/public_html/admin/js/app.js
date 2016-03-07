@@ -28,26 +28,28 @@ var app = {
                             + acc.horario_fim + "<br/>";
                     });
 
-                    $('#users-table tbody').append('\
-                    <tr data-user-id="{id}">\
+                    var row = $('\
+                    <tr class="user-row" data-user-id="{id}">\
                         <td>{id}</td>\
                         <td class="mdl-data-table__cell--non-numeric">{name}</td>\
                         <td class="mdl-data-table__cell--non-numeric">{access}\
                         </td>\
                         <td class="mdl-data-table__cell--non-numeric">\
-                            <span id="edit-{id}"><button class="mdl-button mdl-js-button mdl-button--icon">\
+                            <button class="user-edit-button mdl-button mdl-js-button mdl-button--icon">\
                                 <i class="material-icons">edit</i>\
-                            </button></span>\
-                            <span id="delete-{id}"><button class="mdl-button mdl-js-button mdl-button--icon">\
+                            </button>\
+                            <button class="user-delete-button mdl-button mdl-js-button mdl-button--icon">\
                                 <i class="material-icons">delete</i>\
-                            </button></span>\
-                            <span class="mdl-tooltip" for="delete-{id}">Excluir</span>\
+                            </button>\
                         </td>\
                     </tr>'
                     .replace(/{id}/g, el.id)
                     .replace(/{name}/g, el.nome)
                     .replace(/{access}/g, access)
-                    );
+                    ).appendTo($('#users-table tbody'));
+                    row.find('.user-edit-button').click(function() {
+                        userDialog.edit(el);
+                    });
                 });
 
                 $('#users-table-mask').hide();
@@ -104,7 +106,13 @@ var userDialog = {
             user.access = [];
 
         } else {
+            console.log(user);
             dialog.find('.mdl-dialog__title').text("Editar usuário");
+            dialog.find('#user-name').val(user.nome);
+            user.access.forEach(function(rule) {
+                userDialog.newRule(rule);
+            });
+
         }
 
         dialog[0].showModal();
@@ -141,50 +149,63 @@ var userDialog = {
     },
 
     newRule: function(access) {
-        $('#access-rules').append('\
+        $('\
         <div class="rule mdl-grid mdl-grid--no-spacing">\
             <div class="mdl-cell mdl-cell--12-col">\
-                <input type="hidden" class="access-id">\
+                <input type="hidden" class="access-id" value="{id}">\
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">\
                     <select class="mdl-textfield__input access-day" id="day-{n}">\
-                        <option value="0">Todo domingo</option>\
-                        <option value="1">Toda segunda</option>\
-                        <option value="2">Toda terça</option>\
-                        <option value="3">Toda quarta</option>\
-                        <option value="4">Toda quinta</option>\
-                        <option value="5">Toda sexta</option>\
-                        <option value="6">Todo sábado</option>\
+                        <option value="0">domingo</option>\
+                        <option value="1">segunda</option>\
+                        <option value="2">terça</option>\
+                        <option value="3">quarta</option>\
+                        <option value="4">quinta</option>\
+                        <option value="5">sexta</option>\
+                        <option value="6">sábado</option>\
                     </select>\
                     <label class="mdl-textfield__label" for="day-{n}">Dia</label>\
                 </div>\
             </div>\
             <div class="mdl-cell mdl-cell--6-col">\
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">\
-                    <input class="mdl-textfield__input access-time-start" type="text" id="horario-inicio-{n}" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?">\
+                    <input class="mdl-textfield__input access-time-start" type="text" id="horario-inicio-{n}" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?" value="{time-start}">\
                     <label class="mdl-textfield__label" for="horario-inicio-{n}">De</label>\
                     <span class="mdl-textfield__error">Insira um horário válido!</span>\
                 </div>\
             </div>\
             <div class="mdl-cell mdl-cell--6-col">\
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">\
-                    <input class="mdl-textfield__input access-time-end" type="text" id="horario-fim-{n}" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?">\
+                    <input class="mdl-textfield__input access-time-end" type="text" id="horario-fim-{n}" pattern="(0?[0-9]|1[0-9]|2[0-3])\:[0-5][0-9](\:[0-5][0-9])?" value="{time-end}">\
                     <label class="mdl-textfield__label" for="horario-fim-{n}">Até</label>\
                 </div>\
             </div>\
         </div>'
-        .replace(/{n}/g, userDialog.rules)
-        );
+        .replace(/\{n\}/g, userDialog.rules)
+        .replace(/\{id\}/g, access ? access.id : "")
+        .replace(/\{time-start\}/g, access ? access.horario_inicio : "")
+        .replace(/\{time-end\}/g, access ? access.horario_fim : "")
+    ).appendTo($('#access-rules'))
+    .find('select.access-day').val(access ? access.dia : "1");
         userDialog.rules = userDialog.rules + 1;
         componentHandler.upgradeDom();
     },
 
     save: function (user) {
-        console.log(user);
-        $.post("/users.php?insert", {name: user.name, access: JSON.stringify(user.access)})
-        .done(function(data) {
-            console.log(data);
-        });
-        app.loadUsers();
+        if (user.id != null) {
+            // UPDATE
+            $.post("/users.php?edit", {id:user.id, name: user.name, access: JSON.stringify(user.access)})
+            .done(function(data) {
+                console.log(data);
+                app.loadUsers();
+            });
+        } else {
+            // CREATE
+            $.post("/users.php?insert", {name: user.name, access: JSON.stringify(user.access)})
+            .done(function(data) {
+                console.log(data);
+                app.loadUsers();
+            });
+        }
     },
 
 };
