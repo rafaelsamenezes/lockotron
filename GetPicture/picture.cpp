@@ -1,5 +1,7 @@
 #include "picture.h"
 #include <unistd.h>
+#include <facepre.h>
+
 Picture::Picture()
 {
     Picture(0);
@@ -22,12 +24,15 @@ void Picture::begin(string path){
         if(!frame.isContinuous()){
             cerr << "ERROR: Failed to get frame from camera" << endl;
         }
-        if(!imwrite(path + "frame.jpg", frame))
-                cerr << "ERROR: Failed to save frame: " << path << "frame.jpg" << endl;
-        else
-            cout << "Saved: " << path << "frame.jpg" << endl;
 
-       usleep(1000000);
+        FacePre fp(frame);
+        if(fp.isGoodFrame()){
+            if(!imwrite(path + "frame.jpg", fp.getFrame()))
+                cerr << "ERROR: Failed to save frame: " << path << "frame.jpg" << endl;
+            else
+                cout << "Saved: " << path << "frame.jpg" << endl;
+            usleep(500000);
+        }
 
     }
 
