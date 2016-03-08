@@ -35,4 +35,4 @@ class GalileoNetwork:
 
     def getFaces(self):
         """Receives new xml from webservice"""
-        return self.__getURLContents('/faces')
+        return self.__getURLContents('/faces.php')
