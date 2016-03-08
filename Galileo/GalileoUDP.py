@@ -1,17 +1,26 @@
-#!/usr/bin/python
-from GalileoNetwork import *
-from GalileoControl import *
+from lib_galileo.GalileoControl import Lock_o_tron as loc
+import GlobalVariables as gv
 import socket
+import threading
 
-udp_receive_port = 5005
+class UDPThread(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.gotMessage = False
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind(("", gv.udp_receive_port))
 
-sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
+    def run(self):
+        while True:
+            data, addr = self.sock.recvfrom(1024)
+            if (data == 0):
+                self.gotMessage = True
+                loc.openDoor()
+            elif (data == 1):
+                self.gotMessage = True
+                loc.updateSystem()
 
-sock.bind(("", udp_receive_port))
-while True:
-    data, addr = sock.recvfrom(1024)  # tamanho do buffer 1024 bytes
-    if (data == 0):
-        GalileoControl.openDoor()
-    elif (data == 1):
-        GalileoControl.updateSystem()
+    def isMessageReceived(self):
+        temp = self.gotMessage
+        self.gotMessage = False
+        return temp
