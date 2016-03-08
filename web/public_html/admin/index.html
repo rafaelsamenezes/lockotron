@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/material.min.css" media="screen" charset="utf-8">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="css/custom.css" media="screen" charset="utf-8">
+        <link rel="stylesheet" href="css/dialog-polyfill.css" media="screen" charset="utf-8">
+        <title>Administração Lock-o-tron</title>
+    </head>
+    <body>
+        <!-- Simple header with scrollable tabs. -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+          <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+              <!-- Title -->
+              <span class="mdl-layout-title">Lock-o-tron</span>
+              <div class="mdl-layout-spacer"></div>
+              <nav class="mdl-navigation">
+                  <button id="refresh-button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect refresh-button">
+                      <i class="material-icons">refresh</i>
+                  </button>
+                  <div class="mdl-tooltip" for="refresh-button">Recarregar</div>
+                  <button id="new-user-button" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect new-user-button">
+                      <i class="material-icons">add</i>
+                  </button>
+                  <div class="mdl-tooltip" for="new-user-button">Novo usuário</div>
+              </nav>
+            </div>
+            <!-- Tabs -->
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+              <a href="#tab-log" class="mdl-layout__tab is-active">Histórico</a>
+              <a href="#tab-users" class="mdl-layout__tab">Usuários</a>
+            </div>
+          </header>
+          <main class="mdl-layout__content">
+            <section class="mdl-layout__tab-panel is-active" id="tab-log">
+              <div class="page-content">
+                <div class="mdl-card mdl-shadow--2dp">
+                <div class="loading-container">
+                    <div id="log-table-mask" class="loading-mask">
+                        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                    </div>
+                    <table id="log-table" class="mdl-data-table mdl-js-data-table">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__header--sorted-descending mdl-data-table__cell--non-numeric">Data e hora</th>
+                                <th class="mdl-data-table__cell--non-numeric">Pessoa</th>
+                                <th class="mdl-data-table__cell--non-numeric">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+              </div>
+            </section>
+            <section class="mdl-layout__tab-panel" id="tab-users">
+              <div class="page-content">
+                    <div class="mdl-card mdl-shadow--2dp">
+                      <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text"></h2>
+                      </div>
+                      <div class="mdl-card__supporting-text">
+                      </div>
+                      <div class="mdl-card__menu">
+                          <button id="users-refresh-button" class="mdl-button mdl-js-button mdl-js-ripple-effect refresh-button">
+                              <i class="material-icons">refresh</i>
+                          </button>
+                          <div class="mdl-tooltip" for="users-refresh-button">Recarregar</div>
+                          <button class="mdl-button mdl-js-button mdl-js-ripple-effect new-user-button">
+                              <i class="material-icons">add</i> Novo
+                          </button>
+                      </div>
+                      <div class="loading-container">
+                          <div id="users-table-mask" class="loading-mask">
+                              <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                          </div>
+                          <table id="users-table" class="mdl-data-table mdl-js-data-table">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      <th class="mdl-data-table__header--sorted-ascending mdl-data-table__cell--non-numeric">Nome</th>
+                                      <th class="mdl-data-table__cell--non-numeric">Acesso autorizado</th>
+                                      <th class="mdl-data-table__cell--non-numeric">Ação</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+              </div>
+            </section>
+          </main>
+        </div>
+
+        <dialog id="user-dialog" class="mdl-dialog">
+            <h4 class="mdl-dialog__title">Usuário</h4>
+            <div class="mdl-dialog__content">
+                <form action="#">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="user-name">
+                        <label class="mdl-textfield__label" for="user-name">Nome</label>
+                    </div>
+                    <h6>Horários de acesso:
+                        <button id="access-add" class="mdl-button mdl-js-button mdl-button--icon">
+                          <i class="material-icons">add</i>
+                        </button>
+                    </h6>
+                    <div id="access-rules">
+
+                    </div>
+                </form>
+            </div>
+            <div class="mdl-dialog__actions">
+                <button id="user-save" type="button" class="mdl-button">Salvar</button>
+                <button id="user-close" type="button" class="mdl-button">Cancelar</button>
+            </div>
+        </dialog>
+
+        <dialog id="user-delete-dialog" class="mdl-dialog">
+            <!-- <h4 class="mdl-dialog__title"></h4> -->
+            <div class="mdl-dialog__content"></div>
+            <div class="mdl-dialog__actions">
+                <button id="user-delete-confirm" type="button" class="mdl-button mdl-button--accent">Excluir</button>
+                <button id="user-delete-cancel" type="button" class="mdl-button mdl-button--accent">Cancelar</button>
+            </div>
+        </dialog>
+
+        <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+        </div>
+
+        <script src="js/material.min.js" charset="utf-8"></script>
+        <script src="js/dialog-polyfill.js" charset="utf-8"></script>
+        <script src="js/jquery-2.2.1.min.js" charset="utf-8"></script>
+        <script src="js/app.js" charset="utf-8"></script>
+    </body>
+</html>
