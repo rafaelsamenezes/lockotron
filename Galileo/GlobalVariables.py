@@ -1,3 +1,5 @@
+udp_receive_port = 5005
+
 server_url = "http://localhost/lockotron/public_html"
 gp_path  = "/sys/class/gpio/"
 
