@@ -2,12 +2,38 @@ from GalileoNetwork import GalileoNetwork as GN
 import os.path
 import GlobalVariables as gv
 
+class Lock_o_tron:
+    """This class is responsible for tasks from the Lock-o-tron project"""
+
+    @staticmethod
+    def openDoor():
+        GalileoControl.gpio_set_value(gv.doorLock, gv.HIGH)
+        GalileoControl.servoOpen()
+
+    @staticmethod
+    def updateSystem():
+        network = GN(gv.server_url)
+        update = network.getFaces()
+        GalileoControl.createFile(gv.update, update)
+
+    @staticmethod
+    def getFrame():
+        network = GN(gv.server_url)
+        frame = network.getFrame()
+        GalileoControl.createFile(gv.frame, frame)
+
+    @staticmethod
+    def isUpdateAvailable():
+        check = os.path.exists(gv.update)
+        return check
+
+
 class GalileoControl:
     """This class is responsible for handling gpio and system operations of galileo"""
     OUTPUT = 'out'
     INPUT  = 'in'
     HIGH = 1
-    LOW  = 0
+    LOW = 0
 
     @staticmethod
     def gpio_export(gpio_num):
@@ -32,42 +58,13 @@ class GalileoControl:
         return value
 
     @staticmethod
-    def openDoor():
-        GalileoControl.gpio_set_value(gv.doorLock, gv.HIGH)
-        GalileoControl.servoOpen()
-
-    @staticmethod
-    def updateSystem():
-        network = GN(gv.server_url)
-        update = network.getFaces()
-        GalileoControl.createFile(gv.update, update)
-
-    @staticmethod
-    def getFrame():
-        network = GN(gv.server_url)
-        frame = network.getFrame()
-        GalileoControl.createFile(gv.frame, frame)
-
-    @staticmethod
     def createFile(file_name, contents):
         fo = open(file_name, 'wb')
         fo.write(contents)
         fo.close()
 
     @staticmethod
-    def servoOpen():
-        pass
-
-    def servoClose():
-        pass
-
-    @staticmethod
     def renameFile(src_name, out_name):
         os.remove(out_name)
         os.rename(src_name, out_name)
-        os.remove(src_name)
-
-    @staticmethod
-    def isUpdateAvailable():
-        check = os.path.exists(gv.update)
-        return check
+        # os.remove(src_name)
