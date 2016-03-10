@@ -1,12 +1,16 @@
 udp_receive_port = 5005
 
 server_url = "http://localhost/lockotron/public_html"
-gp_path  = "/sys/class/gpio/"
+gp_path = "/sys/class/gpio/"
 
 model = 'faces.xml'
 frame = 'frame.jpg'
 update = 'new-faces.xml'
 
-doorLock = 50
-motionDetector = 49
-servo = 48
+# OUTPUTS
+doorLock_Led = 13
+motion_Led = 12
+recognizer_Led = 11
+
+# INPUTS
+motion_Sensor = 1
