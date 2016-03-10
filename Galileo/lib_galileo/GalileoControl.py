@@ -7,23 +7,29 @@ class Lock_o_tron:
 
     @staticmethod
     def openDoor():
+        print 'Porta foi aberta'
         GalileoControl.gpio_set_value(gv.doorLock, gv.HIGH)
-        GalileoControl.servoOpen()
+        # GalileoControl.servoOpen()
 
     @staticmethod
     def updateSystem():
+        print 'Sistema sendo atualizado...'
         network = GN(gv.server_url)
         update = network.getFaces()
         GalileoControl.createFile(gv.update, update)
+        print 'Sistema atualizado com sucesso'
 
     @staticmethod
     def getFrame():
+        print 'Obtendo frame do servidor...'
         network = GN(gv.server_url)
         frame = network.getFrame()
         GalileoControl.createFile(gv.frame, frame)
+        print 'Frame obtido com sucesso'
 
     @staticmethod
     def isUpdateAvailable():
+        print 'Verificando atualizações...'
         check = os.path.exists(gv.update)
         return check
 
