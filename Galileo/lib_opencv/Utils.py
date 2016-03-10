@@ -1,6 +1,4 @@
 import cv2
-from FacePreProcessing import FacePreProcessing as fpp
-import Haarcascades as h
 
 def showFrame(frame):
     cv2.imshow("Frame", frame)
