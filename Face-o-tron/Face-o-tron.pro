@@ -9,7 +9,7 @@ QT       -= gui
 TARGET = Face-o-tron
 TEMPLATE = lib
 
-INCLUDEPATH += /usr/local/include/opencv
+INCLUDEPATH += /usr/local/include/opencv /usr/local/include/CppUTest
 LIBS += -L/usr/local/lib -lopencv_objdetect -lopencv_video -lopencv_core -lopencv_imgproc -lopencv_imgcodecs -lopencv_highgui -lopencv_videoio -lopencv_face
 
 DEFINES += FACEOTRON_LIBRARY

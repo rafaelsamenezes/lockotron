@@ -1,11 +1,13 @@
 #include <iostream>
 #include <trainer.h>
+#include <opencv2/core.hpp>
+#include <facepre.h>
 using namespace std;
 
 
 void testRecognition(){
 
-    Trainer t(TRAINER_EIGENFACE);
+    Trainer t(TRAINER_LBPH);
     string path = "/home/rafael/Testes/";
 
     vector<string> ids;
@@ -20,6 +22,10 @@ void testRecognition(){
     t.saveTrainer("/home/rafael/Testes/", "faces.xml");
 
     t.readWebcam();
+    /*cv::Mat frame = imread("face1.pgm");
+    FacePre f(frame);
+    cout << f.isGoodFrame();*/
+    //t.recognize(f.getFrame());
 }
 
 

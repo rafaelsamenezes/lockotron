@@ -1,10 +1,15 @@
 #include "facedetection.h"
 #include <iostream>
 #include "haarcascade.h"
+#include <CppUTest/TestHarness.h>
+
+#include <limits.h>
+
 using namespace std;
 
 FaceDetection::FaceDetection(){
     FaceDetection(0);
+
 }
 
 FaceDetection::FaceDetection(Mat frame){
