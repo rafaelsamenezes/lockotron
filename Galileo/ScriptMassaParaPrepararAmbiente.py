@@ -10,9 +10,6 @@ packages_to_install = ['build-essential', 'make', 'git', 'libgtk2.0-dev',
                        'libtbb2', 'libtbb-dev', 'libjpeg-dev', 'libpng12-dev',
                        'libtiff5-dev', 'libjasper-dev', 'libdc1394-22-dev']
 
-n_tem_no_yocto = ['build-essential', 'libavcodec-dev', 'libavformat-dev',
-                  'libswscale-dev', 'libtbb2', 'libtbb-dev', 'libjasper-dev',
-                  'libdc1394-22-dev']
 def checkOpencv():
     if (os.path.exists('/usr/local/include/opencv2/face')):
         import cv2
