@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from GalileoNetwork import GalileoNetwork as GN
 import os.path
 import GlobalVariables as gv
@@ -18,7 +19,7 @@ class Lock_o_tron:
 
     def getInputMotionSensor(self):
         value = self.motion_Sensor.read()
-        self.motion_Led(value)
+        self.motion_Led.write(value)
         return value
 
     def openDoor(self):

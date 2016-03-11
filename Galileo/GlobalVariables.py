@@ -1,4 +1,4 @@
-udp_receive_port = 5005
+udp_receive_port = 5625
 
 server_url = "http://localhost/lockotron/public_html"
 gp_path = "/sys/class/gpio/"
@@ -13,4 +13,4 @@ motion_Led = 12
 recognizer_Led = 11
 
 # INPUTS
-motion_Sensor = 1
+motion_Sensor = 2
