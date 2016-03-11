@@ -1,15 +1,37 @@
 from GalileoNetwork import GalileoNetwork as GN
 import os.path
 import GlobalVariables as gv
+import mraa
 
 class Lock_o_tron:
     """This class is responsible for tasks from the Lock-o-tron project"""
 
-    @staticmethod
-    def openDoor():
-        print 'Porta foi aberta'
-        GalileoControl.gpio_set_value(gv.doorLock, gv.HIGH)
-        # GalileoControl.servoOpen()
+    def __init__(self):
+        self.motion_Sensor = mraa.Gpio(gv.motion_Sensor)
+        self.motion_Sensor.dir(mraa.DIR_IN)
+        self.doorLock_Led = mraa.Gpio(gv.doorLock_Led)
+        self.doorLock_Led.dir(mraa.DIR_OUT)
+        self.motion_Led = mraa.Gpio(gv.motion_Led)
+        self.motion_Led.dir(mraa.DIR_OUT)
+        self.recognizer_Led = mraa.Gpio(gv.recognizer_Led)
+        self.recognizer_Led.dir(mraa.DIR_OUT)
+
+    def getInputMotionSensor(self):
+        value = self.motion_Sensor.read()
+        self.motion_Led(value)
+        return value
+
+    def openDoor(self):
+        self.doorLock_Led.write(1)
+
+    def closeDoor(self):
+        self.doorLock_Led.write(0)
+
+    def recognizingStart(self):
+        self.recognizer_Led.write(1)
+
+    def recognizingStop(self):
+        self.recognizer_Led.write(0)
 
     @staticmethod
     def updateSystem():
