@@ -1,9 +1,10 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 from lib_galileo.GalileoControl import GalileoControl as gc
 from lib_galileo.GalileoControl import Lock_o_tron as loc
 import GalileoUDP as udp
-import GalileoFaceRecognizer as fr
 import GlobalVariables as gv
+import time
 
 def setupGPIO(self):
     print 'Inicializando portas...'
@@ -12,13 +13,17 @@ def setupGPIO(self):
 
 if __name__ == '__main__':
     control = loc()
-    t1, t2 = udp.UDPThread(), fr.GalileoFaceRecognizerThread()
+    t1 = udp.UDPThread()
+    # t1.daemon = True
     t1.start()
-    t1.daemon = True
-    while True:
-        if (gc.gpio_get_value(gv.motionDetector == gc.HIGH) and (not t2.is_alive())):
-            t2 = fr.GalileoFaceRecognizerThread()
-            t2.start()
-        elif (t1.isMessageReceived() or gc.gpio_get_value(gv.motionDetector == gc.LOW)):
-            # t2.stop() Arrumar isso
-            t2.join()
+    try:
+        while True:
+            if control.getInputMotionSensor() == 1:
+                print "Reconhecimento"
+            elif t1.getMessage() == 0:
+                control.openDoor()
+                time.sleep(3)
+                control.closeDoor()
+    except KeyboardInterrupt:
+        print "Fim do programa"
+        t1.join()
