@@ -7,7 +7,7 @@ using namespace std;
 
 void testRecognition(){
 
-    Trainer t(TRAINER_LBPH);
+    Trainer t(TRAINER_FISHERFACE);
     string path = "/home/rafael/Testes/";
 
     vector<string> ids;
