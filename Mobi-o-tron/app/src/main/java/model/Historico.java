@@ -1,24 +1,34 @@
 package model;
 
-import java.util.List;
-
 /**
  * Created by rafael on 06/03/16.
  */
 public class Historico {
-    public Historico(List<Log> logs, boolean success) {
-        this.logs = logs;
-        this.success = success;
+    public Historico(int id, Usuario usuario, String data, String estado) {
+        this.id = id;
+        this.usuario = usuario;
+        this.data = data;
+        this.estado = estado;
     }
 
-    public List<Log> getLogs() {
-        return logs;
+    public int getId() {
+        return id;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    private List<Log> logs;
-    private boolean success;
+    public String getData() {
+        return data;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    private int id;
+    private Usuario usuario;
+    private String data;
+    private String estado;
 }
