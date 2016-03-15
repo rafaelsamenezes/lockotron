@@ -1,6 +1,7 @@
 package com.lockotron.mobi_o_tron;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -21,9 +22,7 @@ import com.lockotron.mobi_o_tron.controller.Historico;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    private Snackbar serverErrorSnackbar;
+        implements NavigationView.OnNavigationItemSelectedListener,LogFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +31,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -49,20 +48,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        serverErrorSnackbar = Snackbar.make(fab, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
-        serverErrorSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-                intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
-                startActivity(intent);
-            }
-        });
-
-        GetLogTask getLogTask = new GetLogTask();
-        getLogTask.execute();
     }
 
     @Override
@@ -121,19 +106,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    class GetLogTask extends AsyncTask<Void,Void,Void> {
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Historico.getAll(getApplicationContext());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Historico.ServerNotSetException e) {
-                serverErrorSnackbar.show();
-                e.printStackTrace();
-            }
-            return null;
-        }
     }
+
 }

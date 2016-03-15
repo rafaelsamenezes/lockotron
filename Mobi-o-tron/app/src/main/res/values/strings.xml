@@ -16,4 +16,7 @@
     <string name="error_server_not_set">Server address is not set.</string>
     <string name="snackbar_action_settings">Open Settings</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
