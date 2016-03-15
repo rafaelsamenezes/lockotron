@@ -18,6 +18,8 @@ import android.view.MenuItem;
 
 import com.lockotron.mobi_o_tron.controller.Historico;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -110,7 +112,11 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            Historico.getAll();
+            try {
+                Historico.getAll();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
