@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.lockotron.mobi_o_tron.controller.Historico;
 
@@ -62,8 +61,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Bunda bunda = new Bunda();
-        bunda.execute();
+        GetLogTask getLogTask = new GetLogTask();
+        getLogTask.execute();
     }
 
     @Override
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    class Bunda extends AsyncTask<Void,Void,Void> {
+    class GetLogTask extends AsyncTask<Void,Void,Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
