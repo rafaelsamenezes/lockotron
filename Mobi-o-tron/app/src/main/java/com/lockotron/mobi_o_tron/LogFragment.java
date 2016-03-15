@@ -8,13 +8,18 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lockotron.mobi_o_tron.controller.Historico;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -37,6 +42,9 @@ public class LogFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Snackbar serverErrorSnackbar;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private LogAdapter mAdapter;
 
     public LogFragment() {
         // Required empty public constructor
@@ -75,6 +83,16 @@ public class LogFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.log_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
 
         serverErrorSnackbar = Snackbar.make(view, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
         serverErrorSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
@@ -118,12 +136,15 @@ public class LogFragment extends Fragment {
     }
 
 
-    class GetLogTask extends AsyncTask<Void,Void,Void> {
+    class GetLogTask extends AsyncTask<Void,Void,List<com.lockotron.mobi_o_tron.model.Historico>> {
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected List<com.lockotron.mobi_o_tron.model.Historico> doInBackground(Void... params) {
             try {
-                Historico.getAll(getContext());
+                final List<com.lockotron.mobi_o_tron.model.Historico> historicos = Historico.getAll(getContext());
+                // specify an adapter (see also next example)
+                mAdapter = new LogAdapter(historicos);
+                return historicos;
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Historico.ServerNotSetException e) {
@@ -131,6 +152,11 @@ public class LogFragment extends Fragment {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<com.lockotron.mobi_o_tron.model.Historico> historicos) {
+                mRecyclerView.setAdapter(mAdapter);
         }
     }
     /**
@@ -146,5 +172,43 @@ public class LogFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private class LogAdapter extends RecyclerView.Adapter<LogViewHolder> {
+        private List<com.lockotron.mobi_o_tron.model.Historico> mHistoricos;
+
+        public LogAdapter(List<com.lockotron.mobi_o_tron.model.Historico> historicos) {
+            this.mHistoricos = historicos;
+        }
+
+        @Override
+        public LogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_log, parent, false);
+            return new LogViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(LogViewHolder holder, int position) {
+            com.lockotron.mobi_o_tron.model.Historico historico = mHistoricos.get(position);
+            holder.titleView.setText(historico.getUsuario().getNome());
+            holder.dateView.setText(historico.getData());
+        }
+
+        @Override
+        public int getItemCount() {
+            return mHistoricos.size();
+        }
+    }
+
+    private class LogViewHolder extends RecyclerView.ViewHolder {
+        public TextView titleView;
+        public TextView dateView;
+        public ImageView badgeView;
+        public LogViewHolder(View itemView) {
+            super(itemView);
+            titleView = (TextView) itemView.findViewById(R.id.title);
+            dateView = (TextView) itemView.findViewById(R.id.date_text);
+            badgeView = (ImageView) itemView.findViewById(R.id.image);
+        }
     }
 }
