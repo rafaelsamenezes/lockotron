@@ -9,4 +9,6 @@
     <string name="pref_header_general">Geral</string>
     <string name="pref_title_server_address">Endereço do servidor</string>
     <string name="title_activity_settings">Configurações</string>
+    <string name="error_server_not_set">Endereço do servidor não definido.</string>
+    <string name="snackbar_action_settings">Abrir config.</string>
 </resources>

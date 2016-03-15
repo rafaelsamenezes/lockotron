@@ -1,13 +1,14 @@
 package com.lockotron.mobi_o_tron.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.JsonReader;
 import android.util.Log;
 
+import com.lockotron.mobi_o_tron.R;
 import com.lockotron.mobi_o_tron.model.Usuario;
 
-import org.json.JSONArray;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -17,20 +18,26 @@ import java.util.List;
 
 public class Historico {
     private static final String TAG = "MOBI-O-TRON";
+    private static final String KEY_SERVER_ADDRESS = "server_address";
 
-    public static List<com.lockotron.mobi_o_tron.model.Historico> getAll() throws IOException {
+    public static List<com.lockotron.mobi_o_tron.model.Historico> getAll(Context context) throws IOException, ServerNotSetException {
 
-        List<com.lockotron.mobi_o_tron.model.Historico> result = Historico.getFromUrl("http://192.168.1.3:82");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.contains(KEY_SERVER_ADDRESS) && !prefs.getString(KEY_SERVER_ADDRESS, "").equals("")) {
+            String url = prefs.getString(KEY_SERVER_ADDRESS, "");
+            List<com.lockotron.mobi_o_tron.model.Historico> result = Historico.getFromUrl(url);
+            Log.d(TAG, "Got log: " + result.toString());
 
-        Log.d(TAG, "Got log: " + result.toString());
-
-        return result;
+            return result;
+        } else {
+            throw new ServerNotSetException();
+        }
 
     }
 
     private static List<com.lockotron.mobi_o_tron.model.Historico> getFromUrl(String server_addr) throws IOException {
 
-        URL url = new URL(server_addr + "/log.php");
+        URL url = new URL("http://" + server_addr + "/log.php");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setUseCaches(false);
@@ -105,5 +112,9 @@ public class Historico {
         reader.endObject();
 
         return new com.lockotron.mobi_o_tron.model.Historico(id,usuario,data,estado);
+    }
+
+    public static class ServerNotSetException extends Exception {
+        public static final int PUBLIC_ERROR_MESSAGE = R.string.error_server_not_set;
     }
 }

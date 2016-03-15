@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.lockotron.mobi_o_tron.controller.Historico;
 
@@ -22,6 +23,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Snackbar serverErrorSnackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        serverErrorSnackbar = Snackbar.make(fab, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverErrorSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
+                intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
+                startActivity(intent);
+            }
+        });
 
         Bunda bunda = new Bunda();
         bunda.execute();
@@ -113,8 +127,11 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                Historico.getAll();
+                Historico.getAll(getApplicationContext());
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Historico.ServerNotSetException e) {
+                serverErrorSnackbar.show();
                 e.printStackTrace();
             }
             return null;

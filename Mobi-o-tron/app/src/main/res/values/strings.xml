@@ -13,5 +13,7 @@
     <!-- General settings -->
     <string name="pref_header_general">General</string>
     <string name="pref_title_server_address">Server address</string>
+    <string name="error_server_not_set">Server address is not set.</string>
+    <string name="snackbar_action_settings">Open Settings</string>
 
 </resources>
