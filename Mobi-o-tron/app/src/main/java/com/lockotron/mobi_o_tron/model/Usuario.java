@@ -1,8 +1,5 @@
-package model;
+package com.lockotron.mobi_o_tron.model;
 
-/**
- * Created by rafael on 06/03/16.
- */
 public class Usuario {
 
 

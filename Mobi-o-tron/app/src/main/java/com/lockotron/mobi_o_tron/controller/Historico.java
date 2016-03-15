@@ -1,20 +1,16 @@
-package controller;
+package com.lockotron.mobi_o_tron.controller;
 
-import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.WebView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
 public class Historico {
-    public static List<model.Historico> getAll() {
+    public static List<com.lockotron.mobi_o_tron.model.Historico> getAll() {
 
         String result = Historico.getFromUrl("http://192.168.43.205:81");
 
@@ -41,7 +37,7 @@ public class Historico {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line+"\n");
+                        sb.append(line).append("\n");
                     }
                     br.close();
                     return sb.toString();
