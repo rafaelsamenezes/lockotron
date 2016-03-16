@@ -2,12 +2,15 @@ package com.lockotron.mobi_o_tron;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -142,7 +145,6 @@ public class LogFragment extends Fragment {
         protected List<com.lockotron.mobi_o_tron.model.Historico> doInBackground(Void... params) {
             try {
                 final List<com.lockotron.mobi_o_tron.model.Historico> historicos = Historico.getAll(getContext());
-                // specify an adapter (see also next example)
                 mAdapter = new LogAdapter(historicos);
                 return historicos;
             } catch (IOException e) {
@@ -192,6 +194,28 @@ public class LogFragment extends Fragment {
             com.lockotron.mobi_o_tron.model.Historico historico = mHistoricos.get(position);
             holder.titleView.setText(historico.getUsuario().getNome());
             holder.dateView.setText(historico.getData());
+            final Drawable icon;
+            final int iconRes, colorRes, color;
+            if (historico.getEstado()) {
+                iconRes = R.drawable.ic_check_circle;
+                colorRes = R.color.green;
+            } else {
+                iconRes = R.drawable.ic_remove_circle;
+                colorRes = R.color.red;
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                icon = getResources().getDrawable(iconRes, getActivity().getTheme());
+            else icon = getResources().getDrawable(iconRes);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                color = getResources().getColor(colorRes, getActivity().getTheme());
+            else color = getResources().getColor(colorRes);
+
+            assert icon != null;
+            DrawableCompat.wrap(icon);
+            DrawableCompat.setTint(icon, color);
+            holder.badgeView.setImageDrawable(icon);
         }
 
         @Override
