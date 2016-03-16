@@ -42,6 +42,7 @@ public class Historico {
         conn.setRequestMethod("GET");
         conn.setUseCaches(false);
         conn.setAllowUserInteraction(false);
+        conn.setConnectTimeout(10000);
         conn.connect();
         int status = conn.getResponseCode();
 

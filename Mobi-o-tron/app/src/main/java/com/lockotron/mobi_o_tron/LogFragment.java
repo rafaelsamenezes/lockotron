@@ -11,6 +11,7 @@ import android.preference.PreferenceActivity;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.lockotron.mobi_o_tron.controller.Historico;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,10 +46,12 @@ public class LogFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private Snackbar serverErrorSnackbar;
+    private Snackbar serverNotSetSnackbar;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private LogAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefresh;
+    private Snackbar serverErrorSnackbar;
 
     public LogFragment() {
         // Required empty public constructor
@@ -86,6 +90,7 @@ public class LogFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log, container, false);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.log_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -95,23 +100,39 @@ public class LogFragment extends Fragment {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(new LogAdapter(new ArrayList<com.lockotron.mobi_o_tron.model.Historico>()));
 
+        mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mSwipeRefresh.measure(mLayoutManager.getWidth(), mLayoutManager.getHeight());
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLog();
+            }
+        });
 
-        serverErrorSnackbar = Snackbar.make(view, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
-        serverErrorSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
+        // snackbar que mostra erro caso servidor não tenha sido definido
+        serverNotSetSnackbar = Snackbar.make(view, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverNotSetSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-                intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
                 startActivity(intent);
             }
         });
 
-        GetLogTask getLogTask = new GetLogTask();
-        getLogTask.execute();
+        serverErrorSnackbar = Snackbar.make(view, "Server could not be reached", Snackbar.LENGTH_LONG);
+
+        refreshLog();
 
         return view;
+    }
+
+    private void refreshLog() {
+        GetLogTask getLogTask = new GetLogTask();
+        getLogTask.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -142,15 +163,21 @@ public class LogFragment extends Fragment {
     class GetLogTask extends AsyncTask<Void,Void,List<com.lockotron.mobi_o_tron.model.Historico>> {
 
         @Override
+        protected void onPreExecute() {
+            mSwipeRefresh.setRefreshing(true);
+        }
+
+        @Override
         protected List<com.lockotron.mobi_o_tron.model.Historico> doInBackground(Void... params) {
             try {
                 final List<com.lockotron.mobi_o_tron.model.Historico> historicos = Historico.getAll(getContext());
                 mAdapter = new LogAdapter(historicos);
                 return historicos;
             } catch (IOException e) {
+                serverErrorSnackbar.show();
                 e.printStackTrace();
             } catch (Historico.ServerNotSetException e) {
-                serverErrorSnackbar.show();
+                serverNotSetSnackbar.show();
                 e.printStackTrace();
             }
             return null;
@@ -158,7 +185,9 @@ public class LogFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<com.lockotron.mobi_o_tron.model.Historico> historicos) {
-                mRecyclerView.setAdapter(mAdapter);
+            //mRecyclerView.getAdapter().notifyDataSetChanged();
+            mRecyclerView.setAdapter(mAdapter);
+            mSwipeRefresh.setRefreshing(false);
         }
     }
     /**
