@@ -49,9 +49,9 @@ public class LogFragment extends Fragment {
     private Snackbar serverNotSetSnackbar;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private LogAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefresh;
     private Snackbar serverErrorSnackbar;
+    private List<com.lockotron.mobi_o_tron.model.Historico> mList = new ArrayList<>();
 
     public LogFragment() {
         // Required empty public constructor
@@ -100,10 +100,10 @@ public class LogFragment extends Fragment {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(new LogAdapter(new ArrayList<com.lockotron.mobi_o_tron.model.Historico>()));
+        mRecyclerView.setAdapter(new LogAdapter(mList));
 
         mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        mSwipeRefresh.measure(mLayoutManager.getWidth(), mLayoutManager.getHeight());
+        mSwipeRefresh.setColorSchemeResources(R.color.accent);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -160,7 +160,7 @@ public class LogFragment extends Fragment {
     }
 
 
-    class GetLogTask extends AsyncTask<Void,Void,List<com.lockotron.mobi_o_tron.model.Historico>> {
+    class GetLogTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -168,11 +168,10 @@ public class LogFragment extends Fragment {
         }
 
         @Override
-        protected List<com.lockotron.mobi_o_tron.model.Historico> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             try {
-                final List<com.lockotron.mobi_o_tron.model.Historico> historicos = Historico.getAll(getContext());
-                mAdapter = new LogAdapter(historicos);
-                return historicos;
+                mList.clear();
+                mList.addAll(Historico.getAll(getContext()));
             } catch (IOException e) {
                 serverErrorSnackbar.show();
                 e.printStackTrace();
@@ -184,9 +183,8 @@ public class LogFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<com.lockotron.mobi_o_tron.model.Historico> historicos) {
-            //mRecyclerView.getAdapter().notifyDataSetChanged();
-            mRecyclerView.setAdapter(mAdapter);
+        protected void onPostExecute(Void param) {
+            mRecyclerView.getAdapter().notifyDataSetChanged();
             mSwipeRefresh.setRefreshing(false);
         }
     }
