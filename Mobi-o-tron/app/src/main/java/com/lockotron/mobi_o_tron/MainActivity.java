@@ -89,12 +89,15 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_log:
                 fragment = new LogFragment();
+                setTitle(R.string.title_activity_log);
                 break;
             case R.id.nav_stats:
                 // TODO: 15/03/2016 Adicionar fragment de estatísticas
+                setTitle(R.string.title_activity_stats);
                 break;
             case R.id.nav_control:
                 // TODO: 15/03/2016 Adicionar fragment de controle
+                setTitle(R.string.title_activity_control);
                 break;
             case R.id.nav_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
