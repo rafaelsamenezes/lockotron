@@ -11,4 +11,11 @@
     <string name="title_activity_settings">Configurações</string>
     <string name="error_server_not_set">Endereço do servidor não definido.</string>
     <string name="snackbar_action_settings">Abrir config.</string>
+    <string name="nav_control">Controle</string>
+    <string name="nav_log">Histórico</string>
+    <string name="nav_settings">Configurações</string>
+    <string name="nav_stats">Estatísticas</string>
+    <string name="title_activity_control">Controle</string>
+    <string name="title_activity_log">Histórico</string>
+    <string name="title_activity_stats">Estatísticas</string>
 </resources>

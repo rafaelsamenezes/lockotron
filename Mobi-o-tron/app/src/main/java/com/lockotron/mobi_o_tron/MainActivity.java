@@ -2,13 +2,10 @@ package com.lockotron.mobi_o_tron;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,10 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.lockotron.mobi_o_tron.controller.Historico;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,LogFragment.OnFragmentInteractionListener {
@@ -48,6 +41,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // seleciona o primeiro item da navigation drawer
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
     }
 
     @Override
@@ -88,17 +83,28 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_log) {
-            // Handle the log action
-        } else if (id == R.id.nav_stats) {
+        Fragment fragment = null;
 
-        } else if (id == R.id.nav_control) {
+        switch (id) {
+            case R.id.nav_log:
+                fragment = new LogFragment();
+                break;
+            case R.id.nav_stats:
+                // TODO: 15/03/2016 Adicionar fragment de estatísticas
+                break;
+            case R.id.nav_control:
+                // TODO: 15/03/2016 Adicionar fragment de controle
+                break;
+            case R.id.nav_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+                startActivity(intent);
+                break;
+        }
 
-        } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-            intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
-            startActivity(intent);
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
