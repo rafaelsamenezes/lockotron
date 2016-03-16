@@ -18,4 +18,6 @@
     <string name="title_activity_control">Controle</string>
     <string name="title_activity_log">Histórico</string>
     <string name="title_activity_stats">Estatísticas</string>
+    <string name="log_access_denied">Acesso negado</string>
+    <string name="log_access_granted">Acesso autorizado</string>
 </resources>

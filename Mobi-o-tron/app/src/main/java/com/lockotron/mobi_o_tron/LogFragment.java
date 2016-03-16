@@ -224,13 +224,15 @@ public class LogFragment extends Fragment {
             holder.titleView.setText(historico.getUsuario().getNome());
             holder.dateView.setText(historico.getData());
             final Drawable icon;
-            final int iconRes, colorRes, color;
+            final int iconRes, colorRes, color, statusRes;
             if (historico.getEstado()) {
                 iconRes = R.drawable.ic_check_circle;
                 colorRes = R.color.green;
+                statusRes = R.string.log_access_granted;
             } else {
                 iconRes = R.drawable.ic_remove_circle;
                 colorRes = R.color.red;
+                statusRes = R.string.log_access_denied;
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -244,7 +246,9 @@ public class LogFragment extends Fragment {
             assert icon != null;
             DrawableCompat.wrap(icon);
             DrawableCompat.setTint(icon, color);
+
             holder.badgeView.setImageDrawable(icon);
+            holder.badgeView.setContentDescription(getResources().getString(statusRes));
         }
 
         @Override
