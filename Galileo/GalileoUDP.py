@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 import GlobalVariables as gv
 import socket
-import threading
+import multiprocessing
+from os import getpid
 
-class UDPThread(threading.Thread):
+class UDPThread(multiprocessing.Process):
     def __init__(self):
-        threading.Thread.__init__(self)
-        print('Inicializando thread de UDP')
+        multiprocessing.Process.__init__(self)
         self.message = -1
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(("", gv.udp_receive_port))
 
     def run(self):
+        print 'Executando processo de UDP (%d)' % getpid()
         while True:
             msg, addr = self.sock.recvfrom(1024)
             self.message = ord(msg)
