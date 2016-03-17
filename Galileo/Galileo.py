@@ -25,7 +25,8 @@ if __name__ == '__main__':
         while True:
             if (control.getInputMotionSensor() == 1):
                 loc.getFrame()
-                result = fr.run()
+                # result = fr.run()
+                result = 0
                 authorization = network.askPermission(result)
                 if (authorization):
                     print "Acesso Permitido"
