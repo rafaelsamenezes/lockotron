@@ -1,7 +1,7 @@
 #include <iostream>
-#include <trainer.h>
+#include "trainer.h"
 #include <opencv2/core.hpp>
-#include <facepre.h>
+#include "facepre.h"
 using namespace std;
 
 
@@ -36,4 +36,3 @@ int main()
     testRecognition();
     return 0;
 }
-
