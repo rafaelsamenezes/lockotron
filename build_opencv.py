@@ -5,7 +5,7 @@ import apt
 import sys
 import os
 import shutil
-packages_to_install = ['build-essential', 'make', 'git', 'libgtk2.0-dev',
+packages_to_install = ['build-essential', 'cmake', 'make', 'git', 'libgtk2.0-dev',
                        'pkg-config', 'libavcodec-dev', 'libavformat-dev',
                        'libswscale-dev', 'python-dev', 'python-numpy',
                        'libtbb2', 'libtbb-dev', 'libjpeg-dev', 'libpng12-dev',
