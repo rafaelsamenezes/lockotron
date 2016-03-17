@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from GalileoNetwork import GalileoNetwork as GN
 import os.path
+from os import system
 import GlobalVariables as gv
 import mraa
 
@@ -65,6 +66,10 @@ class GalileoControl:
     LOW = 0
 
     @staticmethod
+    def change_priority(pid, priority):
+        system('chrt -f -p {0} {1}'.format(0=priority, 1=pid))
+
+    @staticmethod
     def gpio_export(gpio_num):
         fo = open(gv.gp_path + 'export', 'w')
         fo.write(str(gpio_num))
@@ -96,4 +101,3 @@ class GalileoControl:
     def renameFile(src_name, out_name):
         os.remove(out_name)
         os.rename(src_name, out_name)
-        # os.remove(src_name)

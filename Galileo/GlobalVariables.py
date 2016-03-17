@@ -14,3 +14,8 @@ recognizer_Led = 11
 
 # INPUTS
 motion_Sensor = 2
+
+# PRIORITIES
+udp_server_priority = 60
+face_recognizer_priority = 50
+main_script_priority = 55
