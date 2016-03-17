@@ -2,11 +2,11 @@
 #define PICTURE_H
 
 #include <opencv2/opencv.hpp>
-#include "timer.h"
+
 using namespace std;
 using namespace cv;
-class Picture
-{
+
+class Picture {
 private:
     VideoCapture cv;
 public:

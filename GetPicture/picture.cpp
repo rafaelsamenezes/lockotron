@@ -1,6 +1,6 @@
 #include "picture.h"
 #include <unistd.h>
-#include <facepre.h>
+#include "facepre.h"
 
 Picture::Picture()
 {
@@ -16,7 +16,6 @@ Picture::Picture(int camera)
 }
 
 void Picture::begin(string path){
-    Timer t;
     while(1){
         Mat frame;
         this->cv >> frame;
