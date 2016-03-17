@@ -1,6 +1,6 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
-
+obj/
 *~
 *.autosave
 *.a
@@ -69,5 +69,3 @@ Thumbs.db
 # --------
 *.dll
 *.exe
-
-

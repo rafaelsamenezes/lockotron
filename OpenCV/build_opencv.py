@@ -67,10 +67,10 @@ def main_script():
         os.chdir('..')
     os.mkdir('build')
     os.chdir('build')
-    os.system('cmake  -D CMAKE_BUILD_TYPE=RELEASE -DBUILD_PYTHON_SUPPORT=ON -DBUILD_NEW_PYTHON_SUPPORT=ON -DCMAKE_INSTALL_PREFIX=/usr/local ../opencv/')
+    os.system('cmake -DCMAKE_INSTALL_PREFIX=/usr/local ../opencv/')
     print 'Making opencv...'
     os.system('make -j5')
-    os.system('cmake -DBUILD_PYTHON_SUPPORT=ON -DBUILD_NEW_PYTHON_SUPPORT=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv/')
+    os.system('cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv/')
     print 'Making opencv_contrib...'
     os.system('make -j5')
     print 'Installing opencv...'
