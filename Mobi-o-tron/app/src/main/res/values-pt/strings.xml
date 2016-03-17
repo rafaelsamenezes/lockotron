@@ -20,4 +20,8 @@
     <string name="title_activity_stats">Estatísticas</string>
     <string name="log_access_denied">Acesso negado</string>
     <string name="log_access_granted">Acesso autorizado</string>
+    <string name="control_action_open_door">Abrir porta</string>
+    <string name="control_action_update_data">Atualizar dados</string>
+    <string name="control_label_door">Controle da porta</string>
+    <string name="control_label_update">Atualizar dados</string>
 </resources>
