@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,LogFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,LogFragment.OnFragmentInteractionListener,ControlFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
                 setTitle(R.string.title_activity_stats);
                 break;
             case R.id.nav_control:
-                // TODO: 15/03/2016 Adicionar fragment de controle
+                fragment = new ControlFragment();
                 setTitle(R.string.title_activity_control);
                 break;
             case R.id.nav_settings:

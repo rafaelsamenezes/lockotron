@@ -26,4 +26,11 @@
     <string name="log_access_granted">Access granted</string>
     <string name="log_access_denied">Access denied</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="control_action_open_door">Open door</string>
+    <string name="control_action_update_data">Update data</string>
+    <string name="control_label_door">Door control</string>
+    <string name="control_label_update">Update data</string>
+
 </resources>
