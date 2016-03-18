@@ -26,7 +26,7 @@ project "Recognizer"
   targetdir "bin/%{cfg.buildcfg}"
   files { "Recognizer/*.h", "Recognizer/*.cpp" }
   libdirs { "/usr/local/lib" }
-  links { "opencv_highgui","opencv_contrib", "opencv_core", "opencv_imgcodecs", "opencv_imgproc"}
+  links { "opencv_highgui", "opencv_contrib", "opencv_core", "opencv_imgcodecs", "opencv_imgproc"}
 
 project "testcv2"
   location "testcv2/"
