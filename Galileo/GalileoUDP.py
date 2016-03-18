@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import GlobalVariables as gv
-import GalileoControl from lib_galileo.GalileoControl
+from lib_galileo.GalileoControl import GalileoControl 
 from lib_galileo.GalileoControl import Lock_o_tron as loc
 import socket
 import multiprocessing

@@ -67,7 +67,8 @@ class GalileoControl:
 
     @staticmethod
     def change_priority(pid, priority):
-        system('chrt -f -p {0} {1}'.format(0=priority, 1=pid))
+        command = 'chrt -f -p %d %d' % (priority, pid)
+        system(command)
 
     @staticmethod
     def gpio_export(gpio_num):

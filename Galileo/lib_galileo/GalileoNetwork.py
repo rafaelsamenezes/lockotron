@@ -23,8 +23,8 @@ class GalileoNetwork:
 
     def askPermission(self, person_id):
         """Ask to webservice if the person_id is authorized to enter"""
-        print 'Getting authorization for id: %d', person_id
-        jsonResponse = self.__getJSON(self.server_url + 'access.php?user_id=' + person_id)
+        print 'Getting authorization for id: %d' % person_id
+        jsonResponse = self.__getJSON(self.server_url + 'access.php?user_id=' + str(person_id))
         permission = jsonResponse['access']
         if (permission == 'true'):
             return True

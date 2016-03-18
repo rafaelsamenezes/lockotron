@@ -4,7 +4,7 @@ from lib_galileo.GalileoControl import GalileoControl as gc
 from lib_galileo.GalileoControl import Lock_o_tron as loc
 import lib_galileo.GalileoNetwork as gn
 import GalileoUDP as udp
-import GalileoFaceRecognizer as fr
+from GalileoFaceRecognizer import FaceRecognizer as fr
 import GlobalVariables as gv
 import time
 from os import getpid
@@ -25,8 +25,8 @@ if __name__ == '__main__':
         while True:
             if (control.getInputMotionSensor() == 1):
                 loc.getFrame()
-                # result = fr.run()
-                result = 0
+                result = fr.run()
+                # result = 0
                 authorization = network.askPermission(result)
                 if (authorization):
                     print "Acesso Permitido"
