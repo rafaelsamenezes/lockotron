@@ -11,14 +11,16 @@ class FaceDetection
 {
 private:
     CascadeClassifier faceCascade;
-    std::vector<Rect> faces;
+
     VideoCapture webCam;
     Mat frame;
     Mat detectedFrame;
     int savedFrames;
-    void detectAndDisplay();
+
     void saveFrame();
 public:
+  std::vector<Rect> faces;
+  void detectAndDisplay();
     FaceDetection();
     FaceDetection(int camera);
     FaceDetection(Mat frame);

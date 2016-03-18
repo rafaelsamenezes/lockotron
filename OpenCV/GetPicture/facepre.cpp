@@ -140,6 +140,7 @@ void FacePre::getEyes(){
 }
 
 void FacePre::procEyes(){
+    cout << "Finding eyes..." << endl;
     int leftX = cvRound(this->frame.cols * EYE_SX);
     int topY = cvRound(this->frame.rows * EYE_SY);
     int rightX = cvRound(this->frame.cols * (1.0-EYE_SX-EYE_SW));
@@ -169,9 +170,13 @@ void FacePre::procEyes(){
     if(leftEyeFound)
         this->rightEye = Point(eyeRect[0].x + eyeRect[0].width/2 + rightX, eyeRect[0].y + eyeRect[0].height/2 + topY);
 
-    if(leftEyeFound && rightEyeFound)
+    if(leftEyeFound && rightEyeFound){
+        cout << "Found!" << endl;
         this->goodFrame = true;
-
+      }
+    else{
+      cout << "Not found!" << endl;
+    }
 }
 
 void FacePre::procMat(){

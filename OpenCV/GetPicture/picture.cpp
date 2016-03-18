@@ -1,7 +1,7 @@
 #include "picture.h"
 #include <unistd.h>
 #include "facepre.h"
-
+#include "facedetection.h"
 Picture::Picture()
 {
     Picture(0);
@@ -23,8 +23,11 @@ void Picture::begin(string path){
         if(!frame.isContinuous()){
             cerr << "ERROR: Failed to get frame from camera" << endl;
         }
+        FaceDetection fd(frame);
+        fd.detectAndDisplay();
 
-        FacePre fp(frame);
+        Mat cropedFrame = frame(fd.faces[0]);
+        FacePre fp(cropedFrame);
         if(fp.isGoodFrame()){
             if(!imwrite(path + "frame.jpg", fp.getFrame()))
                 cerr << "ERROR: Failed to save frame: " << path << "frame.jpg" << endl;
