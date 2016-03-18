@@ -23,10 +23,11 @@ int main(int argc, char* argv[])
   preprocessedFace = imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE );
   int prediction = model->predict(preprocessedFace);
   if (isGoodRecognition())
-    cout << prediction;
+    // cout << prediction;
+    return prediction;
   else
-    cout << -1;
-  return 0;
+    // cout << -1;
+    return -1;
 }
 
 int isGoodRecognition(){

@@ -1,13 +1,13 @@
-import os
 import GlobalVariables as gv
 from lib_galileo.GalileoControl import GalileoControl
 import multiprocessing
 from os import getpid
+from subprocess import call
 
 class FaceRecognizer:
 
     @staticmethod
     def run():
-        prediction = os.system('./opencv_bin/Recognizer {faces} {frame}'.format(faces=gv.model , frame=gv.frame))
+        prediction = call(['./opencv_bin/Recognizer', gv.model, gv.frame])
         print prediction
-        return (int(prediction)/10)
+        return prediction
