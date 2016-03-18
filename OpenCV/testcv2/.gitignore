@@ -1,0 +1,5 @@
+Makefile
+GetPicture/Makefile
+Trainer/Makefile
+Recognizer/Makefile
+build/

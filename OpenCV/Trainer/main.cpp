@@ -1,30 +1,21 @@
 #include <iostream>
-#include "trainer.hpp"
-#include <opencv2/core.hpp>
+#include <opencv2/opencv.hpp>
+#include <opencv2/contrib/contrib.hpp>
 using namespace std;
+using namespace cv;
 
+string fisherface = "FaceRecognize.Fisherfaces";
+string eigenface = "FaceRecognize.Eigenfaces";
+string lbph = "FaceRecognize.LBPH";
 
-void testRecognition(){
-
-    Trainer t(TRAINER_FISHERFACE);
-    string path = "/home/rafael/Testes/";
-    /*
-    vector<string> ids;
-    ids.push_back("1");
-    ids.push_back("2");
-    ids.push_back("3");
-    ids.push_back("4");
-    ids.push_back("5");
-    ids.push_back("6");
-
-    t.train(path, ids, 30);
-    */
-    t.save("/home/rafael/", "faces.xml");
-}
-
+std::vector<Mat> frames;
+std::vector<int> labels;
 
 int main()
 {
-    testRecognition();
-    return 0;
+  Ptr<FaceRecognizer> model;
+  model = Algorithm::create<FaceRecognizer>(fisherface);
+  //model->train(frames, labels);
+  //model->save("faces.xml");
+
 }
