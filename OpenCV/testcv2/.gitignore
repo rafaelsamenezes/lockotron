@@ -3,3 +3,4 @@ GetPicture/Makefile
 Trainer/Makefile
 Recognizer/Makefile
 build/
+obj/
