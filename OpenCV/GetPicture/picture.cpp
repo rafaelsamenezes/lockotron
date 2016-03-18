@@ -25,7 +25,7 @@ void Picture::begin(string path){
         }
         FaceDetection fd(frame);
         fd.detectAndDisplay();
-
+        if (fd.faces.size() > 0){
         Mat cropedFrame = frame(fd.faces[0]);
         FacePre fp(cropedFrame);
         if(fp.isGoodFrame()){
@@ -35,6 +35,9 @@ void Picture::begin(string path){
                 cout << "Saved: " << path << "frame.jpg" << endl;
             usleep(500000);
         }
+      }
+      else
+        cout << "Face not found in frame!" << endl;
 
     }
 
