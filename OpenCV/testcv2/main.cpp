@@ -23,5 +23,5 @@ int main(){
 
 
   }
-  cout << "You are good to go *-*";
+  cout << "You are good to go *-*" << endl;
 }

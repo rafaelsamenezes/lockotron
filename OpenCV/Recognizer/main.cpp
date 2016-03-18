@@ -1,17 +1,17 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <opencv2/contrib/contrib.hpp>
-#define UNKNOWN_PERSON_THRESHOLD 0.7
-#define faceHeight 0.5
+#define UNKNOWN_PERSON_THRESHOLD 0.5
+#define faceHeight 70
 using namespace std;
 using namespace cv;
 
 int isGoodRecognition();
 double getSimilarity(const Mat A, const Mat B);
 
-string fisherface = "FaceRecognize.Fisherfaces";
-string eigenface = "FaceRecognize.Eigenfaces";
-string lbph = "FaceRecognize.LBPH";
+string fisherface = "FaceRecognizer.Fisherfaces";
+string eigenface = "FaceRecognizer.Eigenfaces";
+string lbph = "FaceRecognizer.LBPH";
 Ptr<FaceRecognizer> model;
 Mat preprocessedFace;
 
@@ -20,7 +20,12 @@ int main(int argc, char* argv[])
 {
   model = Algorithm::create<FaceRecognizer>(fisherface);
   model->load(argv[1]);
-  preprocessedFace = imread(argv[2]);
+  preprocessedFace = imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE );
+  int prediction = model->predict(preprocessedFace);
+  if (isGoodRecognition())
+    cout << prediction;
+  else
+    cout << -1;
   return 0;
 }
 
@@ -36,6 +41,7 @@ int isGoodRecognition(){
   Mat reconstructedFace = Mat(reconstructionMat.size(), CV_8U);
   reconstructionMat.convertTo(reconstructedFace, CV_8U, 1, 0);
   double similarity = getSimilarity(preprocessedFace,  reconstructedFace);
+  //cout << similarity << endl;
   if (similarity > UNKNOWN_PERSON_THRESHOLD) {
     return 0;
   // Unknown person.

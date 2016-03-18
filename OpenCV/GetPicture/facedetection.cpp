@@ -2,12 +2,10 @@
 #include <iostream>
 #include "haarcascade.h"
 
-
 using namespace std;
 
 FaceDetection::FaceDetection(){
     FaceDetection(0);
-
 }
 
 FaceDetection::FaceDetection(Mat frame){
@@ -47,6 +45,7 @@ void FaceDetection::detectAndDisplay(){
         rectangle(this->detectedFrame, faces[i], Scalar( 0, 0, 255 ), 3);
     }
 }
+
 void FaceDetection::saveFrame(){
     ostringstream convert;
     convert << this->savedFrames;
