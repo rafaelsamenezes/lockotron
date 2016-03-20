@@ -13,24 +13,38 @@ import java.net.URL;
 public class Galileo {
     private static final String TAG = "MOBI-O-TRON";
     private static final String KEY_SERVER_ADDRESS = "server_address";
+    public enum Command {PANIC, UPDATE, KILL}
 
     public static void openDoor(Context context) throws IOException, ServerNotSetException {
-        request(context, "panic");
+        request(context, Command.PANIC);
     }
 
     public static void update(Context context) throws IOException, ServerNotSetException {
-        request(context, "update");
+        request(context, Command.UPDATE);
     }
 
     public static void kill(Context context) throws IOException, ServerNotSetException {
-        request(context, "kill");
+        request(context, Command.KILL);
     }
 
-    private static void request(Context context, String param) throws ServerNotSetException, IOException {
+    public static void request(Context context, Command command) throws ServerNotSetException, IOException {
+        assert context != null;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.contains(KEY_SERVER_ADDRESS) && !prefs.getString(KEY_SERVER_ADDRESS, "").equals("")) {
             String url = prefs.getString(KEY_SERVER_ADDRESS, "");
+            String param = "";
+            switch (command){
+                case PANIC:
+                    param = "panic";
+                    break;
+                case UPDATE:
+                    param = "update";
+                    break;
+                case KILL:
+                    param = "kill";
+                    break;
+            }
             Galileo.request(url + "/galileo?" + param);
         } else {
             throw new ServerNotSetException();

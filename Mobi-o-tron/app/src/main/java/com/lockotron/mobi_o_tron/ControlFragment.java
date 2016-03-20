@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.controller.Galileo;
-import com.lockotron.mobi_o_tron.controller.Historico;
 
 import java.io.IOException;
 
@@ -76,16 +75,16 @@ public class ControlFragment extends Fragment {
         view.findViewById(R.id.open_door_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestUrlTask urlTask = new RequestUrlTask();
-                urlTask.execute("panic");
+                RequestUrlTask urlTask = new RequestUrlTask(getContext(), Galileo.Command.PANIC);
+                urlTask.execute();
             }
         });
 
         view.findViewById(R.id.update_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestUrlTask urlTask = new RequestUrlTask();
-                urlTask.execute("update");
+                RequestUrlTask urlTask = new RequestUrlTask(getContext(), Galileo.Command.UPDATE);
+                urlTask.execute();
             }
         });
 
@@ -116,16 +115,23 @@ public class ControlFragment extends Fragment {
         mListener = null;
     }
 
-    class RequestUrlTask extends AsyncTask<String, Void, Void> {
+    class RequestUrlTask extends AsyncTask<Void, Void, Void> {
+        Galileo.Command command;
+        Context context;
+
+        public RequestUrlTask(Context context, Galileo.Command command) {
+            this.context = context;
+            this.command = command;
+        }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Void doInBackground(Void... params) {
             try {
-                switch (params[0]) {
-                    case "panic":
+                switch (command) {
+                    case PANIC:
                         Galileo.openDoor(getContext());
                         break;
-                    case "update":
+                    case UPDATE:
                         Galileo.update(getContext());
                         break;
 

@@ -21,6 +21,7 @@ public class Historico {
     private static final String KEY_SERVER_ADDRESS = "server_address";
 
     public static List<com.lockotron.mobi_o_tron.model.Historico> getAll(Context context) throws IOException, ServerNotSetException {
+        assert context != null;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.contains(KEY_SERVER_ADDRESS) && !prefs.getString(KEY_SERVER_ADDRESS, "").equals("")) {
