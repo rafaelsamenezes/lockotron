@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.JsonReader;
 import android.util.Log;
 
-import com.lockotron.mobi_o_tron.R;
+import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.model.Usuario;
 
 import java.io.IOException;
@@ -115,7 +115,4 @@ public class Historico {
         return new com.lockotron.mobi_o_tron.model.Historico(id,usuario,data,estado);
     }
 
-    public static class ServerNotSetException extends Exception {
-        public static final int PUBLIC_ERROR_MESSAGE = R.string.error_server_not_set;
-    }
 }

@@ -2,11 +2,18 @@ package com.lockotron.mobi_o_tron;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
+import com.lockotron.mobi_o_tron.controller.Galileo;
+import com.lockotron.mobi_o_tron.controller.Historico;
+
+import java.io.IOException;
 
 
 /**
@@ -64,7 +71,25 @@ public class ControlFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_control, container, false);
+        View view = inflater.inflate(R.layout.fragment_control, container, false);
+
+        view.findViewById(R.id.open_door_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestUrlTask urlTask = new RequestUrlTask();
+                urlTask.execute("panic");
+            }
+        });
+
+        view.findViewById(R.id.update_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestUrlTask urlTask = new RequestUrlTask();
+                urlTask.execute("update");
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -89,6 +114,33 @@ public class ControlFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    class RequestUrlTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                switch (params[0]) {
+                    case "panic":
+                        Galileo.openDoor(getContext());
+                        break;
+                    case "update":
+                        Galileo.update(getContext());
+                        break;
+
+                }
+            } catch (IOException e) {
+                // TODO: 18/03/16 Mostrar erro de I/O
+                //serverErrorSnackbar.show();
+                e.printStackTrace();
+            } catch (ServerNotSetException e) {
+                // TODO: 18/03/16 Mostrar erro de servidor vazio
+                //serverNotSetSnackbar.show();
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     /**

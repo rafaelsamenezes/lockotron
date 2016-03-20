@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.controller.Historico;
 
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class LogFragment extends Fragment {
         });
 
         // snackbar que mostra erro caso servidor não tenha sido definido
-        serverNotSetSnackbar = Snackbar.make(view, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverNotSetSnackbar = Snackbar.make(view, ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
         serverNotSetSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,7 +176,7 @@ public class LogFragment extends Fragment {
             } catch (IOException e) {
                 serverErrorSnackbar.show();
                 e.printStackTrace();
-            } catch (Historico.ServerNotSetException e) {
+            } catch (ServerNotSetException e) {
                 serverNotSetSnackbar.show();
                 e.printStackTrace();
             }
