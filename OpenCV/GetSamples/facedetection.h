@@ -18,12 +18,13 @@ private:
     Mat old_frame;
     Mat detectedFrame;
     int savedFrames;
+    string save_path;
     double getSimilarity(const Mat A, const Mat B);
     void detectAndDisplay();
     void saveFrame(FacePre frame);
 public:
 
-    FaceDetection(int camera);
+    FaceDetection(int camera, string path);
     Mat getDetectedFrame();
     void readWebCam();
 };
