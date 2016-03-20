@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import GlobalVariables as gv
-from lib_galileo.GalileoControl import GalileoControl 
-from lib_galileo.GalileoControl import Lock_o_tron as loc
+from lib_galileo.GalileoControl import GalileoControl
+from lib_galileo.GalileoControl import Lock_o_tron as lock
 import socket
 import multiprocessing
 from os import getpid
@@ -9,7 +9,7 @@ from os import getpid
 class UDPThread(multiprocessing.Process):
     def __init__(self):
         multiprocessing.Process.__init__(self)
-        self.__control = loc()
+        self.__control = lock()
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(("", gv.udp_receive_port))
 

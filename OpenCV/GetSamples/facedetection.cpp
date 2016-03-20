@@ -5,11 +5,12 @@
 
 using namespace std;
 
-FaceDetection::FaceDetection(int camera){
+FaceDetection::FaceDetection(int camera, string path){
     if(!this->faceCascade.load( HaarCascade::faceHaarCascade ) ){
        cerr << "ERROR: Face Cascade " << HaarCascade::faceHaarCascade << " couldn't be loaded!" << endl;
        exit(-1);
     }
+    this->save_path = path;
 
     this->savedFrames = 0;
     this->webCam = VideoCapture(camera);
@@ -37,7 +38,7 @@ void FaceDetection::saveFrame(FacePre face){
     ostringstream convert;
     convert << this->savedFrames;
     if(face.isGoodFrame()){
-        imwrite("/home/rafael/Testes/frame" + convert.str() + ".jpg", face.getFrame());
+        imwrite(this->save_path + "frame" + convert.str() + ".jpg", face.getFrame());
         this->savedFrames++;
 
           cout << this->savedFrames << endl;
@@ -45,7 +46,7 @@ void FaceDetection::saveFrame(FacePre face){
         convert2 << this->savedFrames;
         Mat fliped_face;
         cv::flip(face.getFrame(), fliped_face, 1);
-        imwrite("/home/rafael/Testes/frame" + convert2.str() + ".jpg", fliped_face);
+        imwrite(this->save_path + "frame" + convert2.str() + ".jpg", fliped_face);
         this->savedFrames++;
         cout << this->savedFrames << endl;
     }

@@ -11,14 +11,19 @@ string lbph = "FaceRecognizer.LBPH";
 //std::vector<Mat> frames;
 std::vector<string> names;
 int quantity;
-void loadFrames();
+void loadFrames(int samples);
 
 int main(int argc, char* argv[])
 {
-  string path = argv[1];
+  if (argc < 2)
+    cerr << "Usage: ./Trainer <path-to-samples> <path-to-target> <samples-number> <ids>" << endl;
+  string path_samples = argv[1];
+  string path_target = argv[2];
+  quantity = atoi(argv[3]);
+  loadFrames(atoi(argv[4]));
+
   Ptr<FaceRecognizer> model;
   model = Algorithm::create<FaceRecognizer>(fisherface);
-  loadFrames();
   //model->train(frames, labels);
   //
 
@@ -29,17 +34,21 @@ int main(int argc, char* argv[])
       for(int j=0; j<quantity; j++){
           ostringstream convert;
           convert << j;
-          images.push_back(imread(path+names[i] + "/frame" + convert.str() + ".jpg", CV_LOAD_IMAGE_GRAYSCALE));
-          cout << path+names[i] + "/frame" + convert.str() + ".jpg" << endl;
+          images.push_back(imread(path_samples+names[i] + "frame" + convert.str() + ".jpg", CV_LOAD_IMAGE_GRAYSCALE));
+          cout << path_samples+names[i] + "frame" + convert.str() + ".jpg" << endl;
           labels.push_back(atoi(names.at(i).c_str()));
       }
   }
   model->train(images, labels);
-  model->save("faces.xml");
+  model->save(path_target + "faces.xml");
 }
 
-void loadFrames(){
-  quantity = 60;
-  names.push_back("0");
-  names.push_back("1");
+void loadFrames(int samples){
+  int i = 1;
+  //quantity = quantity;
+  for(;i<=samples; i++){
+    ostringstream convert;
+    convert << i;
+    names.push_back(convert.str());
+  }
 }

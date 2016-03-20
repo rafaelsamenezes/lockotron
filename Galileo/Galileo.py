@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from lib_galileo.GalileoControl import GalileoControl as gc
-from lib_galileo.GalileoControl import Lock_o_tron as loc
+from lib_galileo.GalileoControl import Lock_o_tron as lock
 import lib_galileo.GalileoNetwork as gn
 import GalileoUDP as udp
 from GalileoFaceRecognizer import FaceRecognizer as fr
@@ -16,7 +16,7 @@ def setupGPIO(self):
 
 if __name__ == '__main__':
     gc.change_priority(getpid(), gv.main_script_priority)
-    control = loc()
+    control = lock()
     t1 = udp.UDPThread()
     # t1.daemon = True
     t1.start()
@@ -24,15 +24,15 @@ if __name__ == '__main__':
     try:
         while True:
             if (control.getInputMotionSensor() == 1):
-                loc.getFrame()
+                lock.getFrame()
                 result = fr.run()
                 # result = 0
                 authorization = network.askPermission(result)
                 if (authorization):
                     print "Acesso Permitido"
-                    loc.openDoor()
+                    lock.openDoor()
                     time.sleep(3)
-                    loc.closeDoor()
+                    lock.closeDoor()
     except KeyboardInterrupt:
         print "Fim do programa"
         t1.join()
