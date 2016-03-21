@@ -1,5 +1,9 @@
 <?php
-$galileo_ip = "10.42.0.252";
+if (! @include_once("../galileo_ip.php")){
+    http_response_code(500);
+    echo "IP do Galileo desconhecido";
+    exit();
+}
 
 if (isset($_GET['panic']) || isset($_GET['panic'])) {
     $msg = 0;
