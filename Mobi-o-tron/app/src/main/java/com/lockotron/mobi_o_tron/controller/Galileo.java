@@ -45,7 +45,7 @@ public class Galileo {
                     param = "kill";
                     break;
             }
-            Galileo.request(url + "/galileo?" + param);
+            Galileo.request(url + "/galileo.php?" + param);
         } else {
             throw new ServerNotSetException();
         }
