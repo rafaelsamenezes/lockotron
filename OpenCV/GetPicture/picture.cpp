@@ -36,9 +36,11 @@ void Picture::begin(string path){
             usleep(500000);
         }
       }
-      else
+      else{
         cout << "Face not found in frame!" << endl;
-
+        Mat sponge_bob = imread(path + "default_frame.jpg");
+        imwrite(path + "frame.jpg", sponge_bob);
+      }
     }
 
 
