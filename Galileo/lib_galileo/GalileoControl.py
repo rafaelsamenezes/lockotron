@@ -29,9 +29,6 @@ class Lock_o_tron:
     def openDoor(self):
         self.doorLock_Led.write(1)
         time.sleep(3)
-        self.closeDoor()
-
-    def closeDoor(self):
         self.doorLock_Led.write(0)
 
     def recognizingStart(self):
