@@ -17,8 +17,11 @@ class GalileoNetwork:
 
     def __getURLContents(self, page):
         url = self.server_url + page
-        response = urlopen(url)
-        html = response.read()
+        try:
+            response = urlopen(url)
+            html = response.read()
+        except Exception as e:
+            print e
         return html
 
     def askPermission(self, person_id):
