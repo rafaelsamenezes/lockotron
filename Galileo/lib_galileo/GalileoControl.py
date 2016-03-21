@@ -39,17 +39,25 @@ class Lock_o_tron:
     def updateSystem():
         print 'Sistema sendo atualizado...'
         network = GN(gv.server_url)
-        update = network.getFaces()
-        GalileoControl.createFile(gv.update, update)
-        print 'Sistema atualizado com sucesso'
+        try:
+            update = network.getFaces()
+        except Exception as e:
+            print 'Erro ao atualizar o sistema (%s)', e
+        else:
+            GalileoControl.createFile(gv.update, update)
+            print 'Sistema atualizado com sucesso'
 
     @staticmethod
     def getFrame():
         print 'Obtendo frame do servidor...'
         network = GN(gv.server_url)
-        frame = network.getFrame()
-        GalileoControl.createFile(gv.frame, frame)
-        print 'Frame obtido com sucesso'
+        try:
+            frame = network.getFrame()
+        except Exception as e:
+            print 'Erro ao obter frame (%s)', e
+        else:
+            GalileoControl.createFile(gv.frame, frame)
+            print 'Frame obtido com sucesso'
 
     @staticmethod
     def isUpdateAvailable():

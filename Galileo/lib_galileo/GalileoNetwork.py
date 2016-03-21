@@ -5,10 +5,7 @@ import json
 class GalileoNetwork:
     server_url = 'http://127.0.0.1'
 
-    def __init__(self):
-        self.server_url = GalileoNetwork.server_url
-
-    def __init__(self, server_url):
+    def __init__(self, server_url=GalileoNetwork.server_url):
         self.server_url = server_url
 
     def __getJSON(self, url):
@@ -16,12 +13,10 @@ class GalileoNetwork:
         return json.loads(data)
 
     def __getURLContents(self, page):
+        """Throws HTTPError"""
         url = self.server_url + page
-        try:
-            response = urlopen(url)
-            html = response.read()
-        except Exception as e:
-            print e
+        response = urlopen(url)
+        html = response.read()
         return html
 
     def askPermission(self, person_id):
