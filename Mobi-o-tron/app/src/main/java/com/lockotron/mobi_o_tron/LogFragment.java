@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.controller.Historico;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class LogFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "MOBI-O-TRON";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,7 +89,6 @@ public class LogFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log, container, false);
 
@@ -107,12 +108,12 @@ public class LogFragment extends Fragment {
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshLog();
+                refreshLog(getContext());
             }
         });
 
         // snackbar que mostra erro caso servidor não tenha sido definido
-        serverNotSetSnackbar = Snackbar.make(view, Historico.ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverNotSetSnackbar = Snackbar.make(view, ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
         serverNotSetSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,14 +126,14 @@ public class LogFragment extends Fragment {
 
         serverErrorSnackbar = Snackbar.make(view, "Server could not be reached", Snackbar.LENGTH_LONG);
 
-        refreshLog();
+        refreshLog(getContext());
 
         return view;
     }
 
-    private void refreshLog() {
+    private void refreshLog(Context context) {
         GetLogTask getLogTask = new GetLogTask();
-        getLogTask.execute();
+        getLogTask.execute(context);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -160,7 +161,7 @@ public class LogFragment extends Fragment {
     }
 
 
-    class GetLogTask extends AsyncTask<Void, Void, Void> {
+    class GetLogTask extends AsyncTask<Context, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -168,14 +169,14 @@ public class LogFragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(Context... contexts) {
             try {
                 mList.clear();
-                mList.addAll(Historico.getAll(getContext()));
+                mList.addAll(Historico.getAll(contexts[0]));
             } catch (IOException e) {
                 serverErrorSnackbar.show();
                 e.printStackTrace();
-            } catch (Historico.ServerNotSetException e) {
+            } catch (ServerNotSetException e) {
                 serverNotSetSnackbar.show();
                 e.printStackTrace();
             }

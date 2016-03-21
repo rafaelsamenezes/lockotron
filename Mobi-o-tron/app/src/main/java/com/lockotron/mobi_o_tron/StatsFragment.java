@@ -2,28 +2,22 @@ package com.lockotron.mobi_o_tron;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
-import com.lockotron.mobi_o_tron.controller.Galileo;
-
-import java.io.IOException;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ControlFragment.OnFragmentInteractionListener} interface
+ * {@link StatsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ControlFragment#newInstance} factory method to
+ * Use the {@link StatsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ControlFragment extends Fragment {
+public class StatsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,7 +29,7 @@ public class ControlFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ControlFragment() {
+    public StatsFragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +39,11 @@ public class ControlFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ControlFragment.
+     * @return A new instance of fragment StatsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ControlFragment newInstance(String param1, String param2) {
-        ControlFragment fragment = new ControlFragment();
+    public static StatsFragment newInstance(String param1, String param2) {
+        StatsFragment fragment = new StatsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,25 +64,7 @@ public class ControlFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_control, container, false);
-
-        view.findViewById(R.id.open_door_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RequestUrlTask urlTask = new RequestUrlTask(getContext(), Galileo.Command.PANIC);
-                urlTask.execute();
-            }
-        });
-
-        view.findViewById(R.id.update_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RequestUrlTask urlTask = new RequestUrlTask(getContext(), Galileo.Command.UPDATE);
-                urlTask.execute();
-            }
-        });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_stats, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -113,40 +89,6 @@ public class ControlFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    class RequestUrlTask extends AsyncTask<Void, Void, Void> {
-        Galileo.Command command;
-        Context context;
-
-        public RequestUrlTask(Context context, Galileo.Command command) {
-            this.context = context;
-            this.command = command;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                switch (command) {
-                    case PANIC:
-                        Galileo.openDoor(getContext());
-                        break;
-                    case UPDATE:
-                        Galileo.update(getContext());
-                        break;
-
-                }
-            } catch (IOException e) {
-                // TODO: 18/03/16 Mostrar erro de I/O
-                //serverErrorSnackbar.show();
-                e.printStackTrace();
-            } catch (ServerNotSetException e) {
-                // TODO: 18/03/16 Mostrar erro de servidor vazio
-                //serverNotSetSnackbar.show();
-                e.printStackTrace();
-            }
-            return null;
-        }
     }
 
     /**

@@ -15,7 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,LogFragment.OnFragmentInteractionListener,ControlFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener,
+                   LogFragment.OnFragmentInteractionListener,
+                   ControlFragment.OnFragmentInteractionListener,
+                   StatsFragment.OnFragmentInteractionListener{
+    private static final String TAG = "MOBI-O-TRON";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // seleciona o primeiro item da navigation drawer
-        navigationView.getMenu().getItem(0).setChecked(true);
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        if (savedInstanceState == null) {
+            navigationView.getMenu().getItem(0).setChecked(true);
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        }
     }
 
     @Override
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                 setTitle(R.string.title_activity_log);
                 break;
             case R.id.nav_stats:
-                // TODO: 15/03/2016 Adicionar fragment de estatísticas
+                fragment = new StatsFragment();
                 setTitle(R.string.title_activity_stats);
                 break;
             case R.id.nav_control:
