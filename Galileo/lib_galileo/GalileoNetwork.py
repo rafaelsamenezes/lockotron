@@ -5,7 +5,7 @@ import json
 class GalileoNetwork:
     server_url = 'http://127.0.0.1'
 
-    def __init__(self, server_url=GalileoNetwork.server_url):
+    def __init__(self, server_url):
         self.server_url = server_url
 
     def __getJSON(self, url):
