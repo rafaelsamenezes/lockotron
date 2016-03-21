@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
+import com.lockotron.mobi_o_tron.exception.GalileoNotFoundException;
+import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.controller.Galileo;
 
 import java.io.IOException;
@@ -143,6 +145,9 @@ public class ControlFragment extends Fragment {
             } catch (ServerNotSetException e) {
                 // TODO: 18/03/16 Mostrar erro de servidor vazio
                 //serverNotSetSnackbar.show();
+                e.printStackTrace();
+            } catch (GalileoNotFoundException e) {
+                // TODO: 21/03/16 Mostrar erro caso Galileo não seja encontrado
                 e.printStackTrace();
             }
             return null;

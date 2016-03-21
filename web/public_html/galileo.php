@@ -12,7 +12,7 @@ if (isset($_GET['panic']) || isset($_GET['panic'])) {
 } elseif (isset($_GET['kill']) || isset($_GET['kill'])) {
     $msg = 3;
 } else {
-    http_response_code(500);
+    http_response_code(400);
     exit();
 }
 $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
