@@ -18,7 +18,7 @@ class Lock_o_tron:
         # self.motion_Led.dir(mraa.DIR_OUT)
         self.recognizer_Led = mraa.Gpio(gv.recognizer_Led)
         self.recognizer_Led.dir(mraa.DIR_OUT)
-        self.closeDoor()
+        # self.closeDoor()
         self.recognizingStop()
 
     def getInputMotionSensor(self):
