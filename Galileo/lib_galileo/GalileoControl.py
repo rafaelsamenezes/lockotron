@@ -50,6 +50,7 @@ class Lock_o_tron:
             print 'Erro ao atualizar o sistema (%s)', e
         else:
             GalileoControl.createFile(gv.update, update)
+            GalileoControl.renameFile(gv.update, gv.model)
             print 'Sistema atualizado com sucesso'
 
     @staticmethod
