@@ -4,6 +4,7 @@ import os.path
 from os import system
 import GlobalVariables as gv
 import mraa
+import time
 
 class Lock_o_tron:
     """This class is responsible for tasks from the Lock-o-tron project"""
@@ -17,14 +18,18 @@ class Lock_o_tron:
         self.motion_Led.dir(mraa.DIR_OUT)
         self.recognizer_Led = mraa.Gpio(gv.recognizer_Led)
         self.recognizer_Led.dir(mraa.DIR_OUT)
+        self.closeDoor()
+        self.recognizingStop()
 
     def getInputMotionSensor(self):
         value = self.motion_Sensor.read()
-        self.motion_Led.write(value)
+        # self.motion_Led.write(value)
         return value
 
     def openDoor(self):
         self.doorLock_Led.write(1)
+        time.sleep(3)
+        self.closeDoor()
 
     def closeDoor(self):
         self.doorLock_Led.write(0)

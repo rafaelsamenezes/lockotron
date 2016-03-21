@@ -9,8 +9,8 @@ update = 'new-faces.xml'
 
 # OUTPUTS
 doorLock_Led = 13
-motion_Led = 12
-recognizer_Led = 11
+# motion_Led = 12
+recognizer_Led = 12
 
 # INPUTS
 motion_Sensor = 2
