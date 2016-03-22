@@ -1,4 +1,4 @@
-package com.lockotron.mobi_o_tron.Exception;
+package com.lockotron.mobi_o_tron.exception;
 
 import com.lockotron.mobi_o_tron.R;
 

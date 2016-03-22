@@ -4,6 +4,7 @@ import os.path
 from os import system
 import GlobalVariables as gv
 import mraa
+import time
 
 class Lock_o_tron:
     """This class is responsible for tasks from the Lock-o-tron project"""
@@ -13,20 +14,21 @@ class Lock_o_tron:
         self.motion_Sensor.dir(mraa.DIR_IN)
         self.doorLock_Led = mraa.Gpio(gv.doorLock_Led)
         self.doorLock_Led.dir(mraa.DIR_OUT)
-        self.motion_Led = mraa.Gpio(gv.motion_Led)
-        self.motion_Led.dir(mraa.DIR_OUT)
+        # self.motion_Led = mraa.Gpio(gv.motion_Led)
+        # self.motion_Led.dir(mraa.DIR_OUT)
         self.recognizer_Led = mraa.Gpio(gv.recognizer_Led)
         self.recognizer_Led.dir(mraa.DIR_OUT)
+        # self.closeDoor()
+        self.recognizingStop()
 
     def getInputMotionSensor(self):
         value = self.motion_Sensor.read()
-        self.motion_Led.write(value)
+        # self.motion_Led.write(value)
         return value
 
     def openDoor(self):
         self.doorLock_Led.write(1)
-
-    def closeDoor(self):
+        time.sleep(3)
         self.doorLock_Led.write(0)
 
     def recognizingStart(self):
@@ -39,17 +41,26 @@ class Lock_o_tron:
     def updateSystem():
         print 'Sistema sendo atualizado...'
         network = GN(gv.server_url)
-        update = network.getFaces()
-        GalileoControl.createFile(gv.update, update)
-        print 'Sistema atualizado com sucesso'
+        try:
+            update = network.getFaces()
+        except Exception as e:
+            print 'Erro ao atualizar o sistema (%s)', e
+        else:
+            GalileoControl.createFile(gv.update, update)
+            GalileoControl.renameFile(gv.update, gv.model)
+            print 'Sistema atualizado com sucesso'
 
     @staticmethod
     def getFrame():
         print 'Obtendo frame do servidor...'
         network = GN(gv.server_url)
-        frame = network.getFrame()
-        GalileoControl.createFile(gv.frame, frame)
-        print 'Frame obtido com sucesso'
+        try:
+            frame = network.getFrame()
+        except Exception as e:
+            print 'Erro ao obter frame (%s)', e
+        else:
+            GalileoControl.createFile(gv.frame, frame)
+            print 'Frame obtido com sucesso'
 
     @staticmethod
     def isUpdateAvailable():

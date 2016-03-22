@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
+import com.lockotron.mobi_o_tron.exception.GalileoNotFoundException;
+import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -15,19 +16,19 @@ public class Galileo {
     private static final String KEY_SERVER_ADDRESS = "server_address";
     public enum Command {PANIC, UPDATE, KILL}
 
-    public static void openDoor(Context context) throws IOException, ServerNotSetException {
+    public static void openDoor(Context context) throws IOException, ServerNotSetException, GalileoNotFoundException {
         request(context, Command.PANIC);
     }
 
-    public static void update(Context context) throws IOException, ServerNotSetException {
+    public static void update(Context context) throws IOException, ServerNotSetException, GalileoNotFoundException {
         request(context, Command.UPDATE);
     }
 
-    public static void kill(Context context) throws IOException, ServerNotSetException {
+    public static void kill(Context context) throws IOException, ServerNotSetException, GalileoNotFoundException {
         request(context, Command.KILL);
     }
 
-    public static void request(Context context, Command command) throws ServerNotSetException, IOException {
+    public static void request(Context context, Command command) throws ServerNotSetException, IOException, GalileoNotFoundException {
         assert context != null;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,13 +46,13 @@ public class Galileo {
                     param = "kill";
                     break;
             }
-            Galileo.request(url + "/galileo?" + param);
+            Galileo.request(url + "/galileo.php?" + param);
         } else {
             throw new ServerNotSetException();
         }
     }
 
-    private static boolean request(String server_addr) throws IOException {
+    private static boolean request(String server_addr) throws IOException, GalileoNotFoundException {
 
         URL url = new URL("http://" + server_addr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -66,7 +67,8 @@ public class Galileo {
             case 200:
             case 201:
                 return true;
-
+            case 500:
+                throw new GalileoNotFoundException();
             default:
                 return false;
         }

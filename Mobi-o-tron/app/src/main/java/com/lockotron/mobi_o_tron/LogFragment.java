@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
+import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.controller.Historico;
 
 import java.io.IOException;

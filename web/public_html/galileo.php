@@ -1,5 +1,9 @@
 <?php
-$galileo_ip = "10.42.0.252";
+if (! @include_once("../galileo_ip.php")){
+    http_response_code(500);
+    echo "IP do Galileo desconhecido";
+    exit();
+}
 
 if (isset($_GET['panic']) || isset($_GET['panic'])) {
     $msg = 0;
@@ -8,7 +12,7 @@ if (isset($_GET['panic']) || isset($_GET['panic'])) {
 } elseif (isset($_GET['kill']) || isset($_GET['kill'])) {
     $msg = 3;
 } else {
-    http_response_code(500);
+    http_response_code(400);
     exit();
 }
 $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);

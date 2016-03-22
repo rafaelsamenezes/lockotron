@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.JsonReader;
 import android.util.Log;
 
-import com.lockotron.mobi_o_tron.Exception.ServerNotSetException;
+import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.model.Usuario;
 
 import java.io.IOException;

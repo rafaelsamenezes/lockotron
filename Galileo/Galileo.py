@@ -30,7 +30,7 @@ if __name__ == '__main__':
                 authorization = network.askPermission(result)
                 if (authorization):
                     print "Acesso Permitido"
-                    lock.openDoor()
+                    control.openDoor()
                     time.sleep(3)
                     lock.closeDoor()
     except KeyboardInterrupt:
