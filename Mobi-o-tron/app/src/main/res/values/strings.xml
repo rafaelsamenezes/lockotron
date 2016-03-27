@@ -33,5 +33,7 @@
     <string name="control_update_title">Update data</string>
     <string name="control_update_description">If the faces database has been modified in the server, it\'s necessary to update data in the lock system.</string>
     <string name="control_door_description">To control the door manually, overriding the facial recognition, press the button below.</string>
+    <string name="error_server_generic">Server could not be reached</string>
+    <string name="error_server_galileo">Galileo could not be contacted by the server.\nPlease, set up Galileo\'s IP correctly on the server.</string>
 
 </resources>

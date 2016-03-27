@@ -26,4 +26,6 @@
     <string name="control_update_title">Atualizar dados</string>
     <string name="control_update_description">Caso o banco de dados de faces tenha sido alterado no servidor, é necessário atualizar os dados no sistema da fechadura.</string>
     <string name="control_door_description">Para controle manual da porta, ignorando o reconhecimento facial, pressione o botão abaixo.</string>
+    <string name="error_server_galileo">O Galileo não foi encontrado pelo servidor.\nPor favor, configure o IP do Galileo corretamente no servidor.</string>
+    <string name="error_server_generic">Servidor não encontrado.</string>
 </resources>

@@ -1,9 +1,13 @@
 package com.lockotron.mobi_o_tron;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +40,9 @@ public class ControlFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Snackbar serverErrorSnackbar;
+    private Snackbar serverNotSetSnackbar;
+    private Snackbar galileoErrorSnackbar;
 
     public ControlFragment() {
         // Required empty public constructor
@@ -93,6 +100,27 @@ public class ControlFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // snackbar que mostra erro caso servidor não tenha sido definido
+        serverNotSetSnackbar = Snackbar.make(getView(), ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverNotSetSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+                startActivity(intent);
+            }
+        });
+
+        galileoErrorSnackbar = Snackbar.make(getView(), R.string.error_server_galileo, Snackbar.LENGTH_LONG);
+
+        serverErrorSnackbar = Snackbar.make(getView(), R.string.error_server_generic, Snackbar.LENGTH_LONG);
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -139,16 +167,14 @@ public class ControlFragment extends Fragment {
 
                 }
             } catch (IOException e) {
-                // TODO: 18/03/16 Mostrar erro de I/O
-                //serverErrorSnackbar.show();
-                e.printStackTrace();
+                serverErrorSnackbar.show();
+                //e.printStackTrace();
             } catch (ServerNotSetException e) {
-                // TODO: 18/03/16 Mostrar erro de servidor vazio
-                //serverNotSetSnackbar.show();
-                e.printStackTrace();
+                serverNotSetSnackbar.show();
+                //e.printStackTrace();
             } catch (GalileoNotFoundException e) {
-                // TODO: 21/03/16 Mostrar erro caso Galileo não seja encontrado
-                e.printStackTrace();
+                galileoErrorSnackbar.show();
+                //e.printStackTrace();
             }
             return null;
         }

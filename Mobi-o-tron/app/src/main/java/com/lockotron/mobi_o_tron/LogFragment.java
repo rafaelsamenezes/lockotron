@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -112,8 +113,15 @@ public class LogFragment extends Fragment {
             }
         });
 
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         // snackbar que mostra erro caso servidor não tenha sido definido
-        serverNotSetSnackbar = Snackbar.make(view, ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverNotSetSnackbar = Snackbar.make(getView(), ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
         serverNotSetSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,11 +132,9 @@ public class LogFragment extends Fragment {
             }
         });
 
-        serverErrorSnackbar = Snackbar.make(view, "Server could not be reached", Snackbar.LENGTH_LONG);
+        serverErrorSnackbar = Snackbar.make(getView(), R.string.error_server_generic, Snackbar.LENGTH_LONG);
 
         refreshLog(getContext());
-
-        return view;
     }
 
     private void refreshLog(Context context) {
