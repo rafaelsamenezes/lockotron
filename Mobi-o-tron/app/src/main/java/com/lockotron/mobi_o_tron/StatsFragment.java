@@ -3,10 +3,15 @@ package com.lockotron.mobi_o_tron;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import com.lockotron.mobi_o_tron.model.Usuario;
 
 
 /**
@@ -22,6 +27,7 @@ public class StatsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "MOBI-O-TRON";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,6 +81,20 @@ public class StatsFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Usuario[] usuarios = new Usuario[2];
+        usuarios[0] = new Usuario(1, "Rodrigo (DEBUG)");
+        usuarios[1] = new Usuario(2, "Rafael (DEBUG)");
+
+        UsersAdapter adapter = new UsersAdapter(getContext(), usuarios);
+
+        AppCompatSpinner spinner = (AppCompatSpinner) getView().findViewById(R.id.user);
+        spinner.setAdapter(adapter);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -104,5 +124,31 @@ public class StatsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    class UsersAdapter extends ArrayAdapter<Usuario>{
+        private final Context context;
+        private final Usuario[] users;
+
+        public UsersAdapter(Context context, Usuario[] users) {
+            super(context, android.R.layout.simple_list_item_1, android.R.id.text1, users);
+            this.context = context;
+            this.users = users;
+        }
+
+        @Override
+        public int getCount() {
+            return users.length;
+        }
+
+        @Override
+        public Usuario getItem(int position) {
+            return users[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return users[position].getId();
+        }
     }
 }
