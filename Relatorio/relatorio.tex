@@ -28,20 +28,25 @@
 \maketitle
 
 \begin{abstract}
+    This paper describes the main features of Lock-o-tron, a security system
+    based on facial recognition, while presenting its algorithms, modules,
+    configuration, connections, libraries used and future works. The algorithms
+    mentioned are Fisherfaces (for facial recognition) and fifo (for real-time
+    scheduling). OpenCV was used as the facial recognition engine, and an Intel
+    Galileo for controlling a motion sensor and an electric lock. At last, the
+    system was able to achieve its goal.
 
 \end{abstract}
 
 \begin{resumo}
-    Este artigo descreve as principais característica do Lock-o-tron, um
-    sistema de segurança com reconhecimento facial, descrevendo seus algoritmos,
+    Este artigo descreve as principais características do Lock-o-tron, um
+    sistema de segurança com reconhecimento facial, abordando seus algoritmos,
     módulos, disposição, conexões, bibliotecas utilizadas e possibilidades de
-    trabalhos futuros. Os algoritmos descritos são Fisherface (para
+    trabalhos futuros. Os algoritmos descritos são \textit{Fisherfaces} (para
     reconhecimento facial) e o de fifo (para escalonamento em tempo-real).
-    Foi utilizado opencv para fazer o reconhecimento dos rostos e um Intel
-    Galileo para controle de um sensor de presença e de uma fechadura eletrônica.
+    Foi utilizado OpenCV para fazer o reconhecimento dos rostos, e um Intel
+    Galileo para controle de um sensor de presença e de uma fechadura elétrica.
     Ao final, concluímos que fomos capazes de atender a tarefa proposta.
-
-
 \end{resumo}
 
 
@@ -59,8 +64,8 @@
 %\section{Lock-o-tron}
 
 \section{Dispositivos}
-    O sistema é dividido em duas partes principais: O Galileo (responsável por
-    controlar) e o servidor (responsável por administrar).
+    O sistema é dividido em duas partes principais: O Galileo, responsável por
+    controlar, e o servidor, responsável por administrar.
 
     %TODO: [BIG PICTURE]
 
@@ -70,7 +75,7 @@
         \item[Sensor de Presença:] Responsável por detectar se existe alguma
         pessoa no local para que o sistema saiba quando deve iniciar o
         reconhecimento facial;
-        \item[Fechadura eletrônica:] A fechadura é o atuador final do sistema,
+        \item[Fechadura elétrica:] A fechadura é o atuador final do sistema,
         sendo ativada para abrir a porta.
     \end{description}
 \subsection{Servidor}
@@ -84,19 +89,19 @@
     \textit{web service} e uma interface Web.
 \subsection{Servidor UDP}
     Esse servidor UDP, que é executado no Galileo, é responsável pela interação
-    de outros ambientes com o Galileo, através de mensagens UDP é possível abrir
-    a porta e solicitar atualizações.
+    de outros ambientes com o Galileo. Através destas mensagens UDPm é possível
+    abrir a porta e solicitar atualizações.
     A prioridade do servidor UDP é a mais alta no Galileo, então, sempre que
-    alguém enviar uma mensagem ele irá interromper os outros processos para
-    executar a ação pedida.
+    alguém enviar uma mensagem, os outros processos serão interrompidos para que
+    a ação pedida seja executada.
 \subsection{Web Service}
     O \textit{web service}, executado no servidor, é responsável pela interação
     de todos os ambientes entre si. As suas funções são:
     \begin{itemize}
         \item Enviar frames para o Galileo;
         \item Enviar atualizações para o Galileo;
-        \item Enviar requisições UDP de abrir porta pro Galileo;
-        \item Enviar requisições UDP de atualizar pro Galileo;
+        \item Enviar requisições UDP de abrir porta para o Galileo;
+        \item Enviar requisições UDP de atualizar para o Galileo;
         \item Alterações no banco de dados;
         \item Requisições do banco de dados.
     \end{itemize}
@@ -106,33 +111,33 @@
     multiplataforma para modificar o banco de dados.
 
 \section{Reconhecimento Facial}
-    Para o reconhecimento facial, é utilizado o algoritmo de Fisherfaces. O
-    Galileo obtém o frame do servidor (um frame já pré-processado) e atribui um
-    ID a esse frame. Caso o ID seja 255, o frame é considerado como sendo de
+    Para o reconhecimento facial, é utilizado o algoritmo de \textit{Fisherfaces}.
+    O Galileo obtém o frame do servidor (um frame já pré-processado) e atribui
+    um ID a esse frame. Caso o ID seja 255, o frame é considerado como sendo de
     ninguém conhecido, caso contrário, é enviada uma requisição ao
     \textit{web service} para descobrir se a pessoa está autorizada a entrar
     naquele horário. Caso ela esteja autorizada, a fechadura abre.
 
     Os frames são pré-processados com as seguintes etapas:
-    \begin{itemize}
+    \begin{enumerate}
         \item Aplica-se uma conversão para tons de cinza;
         \item Aplica-se uma equalização do histograma no frame;
-        \item Procura os dois olhos da imagem, continua apenas se encontrar;
+        \item Procura-se os dois olhos da imagem, continua apenas se encontrar;
         \item Rotaciona-se o frame para os olhos ficarem alinhados no eixo x;
         \item Aplica-se uma equalização do histograma nos lados direito e
         esquerdo do rosto;
-        \item Aplica-se o filtro de \textit{smoothing};
-        \item Aplica-se uma máscara eliptica para remoção do pescoço.
-    \end{itemize}
-     Tudo isso, para normalizar todos os frames e facilitar o reconhecimento
-     facial
+        \item Aplica-se o filtro de suavização;
+        \item Aplica-se uma máscara elíptica para remoção do pescoço.
+    \end{enumerate}
+     Tudo isso para normalizar todos os frames e facilitar o reconhecimento
+     facial.
 
      O treinamento é feito ao pegar 60 frames pré-processados (da mesma pessoa)
      e associa-se essa pessoa a um ID (o mesmo utilizado no banco de dados),
-     então é utilizado o algoritmo de Fisherface (que já vem implementado no
-     opencv2) para o treinamento e é gerado um xml (treinado) com esses dados.
-     Posteriormente, o Galileo obtém esse xml e aplica o algoritmo de Fisherface
-     em um frame pré-processado.
+     então é utilizado o algoritmo de \textit{Fisherfaces} (que já vem
+     implementado no opencv2) para o treinamento e é gerado um xml (treinado)
+     com esses dados. Posteriormente, o Galileo obtém esse XML e aplica o
+     algoritmo de \textit{Fisherfaces} em um frame pré-processado.
 
 \section{Sistema Operacional}
     O sistema operacional utilizado no servidor é um GNU/Linux genérico, já no
@@ -142,15 +147,15 @@
 \subsection{Yocto Linux}
     O Yocto Linux é uma distribuição de Linux desenvolvida especificamente para
     sistemas embarcados. Para o Galileo, a Intel disponibiliza uma
-     \textit{recipe} específica, dando suporte a placa e aos seus pinos.
+     \textit{recipe} específica, que dá suporte à placa e aos seus pinos.
 
     Essa \textit{recipe} adiciona uma biblioteca chamada \textit{mraa},
-    que facilita a interação das portas (assim não é necessário acessar as GPIO
-    diretamente).
+    que facilita a interação das portas, removendo a necessidade de se acessar
+    as GPIO diretamente.
 
 \subsection{PREEMPT - Tempo Real}
-    O projeto utiliza um algoritmo de \textit{soft-realtime}, já presente no Linux
-    (configurado com \textit{preempt}), o \textit{fifo}. Este algoritmo tem
+    O projeto utiliza um algoritmo de \textit{soft-realtime}, já presente no
+    Linux (configurado com \textit{preempt}), o \textit{fifo}. Este algoritmo tem
     prioridade sobre qualquer outra forma de escalonamento presente no sistema
     e executa o escalonamento da seguinte forma:
     \begin{itemize}
@@ -160,19 +165,21 @@
         \textit{yield};
     \end{itemize}
 
-    No Lock-o-tron colocamos o servidor UDP com uma prioridade de 60 e o
+    No Lock-o-tron, foi definido o servidor UDP com uma prioridade de 60 e o
     reconhecimento facial com prioridade 40. Todos os demais processos do
-    sistema operacional não estão incluidos na tabela de tempo-real, então são
+    sistema operacional não estão incluídos na tabela de tempo-real, então são
     os últimos a serem escalonados na tabela.
 
-    Por ser um algoritmo de tempo-real estático o \textit{fifo} não consegue
-    garantir que irá cumprir todos os \textit{deadlines}, mas, os resultados obtidos
-    apenas com ele foram muito positivos.
+    Por ser um algoritmo de tempo-real estático, o \textit{fifo} não consegue
+    garantir que irá cumprir todos os \textit{deadlines}, mas, os resultados
+    obtidos apenas com ele foram muito positivos.
 
 \section{Aplicativo Android}
     O aplicativo utiliza o \textit{web service} para comunicação com o Galileo e
     obtenção do histórico. Conta com os seguintes módulos:
     \begin{description}
+        \item[Histórico:] Menu onde é possível visualizar os últimos usuários que
+        tentaram entrar.
         \item[Panic Button:] Botão de emergência, quando pressionado a porta
         abre;
         \item[Update Button:] Botão para o Galileo atualizar seu arquivo de
@@ -189,7 +196,7 @@
         \item Melhorar o algoritmo de reconhecimento;
         \item Adicionar novos níveis de segurança;
         \item Verificar número de pessoas que estão entrando em conjunto;
-        \item Um sistema de identificação de padrões estranhos.
+        \item Um sistema para identificação de padrões de comportamento estranhos.
     \end{itemize}
 
 \section{Conclusão}
@@ -198,12 +205,12 @@
     módulos, disposição e bibliotecas utilizadas.
 
     No final, o sistema criado é capaz de executar a tarefa proposta com certa
-    precisão (ainda sendo regulada), o sistema de prioridades garante que por
-    mais sobrecarregado o Galileo esteja, as tarefas sempre serão executados em
-    tempo hábil.
+    precisão (ainda sendo ajustada), e o escalonador garante que por mais
+    sobrecarregado o Galileo esteja, as tarefas sempre serão executados em tempo
+    hábil.
 
-\bibliographystyle{sbc}
-\bibliography{relatorio}
+% \bibliographystyle{sbc}
+% \bibliography{relatorio}
 
 
 
