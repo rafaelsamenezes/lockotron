@@ -19,5 +19,8 @@ public class Usuario {
     private int id;
     private String nome;
 
-
+    @Override
+    public String toString() {
+        return getNome();
+    }
 }

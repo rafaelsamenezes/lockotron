@@ -26,11 +26,14 @@
     <string name="log_access_granted">Access granted</string>
     <string name="log_access_denied">Access denied</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="control_action_open_door">Open door</string>
-    <string name="control_action_update_data">Update data</string>
-    <string name="control_label_door">Door control</string>
-    <string name="control_label_update">Update data</string>
+    <!-- Control -->
+    <string name="control_door_action">Open door</string>
+    <string name="control_update_action">Update data</string>
+    <string name="control_door_title">Door control</string>
+    <string name="control_update_title">Update data</string>
+    <string name="control_update_description">If the faces database has been modified in the server, it\'s necessary to update data in the lock system.</string>
+    <string name="control_door_description">To control the door manually, overriding the facial recognition, press the button below.</string>
+    <string name="error_server_generic">Server could not be reached</string>
+    <string name="error_server_galileo">Galileo could not be contacted by the server.\nPlease, set up Galileo\'s IP correctly on the server.</string>
 
 </resources>
