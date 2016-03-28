@@ -1,0 +1,211 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+
+\usepackage{graphicx,url}
+
+\usepackage[brazil]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+% UTF-8 encoding is recommended by ShareLaTex
+
+
+\sloppy
+
+\title{Lock-o-tron}
+
+\author{Rafael Sá Menezes\inst{1}, Rodrigo dos Santos Tavares\inst{1}, Herbert Rocha\inst{1} }
+
+
+\address{Departamento de Ciência da Computação -- Centro de Ciência e Tecnologia
+  \\Universidade Federal de Roraima (UFRR)\\
+  Boa Vista -- RR -- Brazil
+  \email{\{rafa.sa,rodrigo.tavares, herbert.rocha\}@ufrr.br}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\begin{resumo}
+    Este artigo descreve as principais característica do Lock-o-tron, um
+    sistema de segurança com reconhecimento facial, descrevendo seus algoritmos,
+    módulos, disposição, conexões, bibliotecas utilizadas e possibilidades de
+    trabalhos futuros. Os algoritmos descritos são Fisherface (para
+    reconhecimento facial) e o de fifo (para escalonamento em tempo-real).
+    Foi utilizado opencv para fazer o reconhecimento dos rostos e um Intel
+    Galileo para controle de um sensor de presença e de uma fechadura eletrônica.
+    Ao final, concluímos que fomos capazes de atender a tarefa proposta.
+
+
+\end{resumo}
+
+
+\section{Introdução}
+    O Lock-o-tron é um projeto interdisciplinar que, unindo os conceitos de
+    diversos campos da Computação, realiza o reconhecimento facial de pessoas. O
+    sistema conta com: Um servidor, um Intel Galileo, um Yocto Linux configurado
+    para \textit{soft-realtime}, diversos sensores, diversos atuadores, uma
+    interface Web para administração e um aplicativo Android para controle.
+
+    Este trabalho irá descrever as principais características do sistema, assim
+    o leitor poderá entender melhor sobre o funcionamento do sistema como um
+    todo.
+
+%\section{Lock-o-tron}
+
+\section{Dispositivos}
+    O sistema é dividido em duas partes principais: O Galileo (responsável por
+    controlar) e o servidor (responsável por administrar).
+
+    %TODO: [BIG PICTURE]
+
+\subsection{Galileo}
+    No Galileo conectamos:
+    \begin{description}
+        \item[Sensor de Presença:] Responsável por detectar se existe alguma
+        pessoa no local para que o sistema saiba quando deve iniciar o
+        reconhecimento facial;
+        \item[Fechadura eletrônica:] A fechadura é o atuador final do sistema,
+        sendo ativada para abrir a porta.
+    \end{description}
+\subsection{Servidor}
+    No Servidor conectamos:
+    \begin{description}
+        \item[Câmera:] A câmera obtém os frames e os salva no servidor.
+    \end{description}
+
+\section{Comunicação interna}
+    Para comunicação do sistema foram utilizados: um servidor UDP, um
+    \textit{web service} e uma interface Web.
+\subsection{Servidor UDP}
+    Esse servidor UDP, que é executado no Galileo, é responsável pela interação
+    de outros ambientes com o Galileo, através de mensagens UDP é possível abrir
+    a porta e solicitar atualizações.
+    A prioridade do servidor UDP é a mais alta no Galileo, então, sempre que
+    alguém enviar uma mensagem ele irá interromper os outros processos para
+    executar a ação pedida.
+\subsection{Web Service}
+    O \textit{web service}, executado no servidor, é responsável pela interação
+    de todos os ambientes entre si. As suas funções são:
+    \begin{itemize}
+        \item Enviar frames para o Galileo;
+        \item Enviar atualizações para o Galileo;
+        \item Enviar requisições UDP de abrir porta pro Galileo;
+        \item Enviar requisições UDP de atualizar pro Galileo;
+        \item Alterações no banco de dados;
+        \item Requisições do banco de dados.
+    \end{itemize}
+
+\subsection{Interface Web}
+    A interface Web, executada no servidor, ficou responsável por ser um meio
+    multiplataforma para modificar o banco de dados.
+
+\section{Reconhecimento Facial}
+    Para o reconhecimento facial, é utilizado o algoritmo de Fisherfaces. O
+    Galileo obtém o frame do servidor (um frame já pré-processado) e atribui um
+    ID a esse frame. Caso o ID seja 255, o frame é considerado como sendo de
+    ninguém conhecido, caso contrário, é enviada uma requisição ao
+    \textit{web service} para descobrir se a pessoa está autorizada a entrar
+    naquele horário. Caso ela esteja autorizada, a fechadura abre.
+
+    Os frames são pré-processados com as seguintes etapas:
+    \begin{itemize}
+        \item Aplica-se uma conversão para tons de cinza;
+        \item Aplica-se uma equalização do histograma no frame;
+        \item Procura os dois olhos da imagem, continua apenas se encontrar;
+        \item Rotaciona-se o frame para os olhos ficarem alinhados no eixo x;
+        \item Aplica-se uma equalização do histograma nos lados direito e
+        esquerdo do rosto;
+        \item Aplica-se o filtro de \textit{smoothing};
+        \item Aplica-se uma máscara eliptica para remoção do pescoço.
+    \end{itemize}
+     Tudo isso, para normalizar todos os frames e facilitar o reconhecimento
+     facial
+
+     O treinamento é feito ao pegar 60 frames pré-processados (da mesma pessoa)
+     e associa-se essa pessoa a um ID (o mesmo utilizado no banco de dados),
+     então é utilizado o algoritmo de Fisherface (que já vem implementado no
+     opencv2) para o treinamento e é gerado um xml (treinado) com esses dados.
+     Posteriormente, o Galileo obtém esse xml e aplica o algoritmo de Fisherface
+     em um frame pré-processado.
+
+\section{Sistema Operacional}
+    O sistema operacional utilizado no servidor é um GNU/Linux genérico, já no
+    Galileo, é utilizado o Yocto Linux com o kernel configurado para
+    \textit{preempt}.
+
+\subsection{Yocto Linux}
+    O Yocto Linux é uma distribuição de Linux desenvolvida especificamente para
+    sistemas embarcados. Para o Galileo, a Intel disponibiliza uma
+     \textit{recipe} específica, dando suporte a placa e aos seus pinos.
+
+    Essa \textit{recipe} adiciona uma biblioteca chamada \textit{mraa},
+    que facilita a interação das portas (assim não é necessário acessar as GPIO
+    diretamente).
+
+\subsection{PREEMPT - Tempo Real}
+    O projeto utiliza um algoritmo de \textit{soft-realtime}, já presente no Linux
+    (configurado com \textit{preempt}), o \textit{fifo}. Este algoritmo tem
+    prioridade sobre qualquer outra forma de escalonamento presente no sistema
+    e executa o escalonamento da seguinte forma:
+    \begin{itemize}
+        \item Procura-se processo com maior prioridade FIFO (0 - menor, 100 -
+        maior);
+        \item Executa-se o processo até ele terminar ou receber uma mensagem de
+        \textit{yield};
+    \end{itemize}
+
+    No Lock-o-tron colocamos o servidor UDP com uma prioridade de 60 e o
+    reconhecimento facial com prioridade 40. Todos os demais processos do
+    sistema operacional não estão incluidos na tabela de tempo-real, então são
+    os últimos a serem escalonados na tabela.
+
+    Por ser um algoritmo de tempo-real estático o \textit{fifo} não consegue
+    garantir que irá cumprir todos os \textit{deadlines}, mas, os resultados obtidos
+    apenas com ele foram muito positivos.
+
+\section{Aplicativo Android}
+    O aplicativo utiliza o \textit{web service} para comunicação com o Galileo e
+    obtenção do histórico. Conta com os seguintes módulos:
+    \begin{description}
+        \item[Panic Button:] Botão de emergência, quando pressionado a porta
+        abre;
+        \item[Update Button:] Botão para o Galileo atualizar seu arquivo de
+        treinamento;
+        \item[Estatísticas:] Menu onde é possível ver diversas informações sobre
+        o uso do sistema.
+    \end{description}
+
+%\section{Banco de Dados}
+
+\section{Trabalhos Futuros}
+    O Lock-o-tron abre portas para diversas possibilidades de expansão:
+    \begin{itemize}
+        \item Melhorar o algoritmo de reconhecimento;
+        \item Adicionar novos níveis de segurança;
+        \item Verificar número de pessoas que estão entrando em conjunto;
+        \item Um sistema de identificação de padrões estranhos.
+    \end{itemize}
+
+\section{Conclusão}
+    Neste artigo foi apresentado as principais característica do Lock-o-tron, um
+    sistema de segurança com reconhecimento facial, descrevendo seus algoritmos,
+    módulos, disposição e bibliotecas utilizadas.
+
+    No final, o sistema criado é capaz de executar a tarefa proposta com certa
+    precisão (ainda sendo regulada), o sistema de prioridades garante que por
+    mais sobrecarregado o Galileo esteja, as tarefas sempre serão executados em
+    tempo hábil.
+
+\bibliographystyle{sbc}
+\bibliography{relatorio}
+
+
+
+
+\end{document}
