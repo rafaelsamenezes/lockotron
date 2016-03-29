@@ -1,6 +1,6 @@
 <?php
 require_once("../controller/AutorizacaoController.class.php");
-header("Content-Type:application/json");
+// header("Content-Type:application/json");
 $access = new AutorizacaoController();
 if (isset($_REQUEST['user_id'])) {
 	if (isset($_POST['user_id']) && $_POST['user_id'] != '') {
@@ -21,8 +21,29 @@ if (isset($_REQUEST['user_id'])) {
 				break;
 		}
 	}
+
+	if (!isset($_GET['notlog'])) {
+		require_once("../controller/HistoricoController.class.php");
+		require_once("../controller/UsuarioController.class.php");
+		$error = false;
+
+		$userController = new UsuarioController();
+		$user = $userController->get($user_id);
+
+		if (count($user) > 0)
+			$user = $user[0];
+		else
+			$error = true;
+
+		if (!$error) {
+			$log = new HistoricoController();
+			echo date('Y-m-d H:i:s', $now);
+			$log->insert(new Historico(null, $user, date('Y-m-d H:i:s', $now), $access));
+		}
+	}
 	echo json_encode(array(
 		'success' => true,
+		'logSuccess' => !$error,
 		'data' => array(
 			'access' => $access,
 			'time' => date('H:i:s', $now),
