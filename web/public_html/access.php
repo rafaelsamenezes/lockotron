@@ -37,7 +37,6 @@ if (isset($_REQUEST['user_id'])) {
 
 		if (!$error) {
 			$log = new HistoricoController();
-			echo date('Y-m-d H:i:s', $now);
 			$log->insert(new Historico(null, $user, date('Y-m-d H:i:s', $now), $access));
 		}
 	}
