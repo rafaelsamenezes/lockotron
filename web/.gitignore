@@ -1,4 +1,5 @@
 *~
 *.local.php
+*.xml
 frame.jpg
 galileo_ip.php
