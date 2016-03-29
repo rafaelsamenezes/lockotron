@@ -1,6 +1,6 @@
 <?php
 require_once("../controller/AutorizacaoController.class.php");
-// header("Content-Type:application/json");
+header("Content-Type:application/json");
 $access = new AutorizacaoController();
 if (isset($_REQUEST['user_id'])) {
 	if (isset($_POST['user_id']) && $_POST['user_id'] != '') {
