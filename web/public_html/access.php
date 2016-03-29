@@ -22,7 +22,7 @@ if (isset($_REQUEST['user_id'])) {
 		}
 	}
 
-	if (!isset($_GET['notlog'])) {
+	if (!isset($_GET['nolog'])) {
 		require_once("../controller/HistoricoController.class.php");
 		require_once("../controller/UsuarioController.class.php");
 		$error = false;
@@ -39,6 +39,8 @@ if (isset($_REQUEST['user_id'])) {
 			$log = new HistoricoController();
 			$log->insert(new Historico(null, $user, date('Y-m-d H:i:s', $now), $access));
 		}
+	} else {
+		$error = true;
 	}
 	echo json_encode(array(
 		'success' => true,
