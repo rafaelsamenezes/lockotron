@@ -34,8 +34,8 @@ int main(int argc, char* argv[])
       for(int j=0; j<quantity; j++){
           ostringstream convert;
           convert << j;
-          images.push_back(imread(path_samples+names[i] + "frame" + convert.str() + ".jpg", CV_LOAD_IMAGE_GRAYSCALE));
-          cout << path_samples+names[i] + "frame" + convert.str() + ".jpg" << endl;
+          images.push_back(imread(path_samples+names[i] + "/frame" + convert.str() + ".jpg", CV_LOAD_IMAGE_GRAYSCALE));
+          cout << path_samples+names[i] + "/frame" + convert.str() + ".jpg" << endl;
           labels.push_back(atoi(names.at(i).c_str()));
       }
   }
