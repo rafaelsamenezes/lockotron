@@ -16,14 +16,17 @@ void loadFrames(int samples);
 int main(int argc, char* argv[])
 {
   if (argc < 2)
-    cerr << "Usage: ./Trainer <path-to-samples> <path-to-target> <samples-number> <ids>" << endl;
+    cerr << "Usage: ./Trainer <path-to-samples> <path-to-target> <samples-number> <ids> <mode>" << endl;
   string path_samples = argv[1];
   string path_target = argv[2];
   quantity = atoi(argv[3]);
   loadFrames(atoi(argv[4]));
-
+  int algorithm = atoi(argv[5]);
   Ptr<FaceRecognizer> model;
-  model = Algorithm::create<FaceRecognizer>(fisherface);
+  if (algorithm == 0)
+    model = Algorithm::create<FaceRecognizer>(fisherface);
+  else
+    model = Algorithm::create<FaceRecognizer>(eigenface);
   //model->train(frames, labels);
   //
 

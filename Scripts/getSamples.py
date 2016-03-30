@@ -18,7 +18,7 @@ def main():
     print folder_name
     checkFolder(folder_name)
     os.system(lv.getSamples_path + " " + folder_name)
-    command = lv.trainer_bin + " " + lv.samples_path + " " + lv.target_path + " " + str(lv.samples_number) + " " + getIdNumber()
+    command = lv.trainer_bin + " " + lv.samples_path + " " + lv.target_path + " " + str(lv.samples_number) + " " + getIdNumber() + " " + lv.train_mode
     os.system(command)
     urlopen("http://127.0.0.1:82/galileo.php?update")
 

@@ -1,5 +1,6 @@
 # GlobalVariables
 target_path = "../web/"
+train_mode = "1"
 
 # GetSamples
 getSamples_path = "../OpenCV/bin/default/GetSamples"

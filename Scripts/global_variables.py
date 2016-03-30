@@ -7,6 +7,7 @@ trainer_bin = ""
 target_path = ""
 samples_number = 0
 ids = 0
+train_mode = '0'
 
 # GetPicture
 getPicture_path = "../OpenCV/bin/default/GetPicture"
