@@ -65,9 +65,16 @@
 
 \section{Dispositivos}
     O sistema é dividido em duas partes principais: O Galileo, responsável por
-    controlar, e o servidor, responsável por administrar.
+    controlar, e o servidor, responsável por administrar. A figura \ref{fig:bigpicture}
+    contém o \textit{Big Picture} do Lock-o-tron.
 
-    %TODO: [BIG PICTURE]
+   \begin{figure}[ht]
+		\centering
+		\includegraphics[width=.5\textwidth]{big-picture.jpg}
+		\caption{Big Picture}
+		\label{fig:bigpicture}
+	\end{figure}
+
 
 \subsection{Galileo}
     No Galileo conectamos:
@@ -89,7 +96,7 @@
     \textit{web service} e uma interface Web.
 \subsection{Servidor UDP}
     Esse servidor UDP, que é executado no Galileo, é responsável pela interação
-    de outros ambientes com o Galileo. Através destas mensagens UDPm é possível
+    de outros ambientes com o Galileo. Através destas mensagens UDP é possível
     abrir a porta e solicitar atualizações.
     A prioridade do servidor UDP é a mais alta no Galileo, então, sempre que
     alguém enviar uma mensagem, os outros processos serão interrompidos para que
