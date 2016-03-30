@@ -70,7 +70,7 @@
 
    \begin{figure}[ht]
 		\centering
-		\includegraphics[width=.5\textwidth]{big-picture.jpg}
+		\includegraphics[width=.5\textwidth]{big-picture}
 		\caption{Big Picture}
 		\label{fig:bigpicture}
 	\end{figure}
@@ -85,19 +85,31 @@
         \item[Fechadura elétrica:] A fechadura é o atuador final do sistema,
         sendo ativada para abrir a porta.
     \end{description}
+
+    A figura~\ref{fig:schema} mostra o esquema do circuito em um Galileo. Na
+    aplicação real, porém, o LED seria substituído por uma fechadura elétrica,
+    sem muitas alterações no circuito.
+
+   \begin{figure}[ht]
+		\centering
+		\includegraphics[width=.5\textwidth]{schematics}
+		\caption{Esquema do circuito do Galileo}
+		\label{fig:schema}
+	\end{figure}
+
 \subsection{Servidor}
     No Servidor conectamos:
     \begin{description}
         \item[Câmera:] A câmera obtém os frames e os salva no servidor.
     \end{description}
-    
+
 \subsection{Orçamento}
 % Salário esperado: R$2000,00 => R$/h = 17
-	O orçamento foi baseado em que cada programador receberia R\$2000,00 mensais 
+	O orçamento foi baseado em que cada programador receberia R\$2000,00 mensais
 	(sendo 20 dias úteis), trabalhando 6 horas por dia. O projeto levou em torno
 	de 30 dias para ser desenvolvido. A tabela \ref{orcamento} mostra o orçamento
 	do projeto
-	
+
 	\begin{table}[]
 	\centering
 	\caption{Orçamento}
@@ -110,9 +122,18 @@
 	Fechadura elétrica       & R\$ 159,00     \\
 	Implementaçao do Sistema & R\$ 6.120,00   \\
 	\textbf{Total:}          & R\$ 6.997,80   \\
-                         &               
+                         &
 	\end{tabular}
+<<<<<<< HEAD
 	\end{table}		
+=======
+	\end{table}
+
+
+
+
+
+>>>>>>> 3c89001ec80b66c5e81118a85fe0f63891dd6d62
 
 \section{Comunicação interna}
     Para comunicação do sistema foram utilizados: um servidor UDP, um
@@ -126,14 +147,14 @@
     alguém enviar uma mensagem, os outros processos serão interrompidos para que
     a ação pedida seja executada. A figura \ref{fig:petri-udp} mostra a rede de
     Petri que representa as computações do servidor UDP.
-    
+
     \begin{figure}[ht]
 		\centering
-		\includegraphics[width=.7\textwidth]{petri-udp.png}
+		\includegraphics[width=.7\textwidth]{petri-udp}
 		\caption{Rede de Petri do servidor UDP}
 		\label{fig:petri-udp}
 	\end{figure}
-	
+
 \subsection{Web Service}
     O \textit{web service}, executado no servidor, é responsável pela interação
     de todos os ambientes entre si. As suas funções são:
@@ -184,7 +205,7 @@
      algoritmo de \textit{Fisherfaces} em um frame pré-processado. A figura
      \ref{fig:petri-reconhecimento} ilustra a rede de Petri das computações
      de reconhecimento facial no Galileo.
-     
+
      \begin{figure}[ht]
 		\centering
 		\includegraphics[width=1\textwidth]{petri-reconhecimento.png}
@@ -249,6 +270,7 @@
         \item Melhorar o algoritmo de reconhecimento;
         \item Adicionar novos níveis de segurança;
         \item Verificar número de pessoas que estão entrando em conjunto;
+        \item Automação da sala adaptável às preferências do usuário reconhecido;
         \item Um sistema para identificação de padrões de comportamento estranhos.
     \end{itemize}
 
