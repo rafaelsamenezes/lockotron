@@ -90,6 +90,34 @@
     \begin{description}
         \item[Câmera:] A câmera obtém os frames e os salva no servidor.
     \end{description}
+    
+\subsection{Orçamento}
+% Salário esperado: R$2000,00 => R$/h = 17
+	O orçamento foi baseado em que cada programador receberia R\$2000,00 mensais 
+	(sendo 20 dias úteis), trabalhando 6 horas por dia. O projeto levou em torno
+	de 30 dias para ser desenvolvido. A tabela \ref{orcamento} mostra o orçamento
+	do projeto
+	
+	\begin{table}[]
+	\centering
+	\caption{Orçamento}
+	\label{orcamento}
+	\begin{tabular}{ll}
+	\textbf{Produto}         & \textbf{Valor} \\
+	Intel Galileo            & R\$ 499,90     \\
+	Sensor de presença       & R\$ 18,90      \\
+	Câmera                   & R\$ 200,00     \\
+	Fechadura elétrica       & R\$ 159,00     \\
+	Implementaçao do Sistema & R\$ 6.120,00   \\
+	\textbf{Total:}          & R\$ 6.997,80   \\
+                         &               
+	\end{tabular}
+	\end{table}	
+	
+	
+	
+	
+	
 
 \section{Comunicação interna}
     Para comunicação do sistema foram utilizados: um servidor UDP, um
@@ -100,7 +128,16 @@
     abrir a porta e solicitar atualizações.
     A prioridade do servidor UDP é a mais alta no Galileo, então, sempre que
     alguém enviar uma mensagem, os outros processos serão interrompidos para que
-    a ação pedida seja executada.
+    a ação pedida seja executada. A figura \ref{fig:petri-udp} mostra a rede de
+    Petri que representa as computações do servidor UDP.
+    
+    \begin{figure}[ht]
+		\centering
+		\includegraphics[width=.7\textwidth]{petri-udp.png}
+		\caption{Rede de Petri do servidor UDP}
+		\label{fig:petri-udp}
+	\end{figure}
+	
 \subsection{Web Service}
     O \textit{web service}, executado no servidor, é responsável pela interação
     de todos os ambientes entre si. As suas funções são:
@@ -144,7 +181,16 @@
      então é utilizado o algoritmo de \textit{Fisherfaces} (que já vem
      implementado no opencv2) para o treinamento e é gerado um xml (treinado)
      com esses dados. Posteriormente, o Galileo obtém esse XML e aplica o
-     algoritmo de \textit{Fisherfaces} em um frame pré-processado.
+     algoritmo de \textit{Fisherfaces} em um frame pré-processado. A figura
+     \ref{fig:petri-reconhecimento} ilustra a rede de Petri das computações
+     de reconhecimento facial no Galileo.
+     
+     \begin{figure}[ht]
+		\centering
+		\includegraphics[width=1\textwidth]{petri-reconhecimento.png}
+		\caption{Rede de Petri do Reconhecimento}
+		\label{fig:petri-reconhecimento}
+	\end{figure}
 
 \section{Sistema Operacional}
     O sistema operacional utilizado no servidor é um GNU/Linux genérico, já no
