@@ -4,7 +4,7 @@ require_once '../model/historico.php';
 require_once 'UsuarioController.class.php';
 
 /**
-*
+* Operações relacionadas à tabela de histórico
 */
 class HistoricoController
 {
@@ -14,6 +14,11 @@ class HistoricoController
         $this->conn = (new DbConnect())->getConnection();
     }
 
+    /**
+     * Insere um registro no banco de dados
+     * @param  Historico $log  O registro a ser inserido
+     * @return Historico       O registro inserido, com o ID
+     */
     function insert(Historico $log) {
         $stmt = $this->conn->prepare("INSERT INTO historico (usuario_id, data_hora, status) "
                                         . "VALUES (?, ?, ?)");
@@ -25,6 +30,10 @@ class HistoricoController
         return $log;
     }
 
+    /**
+     * Obtém todos os valores da tabela, ordenados pelo mais recente.
+     * @return array Array com os dados do histórico
+     */
     function getAll() {
         $stmt = $this->conn->query('SELECT * FROM historico ORDER BY data_hora DESC');
         $data = $stmt->fetchAll();
@@ -34,6 +43,11 @@ class HistoricoController
         return $data;
     }
 
+    /**
+     * Converte um array para objeto
+     * @param  array  $array Array associativo com os valores da tabela
+     * @return Historico   Objeto convertido
+     */
     private function arrayToObject(array $array) {
         $usuario = (new UsuarioController())->get($array['usuario_id']);
         return new Historico(

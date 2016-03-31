@@ -16,6 +16,10 @@ class DbConnect
                 PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) );
     }
 
+    /**
+     * Retorna a conexão do banco de dados
+     * @return PDO
+     */
     public function getConnection() {
         return $this->conn;
     }
