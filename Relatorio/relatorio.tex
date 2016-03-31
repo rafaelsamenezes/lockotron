@@ -148,27 +148,27 @@
 	\end{figure}
 
 \subsection{Web Service}
-    O \textit{web service}, executado no servidor, é responsável pela interação
-    de todos os ambientes entre si. As suas funções são:
+    O \textit{web service}, executado no servidor, foi desenvolvido em PHP e é responsável pela interação de todos os ambientes entre si. As suas funções são:
     \begin{itemize}
         \item Enviar frames para o Galileo;
         \item Enviar atualizações para o Galileo;
         \item Enviar requisições UDP de abrir porta para o Galileo;
         \item Enviar requisições UDP de atualizar para o Galileo;
-        \item Alterações no banco de dados;
-        \item Requisições do banco de dados.
+        \item Alterações no banco de dados (utilizando PDO);
+        \item Requisições do banco de dados (utilizando PDO).
     \end{itemize}
 
 \subsection{Interface Web}
     A interface Web, executada no servidor, ficou responsável por ser um meio
-    multiplataforma para modificar o banco de dados.
+    multiplataforma para modificar o banco de dados. Foi utilizado o \textit{framework Material Design Lite} para CSS.
 
 \section{Reconhecimento Facial}
 % tamanho fisherface: 60 frames 4 pessoas = 534,5kb
 % tamanho eigenface: 60 frames 4 pessoas = 31,4MB
-    Para o reconhecimento facial, são utilizados os algoritmos de	\textit{Fisherfaces} e \textit{Eigenfaces}. Para 4 pessoas, obtendo 60 frames
+    Para o reconhecimento facial, foram utilizados os algoritmos de	\textit{Fisherfaces} e \textit{Eigenfaces}. Para 4 pessoas, obtendo 60 frames
     o \textit{Fisherfaces} ocupou $534,5$KB's, já o \textit{Eigenfaces} ocupou
-    $31,4$MB's.
+    $31,4$MB's. Por se tratar de um sistema embarcado com espaço limitado, o 
+    algoritmo de \textit{Fisherfaces} foi escolhido como definitivo.
     O Galileo obtém o frame do servidor (um frame já pré-processado) e atribui
     um ID a esse frame. Caso o ID seja 255, o frame é considerado como sendo de
     ninguém conhecido, caso contrário, é enviada uma requisição ao
@@ -254,7 +254,21 @@
         o uso do sistema.
     \end{description}
 
-%\section{Banco de Dados}
+\section{Banco de Dados}
+	O sistema utilizou um banco de dados SQL, o \textit{MySQL}, para armazenamento dos dados. A figura~\ref{fig:ent-rel} mostra o diagrama de entidade-relacionamento. Foi utilizado as seguintes tabelas:
+
+		\begin{description}
+			\item [usuario:] Utilizada para armazenar o usuários do sistema;
+			\item [historico:] Utilizada para armazenar os \textit{logs} de quem tentou entrar (armazenando se obteve acesso ou não) e qual a data/hora;
+			\item [autorizacao:] Utilizada para armazenar quais horários e dias os usuários estão autorizados a entrar.
+		\end{description}
+		
+		\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.7\textwidth]{bd-der}
+		\caption{Diagrama entidade-relacionamento}
+		\label{fig:ent-rel}
+	\end{figure}
 
 \section{Trabalhos Futuros}
     O Lock-o-tron abre portas para diversas possibilidades de expansão:
