@@ -14,13 +14,15 @@
 
 \title{Lock-o-tron}
 
-\author{Rafael Sá Menezes\inst{1}, Rodrigo dos Santos Tavares\inst{1}, Herbert Rocha\inst{1} }
+\author{Rafael Sá Menezes\inst{1}, Rodrigo dos Santos Tavares\inst{1},
+Felipe Leite Lobo\inst{1},\\Herbert Rocha\inst{1}, Thais Oliveira Almeida\inst{1} }
 
 
 \address{Departamento de Ciência da Computação -- Centro de Ciência e Tecnologia
   \\Universidade Federal de Roraima (UFRR)\\
   Boa Vista -- RR -- Brazil
-  \email{\{rafa.sa,rodrigo.tavares, herbert.rocha\}@ufrr.br}
+  \email{\{rafa.sa, rodrigo.tavares, felipe.lobo, herbert.rocha,}
+  \email{thais.oliveira\}@ufrr.br}
 }
 
 \begin{document}
@@ -124,13 +126,13 @@
 	\textbf{Total:}          & R\$ 6.997,80   \\
                          &
 	\end{tabular}
-	\end{table}		
+	\end{table}
 
 
 \section{Comunicação interna}
     Para comunicação do sistema foram utilizados: um servidor UDP, um
     \textit{web service} e uma interface Web.
-    
+
 \subsection{Servidor UDP}
     Esse servidor UDP, que é executado no Galileo, é responsável pela interação
     de outros ambientes com o Galileo. Através destas mensagens UDP é possível
@@ -167,7 +169,7 @@
 % tamanho eigenface: 60 frames 4 pessoas = 31,4MB
     Para o reconhecimento facial, foram utilizados os algoritmos de	\textit{Fisherfaces} e \textit{Eigenfaces}. Para 4 pessoas, obtendo 60 frames
     o \textit{Fisherfaces} ocupou $534,5$KB's, já o \textit{Eigenfaces} ocupou
-    $31,4$MB's. Por se tratar de um sistema embarcado com espaço limitado, o 
+    $31,4$MB's. Por se tratar de um sistema embarcado com espaço limitado, o
     algoritmo de \textit{Fisherfaces} foi escolhido como definitivo.
     O Galileo obtém o frame do servidor (um frame já pré-processado) e atribui
     um ID a esse frame. Caso o ID seja 255, o frame é considerado como sendo de
@@ -262,7 +264,7 @@
 			\item [historico:] Utilizada para armazenar os \textit{logs} de quem tentou entrar (armazenando se obteve acesso ou não) e qual a data/hora;
 			\item [autorizacao:] Utilizada para armazenar quais horários e dias os usuários estão autorizados a entrar.
 		\end{description}
-		
+
 		\begin{figure}[ht]
 		\centering
 		\includegraphics[width=0.7\textwidth]{bd-der}
