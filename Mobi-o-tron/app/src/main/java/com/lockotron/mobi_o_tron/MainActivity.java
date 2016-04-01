@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        test(); // TODO: Remover este teste
+
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,5 +128,10 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+    // TODO: Tirar esse exemplo daqui
+    static {
+        System.loadLibrary("lockotron");
+    }
+    private native void test();
 
 }
