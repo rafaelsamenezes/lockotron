@@ -31,8 +31,6 @@ if __name__ == '__main__':
                 if (authorization):
                     print "Acesso Permitido"
                     control.openDoor()
-                    time.sleep(3)
-                    lock.closeDoor()
     except KeyboardInterrupt:
         print "Fim do programa"
         t1.join()
