@@ -26,6 +26,7 @@ android {
     //Desabilita a chamada automatica do ndk-build pelo Android Studio,
     //pois evita que o arquivo jni/Android.mk seja ignorado
     sourceSets.main.jni.srcDirs = []
+    //sourceSets.main.jni.srcDirs = ["src/main/jni"] // Remover para usar Android.mk
 
     //Diz para o Android Studio onde as biblitecas vão serão colocadas após o nkd-build compila-las
     sourceSets.main.jniLibs.srcDir 'src/main/libs'

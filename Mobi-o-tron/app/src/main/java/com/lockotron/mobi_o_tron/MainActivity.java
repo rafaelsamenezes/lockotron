@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.lockotron.mobi_o_tron.util.Statistics;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -28,7 +31,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        test(); // TODO: Remover este teste
+        int teste = Statistics.mostFrequentUser(new int[]{2, 3, 4, 4, 4, 2, 1}); // TODO: Remover este teste
+        Toast.makeText(this, "TESTE: "+ teste, Toast.LENGTH_LONG).show();
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +136,5 @@ public class MainActivity extends AppCompatActivity
     static {
         System.loadLibrary("lockotron");
     }
-    private native void test();
 
 }
