@@ -26,10 +26,10 @@
 
 
 \section{Identificação e histórico da equipe}
-\paragrafo{Descreva de forma clara a experiência da equipe e do professor responsável na área de sistemas embarcados} \\
-\idEquipe{Herbert Oliveira Rocha}{Professor efetivo da Universidade Federal de Roraima. }
-\idEquipe{Rafael Sá Menezes}{Aluno do quinto perído de Ciência da Computação da Universidade Federal de Roraima. Neste período desenvolveu em conjunto do Rodrigo dos Santos Tavares e sob a orientação do Prof. Dr. Herbert Oliveira Rocha o Lock-o-tron, um sistema de reconhecimento facial que abria uma fechadura utilizando um Intel Galileo, neste sistema, foi responsável pelo módulo de reconhecimento facial, pela parte embarcada do software e ajudou a tornar o sistema soft-realtime.}
-\idEquipe{Rodrigo dos Santos Tavares}{Descrição.}
+\paragrafo{A equipe é composta por dois alunos e um professor do curso de Ciência da Computação da Universidade Federal de Roraima. } \\
+\idEquipe{Herbert Oliveira Rocha}{Professor efetivo da Universidade Federal de Roraima. Fez doutorado e mestrado na Universidade Federal do Amazonas com foco em sistemas embarcados. Seus trabalhos são principalmente na área de verificação formal utilizando Bounded Modl Checking}
+\idEquipe{Rafael Sá Menezes}{Aluno do quinto perído de Ciência da Computação da Universidade Federal de Roraima. Desenvolveu em conjunto do Rodrigo dos Santos Tavares e sob a orientação do Prof. Dr. Herbert Oliveira Rocha o Lock-o-tron, um sistema de reconhecimento facial que abria uma fechadura utilizando um Intel Galileo.}
+\idEquipe{Rodrigo dos Santos Tavares}{Aluno do quinto perído de Ciência da Computação da Universidade Federal de Roraima. Desenvolveu em conjunto do Rafael Sá Menezes e sob a orientação do Prof. Dr. Herbert Oliveira Rocha o Lock-o-tron, um sistema de reconhecimento facial que abria uma fechadura utilizando um Intel Galileo.}
 
 
 \section{Descrição do sistema embarcado a ser desenvolvido}
@@ -37,16 +37,21 @@
 \paragrafo{O Home-o-tron é um sistema de automação residencial que utiliza o reconhecimento facial para detectar usuário e ativar e configurar os equipamentos na casa. Essas configurações serão definidas anteriormente pelos usuários através de um aplicativo Android e/ou utilizando uma interface Web. O Intel Galileo seria utilizado para efetuar o reconhecimento e controlar os equipamentos (além de poder cadastrar novos usuários).}
 \paragrafo{O sistema poderá controlar portas, luzes e outros equipamentos eletrônicos utilizando o Intel Galileo para isso. A vantagem disso é que será possível controlar tudo utilizando a IoT (mesmo que o usuário não esteja em casa), o sistema somente controlorá equipamentos definidos para cada usuário. Utilizando o aplciativo Android ou uma página web, o usuário poderá logar na sua conta e acionar dispositivos no seu lar.}
 \paragrafo{O aplicativo Android e a interface web,  serão formas simples de modificar o sistema e acionar/verificar o estado dos equipamentos. Para a utilização, o usuário deverá entrar com um login e senha, ao logar o usuário poderá escolher entre ver estatísticas de uso e controle. Caso o usuário seja um administrador, será capaz de adicionar/remover novos usuários e definir quais usuários terão acesso a cada equipamento. }
-\paragrafo{[BIG PICTURE]}
+
 
 \section{Justificativa e áreas de aplicação}
 %palavras-chave: Galileo, IoT, Android, Reconhecimento, Acessível (preço), expansível, responsível, padrões, IA, sustentabilidade.
-\paragrafo{Com a evolução da tecnologia, está cada vez mais acessível automatizar ambientes. O Home-o-tron é uma proposta para isso.  }
+\paragrafo{Com a evolução da tecnologia, está cada vez mais acessível automatizar ambientes. O Home-o-tron é uma proposta que utilizará o Intel Galileo para automatizar ambientes residenciais.  Utilizando o reconhecimento facial, Android ou web ficaria muito mais simples de controlar o lar.}
+\paragrafo{O sistema pode ser aplicado para muitas áreas e tem diversas possibilidades de expansão como:}
+\begin{itemize}
+	\item Utilização das estatísticas de uso para descobrir padrões de uso;
+	\item Reduzir o custo de energia, pois o sistema pode avisar o usuário caso algum equipamento esteja sendo utilizado desnecessariamente;
+	\item Auxiliar portadores de alguma deficiência, de forma que fiquem mais idempendentes;
+	\item Regular o uso de equipamentos em um ambiente, podendo limitar horários de uso.
+\end{itemize}
 
 
 \section{Cronograma de implementação do sistema embarcado a ser desenvolvido}
-Descreva as etapas do projeto e a datas de conclusão de cada uma das etapas
-
 \paragrafo{(03/04) Envio da proposta \\
 (03/04 - 10/04) Levantamento de requisitos \\
 (10/04 - 20/04) Desenvolvimento do webservice \\
