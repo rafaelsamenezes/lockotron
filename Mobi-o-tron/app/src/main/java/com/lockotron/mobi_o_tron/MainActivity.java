@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        int teste = Statistics.mostFrequentUser(new int[]{2, 3, 4, 4, 4, 2, 1}); // TODO: Remover este teste
-        Toast.makeText(this, "TESTE: "+ teste, Toast.LENGTH_LONG).show();
-
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

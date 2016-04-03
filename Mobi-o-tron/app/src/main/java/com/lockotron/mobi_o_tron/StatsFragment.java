@@ -1,9 +1,13 @@
 package com.lockotron.mobi_o_tron;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -11,7 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.model.Usuario;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,6 +43,10 @@ public class StatsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Snackbar serverNotSetSnackbar;
+    private Snackbar serverErrorSnackbar;
+    private List<Usuario> mUsersList = new ArrayList<>();
+    private UsersAdapter mUsersAdapter;
 
     public StatsFragment() {
         // Required empty public constructor
@@ -83,17 +96,30 @@ public class StatsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // snackbar que mostra erro caso servidor não tenha sido definido
+        serverNotSetSnackbar = Snackbar.make(getView(), ServerNotSetException.PUBLIC_ERROR_MESSAGE, Snackbar.LENGTH_INDEFINITE);
+        serverNotSetSnackbar.setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+                startActivity(intent);
+            }
+        });
 
-        Usuario[] usuarios = new Usuario[2];
-        usuarios[0] = new Usuario(1, "Rodrigo (DEBUG)");
-        usuarios[1] = new Usuario(2, "Rafael (DEBUG)");
+        serverErrorSnackbar = Snackbar.make(getView(), R.string.error_server_generic, Snackbar.LENGTH_LONG);
 
-        UsersAdapter adapter = new UsersAdapter(getContext(), usuarios);
+        mUsersAdapter = new UsersAdapter(getContext(), mUsersList);
 
         AppCompatSpinner spinner = (AppCompatSpinner) getView().findViewById(R.id.user);
-        spinner.setAdapter(adapter);
+        spinner.setAdapter(mUsersAdapter);
 
-        
+        GetUsersTask getLogTask = new GetUsersTask();
+        getLogTask.execute(getContext());
+        spinner.setAdapter(mUsersAdapter);
+
+
     }
 
     @Override
@@ -130,9 +156,9 @@ public class StatsFragment extends Fragment {
 
     class UsersAdapter extends ArrayAdapter<Usuario>{
         private final Context context;
-        private final Usuario[] users;
+        private final List<Usuario> users;
 
-        public UsersAdapter(Context context, Usuario[] users) {
+        public UsersAdapter(Context context, List<Usuario> users) {
             super(context, android.R.layout.simple_list_item_1, android.R.id.text1, users);
             this.context = context;
             this.users = users;
@@ -140,17 +166,46 @@ public class StatsFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return users.length;
+            return users.size();
         }
 
         @Override
         public Usuario getItem(int position) {
-            return users[position];
+            return users.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return users[position].getId();
+            return users.get(position).getId();
+        }
+    }
+
+    class GetUsersTask extends AsyncTask<Context, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Void doInBackground(Context... contexts) {
+            try {
+                mUsersList.clear();
+                mUsersList.addAll(com.lockotron.mobi_o_tron.controller.Usuario.getAll(contexts[0]));
+            } catch (IOException e) {
+                serverErrorSnackbar.show();
+                e.printStackTrace();
+            } catch (ServerNotSetException e) {
+                serverNotSetSnackbar.show();
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            synchronized (mUsersAdapter){
+                mUsersAdapter.notifyDataSetChanged();
+            }
         }
     }
 }
