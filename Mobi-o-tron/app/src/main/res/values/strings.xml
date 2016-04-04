@@ -35,5 +35,7 @@
     <string name="control_door_description">To control the door manually, overriding the facial recognition, press the button below.</string>
     <string name="error_server_generic">Server could not be reached</string>
     <string name="error_server_galileo">Galileo could not be contacted by the server.\nPlease, set up Galileo\'s IP correctly on the server.</string>
+    <string name="pref_use_native_title">High performance</string>
+    <string name="pref_use_native_summary">Uses native code to optimize statistics calculations</string>
 
 </resources>

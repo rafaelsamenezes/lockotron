@@ -11,4 +11,10 @@
         android:singleLine="true"
         android:title="@string/pref_title_server_address" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="use_native"
+        android:title="@string/pref_use_native_title"
+        android:summary="@string/pref_use_native_summary"/>
+
 </PreferenceScreen>

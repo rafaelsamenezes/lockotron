@@ -92,6 +92,8 @@ public class StatsFragment extends Fragment {
 
         AppCompatSpinner spinner = (AppCompatSpinner) getView().findViewById(R.id.user);
         spinner.setAdapter(adapter);
+
+        
     }
 
     @Override
