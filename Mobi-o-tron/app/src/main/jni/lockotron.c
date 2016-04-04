@@ -5,7 +5,6 @@
 
 #include <android/log.h>
 
-#include "src/statistics.c"
 
 #define LOG(fmt, ...) __android_log_print(ANDROID_LOG_INFO, "MOBI-O-TRON-TURBO", fmt, ##__VA_ARGS__)
 
