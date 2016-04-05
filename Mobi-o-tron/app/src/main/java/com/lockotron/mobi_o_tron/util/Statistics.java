@@ -197,7 +197,7 @@ public class Statistics {
         else
             day = getMode(days);
 
-        return DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays()[day];
+        return day >= 0 && day <= 7 ? DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays()[day] : null;
     }
     
     public static void testPerformance() {
@@ -252,25 +252,24 @@ public class Statistics {
     }
 
     private static int lessRepeated(int[] values) {
-        //FIXME: Fazer funcionar isso aqui.
-        Arrays.sort(values);
+        quickSort(values, 0, values.length-1);
 
-        int menor = 0;
+        int menor = values[0];
         int valorAtual = values[0];
         int quantidadeMin = values.length;
-        int quantidadeAtual = 0;
+        int quantidadeAtual = 1;
 
-        for (int userId : values) {
-            if (userId == valorAtual) {
+        for(int i = 1; i < values.length; i++){
+            if (values[i] == valorAtual) {
                 quantidadeAtual++;
-            } else {
-                valorAtual = userId;
-                quantidadeAtual = 1;
             }
-
-            if (quantidadeAtual < quantidadeMin) {
-                quantidadeMin = quantidadeAtual;
-                menor = userId;
+            else {
+                if (quantidadeAtual <= quantidadeMin) {
+                    quantidadeMin = quantidadeAtual;
+                    menor = values[i];
+                }
+                valorAtual = values[i];
+                quantidadeAtual = 1;
             }
         }
         return menor;
