@@ -133,11 +133,16 @@ public class StatsFragment extends Fragment {
     }
 
     void refreshUi(Activity activity){
+        String notAvailable = activity.getString(R.string.not_available);
+
         Usuario mostFrequentUser = Statistics.mostFrequentUser(activity, mLogList);
-        ((TextView) activity.findViewById(R.id.most_freq_user)).setText(mostFrequentUser.getNome());
+        ((TextView) activity.findViewById(R.id.most_freq_user)).setText(mostFrequentUser != null ? mostFrequentUser.getNome() : notAvailable);
 
         Usuario lessFrequentUser = Statistics.lessFrequentUser(activity, mLogList);
-        ((TextView) activity.findViewById(R.id.less_freq_user)).setText(lessFrequentUser.getNome());
+        ((TextView) activity.findViewById(R.id.less_freq_user)).setText(lessFrequentUser != null ? lessFrequentUser.getNome() : notAvailable);
+
+        String mostFrequentTime = Statistics.mostFrequentTime(activity, mLogList);
+        ((TextView) activity.findViewById(R.id.most_freq_time)).setText(mostFrequentTime != null ? mostFrequentTime : notAvailable);
     }
 
 

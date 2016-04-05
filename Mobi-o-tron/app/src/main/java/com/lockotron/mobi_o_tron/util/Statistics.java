@@ -1,16 +1,19 @@
 package com.lockotron.mobi_o_tron.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
-import com.lockotron.mobi_o_tron.R;
 import com.lockotron.mobi_o_tron.model.Historico;
 import com.lockotron.mobi_o_tron.model.Usuario;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class Statistics {
 
@@ -27,7 +30,7 @@ public class Statistics {
     public static com.lockotron.mobi_o_tron.model.Usuario mostFrequentUser(Context context, List<Historico> log){
         int userId;
         if (log.size() == 0)
-            return new Usuario(0, context.getString(R.string.not_available));
+            return null;
         com.lockotron.mobi_o_tron.model.Usuario user = log.get(0).getUsuario();
         int[] idArray = new int[log.size()];
 
@@ -38,7 +41,7 @@ public class Statistics {
         if (isNative(context))
             userId = Native.mostFrequentUser(idArray);
         else
-            userId = mostFrequentUser(idArray);
+            userId = getMode(idArray);
 
         for (int i = 0; i < log.size(); i++) {
             if (log.get(i).getId() == userId) {
@@ -50,10 +53,11 @@ public class Statistics {
         return user;
     }
 
+    @Nullable
     public static Usuario lessFrequentUser(Context context, List<Historico> log) {
         int userId;
         if (log.size() == 0)
-            return new Usuario(0, context.getString(R.string.not_available));
+            return null;
         com.lockotron.mobi_o_tron.model.Usuario user = log.get(0).getUsuario();
         int[] idArray = new int[log.size()];
 
@@ -64,7 +68,7 @@ public class Statistics {
         if (isNative(context))
             userId = Native.lessFrequentUser(idArray);
         else
-            userId = lessFrequentUser(idArray);
+            userId = lessRepeated(idArray);
 
         for (int i = 0; i < log.size(); i++) {
             if (log.get(i).getId() == userId) {
@@ -76,16 +80,55 @@ public class Statistics {
         return user;
     }
 
-    private static int lessFrequentUser(int[] userIds) {
+    @Nullable
+    public static String mostFrequentTime(Context context, List<Historico> log, int userId){
+        List<Historico> newList = new ArrayList<>(log);
+
+        for (Historico l : newList) {
+            if (l.getUsuario().getId() != userId) {
+                newList.remove(l);
+            }
+        }
+
+        return mostFrequentTime(context, newList);
+    }
+
+    @Nullable
+    public static String mostFrequentTime(Context context, List<Historico> log) {
+        if (log.size() == 0)
+            return null;
+
+        int[] hours = new int[log.size()];
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+
+        for (int i = 0; i < log.size(); i++) {
+            try {
+                hours[i] = dateFormat.parse(log.get(i).getData()).getHours();
+            } catch (ParseException e) {
+                hours[i] = -1;
+            }
+        }
+
+        int time;
+        if (isNative(context))
+            time = Native.mostFrequentUser(hours);
+        else
+            time = getMode(hours);
+
+        return String.format(Locale.getDefault(), "%02d:00 - %02d:00", time, time+1);
+    }
+
+    private static int lessRepeated(int[] values) {
         //FIXME: Fazer funcionar isso aqui.
-        Arrays.sort(userIds);
+        Arrays.sort(values);
 
         int menor = 0;
-        int valorAtual = userIds[0];
-        int quantidadeMin = userIds.length;
+        int valorAtual = values[0];
+        int quantidadeMin = values.length;
         int quantidadeAtual = 0;
 
-        for (int userId : userIds) {
+        for (int userId : values) {
             if (userId == valorAtual) {
                 quantidadeAtual++;
             } else {
@@ -101,15 +144,15 @@ public class Statistics {
         return menor;
     }
 
-    private static int mostFrequentUser(int[] userIds) {
-        Arrays.sort(userIds);
+    private static int getMode(int[] values) {
+        Arrays.sort(values);
 
         int maior = 0;
-        int valorAtual = userIds[0];
+        int valorAtual = values[0];
         int quantidadeMax = 0;
         int quantidadeAtual = 0;
 
-        for (int userId : userIds) {
+        for (int userId : values) {
             if (userId == valorAtual) {
                 quantidadeAtual++;
             } else {
