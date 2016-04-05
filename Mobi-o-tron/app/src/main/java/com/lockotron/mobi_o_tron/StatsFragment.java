@@ -1,5 +1,6 @@
 package com.lockotron.mobi_o_tron;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
 import com.lockotron.mobi_o_tron.model.Usuario;
+import com.lockotron.mobi_o_tron.util.Statistics;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -115,11 +119,18 @@ public class StatsFragment extends Fragment {
         AppCompatSpinner spinner = (AppCompatSpinner) getView().findViewById(R.id.user);
         spinner.setAdapter(mUsersAdapter);
 
+        refresh(getActivity());
+    }
+
+    void refresh(Activity activity) {
+        // Atualiza a lista de usuarios
         GetUsersTask getLogTask = new GetUsersTask();
-        getLogTask.execute(getContext());
-        spinner.setAdapter(mUsersAdapter);
+        getLogTask.execute(activity);
 
 
+        //TODO: Enviar usuários do log
+        Usuario mostFrequentUser = Statistics.mostFrequentUser(activity, Arrays.asList(new Usuario(2, "Fulano"), new Usuario(3, "Rodrigo"), new Usuario(1, "Rafael"), new Usuario(3, "Rodrigo")));
+        Toast.makeText(activity, mostFrequentUser.getNome(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
