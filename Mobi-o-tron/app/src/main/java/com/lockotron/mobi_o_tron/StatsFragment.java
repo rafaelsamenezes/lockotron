@@ -14,6 +14,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -49,8 +50,8 @@ public class StatsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Snackbar serverNotSetSnackbar;
     private Snackbar serverErrorSnackbar;
-    private List<Usuario> mUsersList = new ArrayList<>();
-    private List<Historico> mLogList = new ArrayList<>();
+    private ArrayList<Usuario> mUsersList = new ArrayList<>();
+    private ArrayList<Historico> mLogList = new ArrayList<>();
     private UsersAdapter mUsersAdapter;
 
     public StatsFragment() {
@@ -119,6 +120,17 @@ public class StatsFragment extends Fragment {
 
         AppCompatSpinner spinner = (AppCompatSpinner) getView().findViewById(R.id.user);
         spinner.setAdapter(mUsersAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                refreshUserStats(getActivity());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         refresh(getActivity());
     }
@@ -146,6 +158,17 @@ public class StatsFragment extends Fragment {
 
         String lessFrequentTime = Statistics.lessFrequentTime(activity, mLogList);
         ((TextView) activity.findViewById(R.id.less_freq_time)).setText(lessFrequentTime != null ? lessFrequentTime : notAvailable);
+
+    }
+
+    void refreshUserStats(Activity activity){
+        String notAvailable = activity.getString(R.string.not_available);
+
+        AppCompatSpinner spinner = (AppCompatSpinner) activity.findViewById(R.id.user);
+        int userId = (int) spinner.getSelectedItemId();
+
+        String mostFrequentTime = Statistics.mostFrequentTime(activity, mLogList, userId);
+        ((TextView) activity.findViewById(R.id.user_most_freq_time)).setText(mostFrequentTime != null ? mostFrequentTime : notAvailable);
     }
 
 

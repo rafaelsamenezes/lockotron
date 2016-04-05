@@ -104,11 +104,11 @@ public class Statistics {
 
     @Nullable
     private static String timeStats(int function, Context context, List<Historico> log, int userId){
-        List<Historico> newList = new ArrayList<>(log);
+        List<Historico> newList = new ArrayList<>();
 
-        for (Historico l : newList) {
-            if (l.getUsuario().getId() != userId) {
-                newList.remove(l);
+        for (Historico l : log) {
+            if (l.getUsuario().getId() == userId) {
+                newList.add(l);
             }
         }
 
