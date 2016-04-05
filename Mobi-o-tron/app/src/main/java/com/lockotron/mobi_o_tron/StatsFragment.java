@@ -143,6 +143,9 @@ public class StatsFragment extends Fragment {
 
         String mostFrequentTime = Statistics.mostFrequentTime(activity, mLogList);
         ((TextView) activity.findViewById(R.id.most_freq_time)).setText(mostFrequentTime != null ? mostFrequentTime : notAvailable);
+
+        String lessFrequentTime = Statistics.lessFrequentTime(activity, mLogList);
+        ((TextView) activity.findViewById(R.id.less_freq_time)).setText(lessFrequentTime != null ? lessFrequentTime : notAvailable);
     }
 
 

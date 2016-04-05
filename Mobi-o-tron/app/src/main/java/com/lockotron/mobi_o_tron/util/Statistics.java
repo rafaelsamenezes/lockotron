@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class Statistics {
+    private static final int MOST_FREQUENT = 0;
+    private static final int LESS_FREQUENT = 1;
 
     private static boolean isNative(Context context) {
         final String PREF_NATIVE = "use_native";
@@ -82,6 +84,26 @@ public class Statistics {
 
     @Nullable
     public static String mostFrequentTime(Context context, List<Historico> log, int userId){
+        return timeStats(MOST_FREQUENT, context, log, userId);
+    }
+
+    @Nullable
+    public static String lessFrequentTime(Context context, List<Historico> log, int userId){
+        return timeStats(LESS_FREQUENT, context, log, userId);
+    }
+
+    @Nullable
+    public static String mostFrequentTime(Context context, List<Historico> log) {
+        return timeStats(MOST_FREQUENT, context, log);
+    }
+
+    @Nullable
+    public static String lessFrequentTime(Context context, List<Historico> log) {
+        return timeStats(LESS_FREQUENT, context, log);
+    }
+
+    @Nullable
+    private static String timeStats(int function, Context context, List<Historico> log, int userId){
         List<Historico> newList = new ArrayList<>(log);
 
         for (Historico l : newList) {
@@ -90,11 +112,11 @@ public class Statistics {
             }
         }
 
-        return mostFrequentTime(context, newList);
+        return timeStats(function, context, newList);
     }
 
     @Nullable
-    public static String mostFrequentTime(Context context, List<Historico> log) {
+    private static String timeStats(int function, Context context, List<Historico> log) {
         if (log.size() == 0)
             return null;
 
@@ -110,11 +132,25 @@ public class Statistics {
             }
         }
 
-        int time;
+        int time = -1;
         if (isNative(context))
-            time = Native.mostFrequentUser(hours);
+            switch (function) {
+                case MOST_FREQUENT:
+                    time = Native.mostFrequentUser(hours);
+                    break;
+                case LESS_FREQUENT:
+                    time = Native.lessFrequentUser(hours);
+                    break;
+            }
         else
-            time = getMode(hours);
+            switch (function) {
+                case MOST_FREQUENT:
+                    time = getMode(hours);
+                    break;
+                case LESS_FREQUENT:
+                    time = lessRepeated(hours);
+                    break;
+            }
 
         return String.format(Locale.getDefault(), "%02d:00 - %02d:00", time, time+1);
     }

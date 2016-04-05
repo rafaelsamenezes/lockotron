@@ -197,6 +197,7 @@
                         android:singleLine="false"
                         android:maxLines="3" />
                         <TextView
+                            android:id="@+id/less_freq_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_available"
