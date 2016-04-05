@@ -25,24 +25,22 @@ int getMode(int* values, int size) {
 }
 
 int getLessRepeated(int* values, int size) {
-    //FIXME: Fazer funcionar isso aqui.
-    int menor = 0;
+    int menor = values[0];
     int valorAtual = values[0];
-    int quantidadeMin = 0;
+    int quantidadeMin = size;
     int quantidadeAtual = 1;
-    int i = 0;
+    int i = 1;
     for(; i<size; i++){
         if (values[i] == valorAtual) {
             quantidadeAtual++;
         }
         else {
+            if (quantidadeAtual <= quantidadeMin) {
+                quantidadeMin = quantidadeAtual;
+                menor = values[i];
+            }
             valorAtual = values[i];
             quantidadeAtual = 1;
-        }
-
-        if (quantidadeAtual < quantidadeMin) {
-            quantidadeMin = quantidadeAtual;
-            menor = values[i];
         }
     }
     return menor;
