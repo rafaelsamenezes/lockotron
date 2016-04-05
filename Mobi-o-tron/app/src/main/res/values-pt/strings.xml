@@ -30,4 +30,11 @@
     <string name="error_server_generic">Servidor não encontrado.</string>
     <string name="pref_use_native_summary">Usa código nativo para otimizar cálculos de estatística</string>
     <string name="pref_use_native_title">Alto desempenho</string>
+    <string name="stats_user_title">Por usuário</string>
+    <string name="stats_user_freq_time">Horário mais frequente:</string>
+    <string name="stats_user_freq_day">Dia mais frequente:</string>
+    <string name="stats_general_title">Geral</string>
+    <string name="stats_general_most_freq_user">Usuário que mais frequenta:</string>
+    <string name="stats_general_less_freq_user">Usuário que menos frequenta:</string>
+    <string name="not_available">N/D</string>
 </resources>

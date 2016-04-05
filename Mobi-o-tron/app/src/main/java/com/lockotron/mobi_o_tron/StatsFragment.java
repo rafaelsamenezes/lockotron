@@ -15,15 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.lockotron.mobi_o_tron.exception.ServerNotSetException;
+import com.lockotron.mobi_o_tron.model.Historico;
 import com.lockotron.mobi_o_tron.model.Usuario;
 import com.lockotron.mobi_o_tron.util.Statistics;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -50,6 +50,7 @@ public class StatsFragment extends Fragment {
     private Snackbar serverNotSetSnackbar;
     private Snackbar serverErrorSnackbar;
     private List<Usuario> mUsersList = new ArrayList<>();
+    private List<Historico> mLogList = new ArrayList<>();
     private UsersAdapter mUsersAdapter;
 
     public StatsFragment() {
@@ -124,14 +125,18 @@ public class StatsFragment extends Fragment {
 
     void refresh(Activity activity) {
         // Atualiza a lista de usuarios
-        GetUsersTask getLogTask = new GetUsersTask();
+        GetUsersTask getUsersTask = new GetUsersTask();
+        getUsersTask.execute(activity);
+
+        GetLogTask getLogTask = new GetLogTask();
         getLogTask.execute(activity);
-
-
-        //TODO: Enviar usuários do log
-        Usuario mostFrequentUser = Statistics.mostFrequentUser(activity, Arrays.asList(new Usuario(2, "Fulano"), new Usuario(3, "Rodrigo"), new Usuario(1, "Rafael"), new Usuario(3, "Rodrigo")));
-        Toast.makeText(activity, mostFrequentUser.getNome(), Toast.LENGTH_SHORT).show();
     }
+
+    void refreshUi(Activity activity){
+        Usuario mostFrequentUser = Statistics.mostFrequentUser(activity, mLogList);
+        ((TextView) activity.findViewById(R.id.most_freq_user)).setText(mostFrequentUser.getNome());
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -217,6 +222,35 @@ public class StatsFragment extends Fragment {
             synchronized (mUsersAdapter){
                 mUsersAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    class GetLogTask extends AsyncTask<Activity, Void, Void> {
+        private Activity activity;
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Void doInBackground(Activity... activities) {
+            this.activity = activities[0];
+            try {
+                mLogList.clear();
+                mLogList.addAll(com.lockotron.mobi_o_tron.controller.Historico.getAll(this.activity));
+            } catch (IOException e) {
+                serverErrorSnackbar.show();
+                e.printStackTrace();
+            } catch (ServerNotSetException e) {
+                serverNotSetSnackbar.show();
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            refreshUi(activity);
         }
     }
 }

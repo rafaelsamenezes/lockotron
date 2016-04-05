@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.lockotron.mobi_o_tron.R;
+import com.lockotron.mobi_o_tron.model.Historico;
+import com.lockotron.mobi_o_tron.model.Usuario;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,13 +23,15 @@ public class Statistics {
         return result;
     }
 
-    public static com.lockotron.mobi_o_tron.model.Usuario mostFrequentUser(Context context, List<com.lockotron.mobi_o_tron.model.Usuario> users){
+    public static com.lockotron.mobi_o_tron.model.Usuario mostFrequentUser(Context context, List<Historico> log){
         int userId;
-        com.lockotron.mobi_o_tron.model.Usuario user = users.get(0);
-        int[] idArray = new int[users.size()];
+        if (log.size() == 0)
+            return new Usuario(0, context.getString(R.string.not_available));
+        com.lockotron.mobi_o_tron.model.Usuario user = log.get(0).getUsuario();
+        int[] idArray = new int[log.size()];
 
-        for (int i = 0; i < users.size(); i++) {
-            idArray[i] = users.get(i).getId();
+        for (int i = 0; i < log.size(); i++) {
+            idArray[i] = log.get(i).getUsuario().getId();
         }
 
         if (isNative(context))
@@ -33,9 +39,9 @@ public class Statistics {
         else
             userId = mostFrequentUser(idArray);
 
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId() == userId) {
-                user = users.get(i);
+        for (int i = 0; i < log.size(); i++) {
+            if (log.get(i).getId() == userId) {
+                user = log.get(i).getUsuario();
                 break;
             }
         }

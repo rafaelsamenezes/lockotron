@@ -25,7 +25,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:text="Por usuário"/>
+                    android:text="@string/stats_user_title"/>
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/user"
                     android:layout_width="match_parent"
@@ -41,14 +41,14 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:paddingEnd="8dp"
-                            android:text="Horário mais frequente:"
+                            android:text="@string/stats_user_freq_time"
                             android:layout_weight="1"
                             android:singleLine="false"
                             android:maxLines="3" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="08:00 - 09:00"
+                            android:text="xx:xx - xx:xx"
                             android:gravity="end" />
                     </TableRow>
                     <TableRow>
@@ -56,14 +56,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:text="Dia mais frequente:"
+                            android:text="@string/stats_user_freq_day"
                             android:layout_weight="1"
                             android:singleLine="false"
                             android:maxLines="3" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Segunda-feira"
+                            android:text="xxxxxxxx"
                             android:gravity="end" />
                     </TableRow>
                 </TableLayout>
@@ -84,7 +84,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:text="Geral"
+                    android:text="@string/stats_general_title"
                     android:layout_weight="1" />
                 <TableLayout
                     android:layout_width="match_parent"
@@ -98,14 +98,15 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:paddingEnd="8dp"
-                            android:text="Usuário que mais frequenta:"
+                            android:text="@string/stats_general_most_freq_user"
                         android:layout_weight="2"
                         android:singleLine="false"
                         android:maxLines="3" />
                         <TextView
+                            android:id="@+id/most_freq_user"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Fulano"
+                            android:text="Xxxxxx"
                             android:gravity="bottom"
                             android:layout_gravity="bottom" />
                     </TableRow>
@@ -116,17 +117,17 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:paddingEnd="8dp"
-                            android:text="Usuário que menos frequenta:"
+                            android:text="@string/stats_general_less_freq_user"
                         android:layout_weight="2"
                         android:singleLine="false"
                         android:maxLines="3" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Beltrano"
+                            android:text="Xxxxxxx"
                             android:gravity="bottom"
                             android:layout_gravity="bottom" />
-                    </TableRow>
+                    </TableRow><!--
                     <TableRow
                         android:paddingBottom="8dp">
                     <TextView
@@ -198,7 +199,7 @@
                             android:text="13:00 - 14:00"
                             android:gravity="bottom"
                             android:layout_gravity="bottom" />
-                    </TableRow>
+                    </TableRow>-->
                 </TableLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

@@ -37,5 +37,12 @@
     <string name="error_server_galileo">Galileo could not be contacted by the server.\nPlease, set up Galileo\'s IP correctly on the server.</string>
     <string name="pref_use_native_title">High performance</string>
     <string name="pref_use_native_summary">Uses native code to optimize statistics calculations</string>
+    <string name="not_available">N/A</string>
+    <string name="stats_general_less_freq_user">Less frequent user:</string>
+    <string name="stats_general_most_freq_user">Most frequent user:</string>
+    <string name="stats_general_title">General</string>
+    <string name="stats_user_freq_day">Most frequent day:</string>
+    <string name="stats_user_freq_time">Most frequent time:</string>
+    <string name="stats_user_title">By user</string>
 
 </resources>
