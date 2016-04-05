@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.lockotron.mobi_o_tron.model.Historico;
 import com.lockotron.mobi_o_tron.model.Usuario;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class Statistics {
     private static final int MOST_FREQUENT = 0;
@@ -197,6 +199,57 @@ public class Statistics {
 
         return DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays()[day];
     }
+    
+    public static void testPerformance() {
+        final String TAG = "MOBI-O-TRON-PERFORMANCE";
+        ArrayList<Integer> sizes = new ArrayList<>();
+        ArrayList<Long> times = new ArrayList<>();
+
+        final int min  = 100;
+        final int max  = 10000;
+        final int step = 500;
+
+        for (int i = min; i < max; i += step) {
+            int[] values = new int[i];
+            sizes.add(i);
+            for (int j = 0; j < values.length; j++) {
+                values[j] = new Random().nextInt(2*i/3);
+            }
+            long time = 0;
+            for (int j = 0; j < 10; j++) {
+                long nowTime = System.nanoTime();
+                Native.getMode(values);
+                nowTime = System.nanoTime() - nowTime;
+                time += nowTime;
+            }
+            time /= 10;
+            times.add(time);
+        }
+        Log.d(TAG, "Native: " + sizes.toString());
+        Log.d(TAG, "Native: " + times.toString());
+
+        sizes.clear();
+        times.clear();
+
+        for (int i = min; i < max; i += step) {
+            int[] values = new int[i];
+            sizes.add(i);
+            for (int j = 0; j < values.length; j++) {
+                values[j] = new Random().nextInt(2*i/3);
+            }
+            long time = 0;
+            for (int j = 0; j < 10; j++) {
+                long nowTime = System.nanoTime();
+                getMode(values);
+                nowTime = System.nanoTime() - nowTime;
+                time += nowTime;
+            }
+            time /= 10;
+            times.add(time);
+        }
+        Log.d(TAG, "Java: " + sizes.toString());
+        Log.d(TAG, "Java: " + times.toString());
+    }
 
     private static int lessRepeated(int[] values) {
         //FIXME: Fazer funcionar isso aqui.
@@ -224,7 +277,7 @@ public class Statistics {
     }
 
     private static int getMode(int[] values) {
-        Arrays.sort(values);
+        quickSort(values, 0, values.length-1);
 
         int maior = 0;
         int valorAtual = values[0];
@@ -245,6 +298,28 @@ public class Statistics {
             }
         }
         return maior;
+    }
+
+    private static void quickSort(int[] vet, int esq, int dir) {
+        int pivo = esq,i,ch,j;
+        for(i=esq+1; i<=dir; i++){
+            j = i;
+            if(vet[j] < vet[pivo]){
+                ch = vet[j];
+                while(j > pivo){
+                    vet[j] = vet[j-1];
+                    j--;
+                }
+                vet[j] = ch;
+                pivo++;
+            }
+        }
+        if(pivo-1 > esq){
+            quickSort(vet,esq,pivo-1);
+        }
+        if(pivo+1 < dir){
+            quickSort(vet,pivo+1,dir);
+        }
     }
 
     private static class Native {
