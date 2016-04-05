@@ -135,6 +135,9 @@ public class StatsFragment extends Fragment {
     void refreshUi(Activity activity){
         Usuario mostFrequentUser = Statistics.mostFrequentUser(activity, mLogList);
         ((TextView) activity.findViewById(R.id.most_freq_user)).setText(mostFrequentUser.getNome());
+
+        Usuario lessFrequentUser = Statistics.lessFrequentUser(activity, mLogList);
+        ((TextView) activity.findViewById(R.id.less_freq_user)).setText(lessFrequentUser.getNome());
     }
 
 

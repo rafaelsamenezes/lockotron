@@ -1,5 +1,6 @@
 package com.lockotron.mobi_o_tron.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -49,6 +50,57 @@ public class Statistics {
         return user;
     }
 
+    public static Usuario lessFrequentUser(Context context, List<Historico> log) {
+        int userId;
+        if (log.size() == 0)
+            return new Usuario(0, context.getString(R.string.not_available));
+        com.lockotron.mobi_o_tron.model.Usuario user = log.get(0).getUsuario();
+        int[] idArray = new int[log.size()];
+
+        for (int i = 0; i < log.size(); i++) {
+            idArray[i] = log.get(i).getUsuario().getId();
+        }
+
+        if (isNative(context))
+            userId = Native.lessFrequentUser(idArray);
+        else
+            userId = lessFrequentUser(idArray);
+
+        for (int i = 0; i < log.size(); i++) {
+            if (log.get(i).getId() == userId) {
+                user = log.get(i).getUsuario();
+                break;
+            }
+        }
+
+        return user;
+    }
+
+    private static int lessFrequentUser(int[] userIds) {
+        //FIXME: Fazer funcionar isso aqui.
+        Arrays.sort(userIds);
+
+        int menor = 0;
+        int valorAtual = userIds[0];
+        int quantidadeMin = userIds.length;
+        int quantidadeAtual = 0;
+
+        for (int userId : userIds) {
+            if (userId == valorAtual) {
+                quantidadeAtual++;
+            } else {
+                valorAtual = userId;
+                quantidadeAtual = 1;
+            }
+
+            if (quantidadeAtual < quantidadeMin) {
+                quantidadeMin = quantidadeAtual;
+                menor = userId;
+            }
+        }
+        return menor;
+    }
+
     private static int mostFrequentUser(int[] userIds) {
         Arrays.sort(userIds);
 
@@ -74,6 +126,9 @@ public class Statistics {
     }
 
     private static class Native {
+        @SuppressWarnings("JniMissingFunction")
         public native static int mostFrequentUser(int[] userIds);
+        @SuppressWarnings("JniMissingFunction")
+        public native static int lessFrequentUser(int[] userIds);
     }
 }
