@@ -22,6 +22,5 @@ int getMode(int* values, int size) {
             maior = values[i];
         }
     }
-    return 0;
     return maior;
 }

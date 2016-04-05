@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Statistics {
@@ -43,8 +44,27 @@ public class Statistics {
     }
 
     private static int mostFrequentUser(int[] userIds) {
-        //TODO: Implementar moda em Java
-        return 1;
+        Arrays.sort(userIds);
+
+        int maior = 0;
+        int valorAtual = userIds[0];
+        int quantidadeMax = 0;
+        int quantidadeAtual = 0;
+
+        for (int userId : userIds) {
+            if (userId == valorAtual) {
+                quantidadeAtual++;
+            } else {
+                valorAtual = userId;
+                quantidadeAtual = 1;
+            }
+
+            if (quantidadeAtual > quantidadeMax) {
+                quantidadeMax = quantidadeAtual;
+                maior = userId;
+            }
+        }
+        return maior;
     }
 
     private static class Native {
