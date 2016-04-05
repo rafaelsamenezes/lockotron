@@ -37,7 +37,7 @@ int getLessRepeated(int* values, int size) {
         else {
             if (quantidadeAtual <= quantidadeMin) {
                 quantidadeMin = quantidadeAtual;
-                menor = values[i];
+                menor = valorAtual;
             }
             valorAtual = values[i];
             quantidadeAtual = 1;

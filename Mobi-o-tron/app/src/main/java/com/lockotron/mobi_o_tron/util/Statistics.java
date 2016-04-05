@@ -266,7 +266,7 @@ public class Statistics {
             else {
                 if (quantidadeAtual <= quantidadeMin) {
                     quantidadeMin = quantidadeAtual;
-                    menor = values[i];
+                    menor = valorAtual;
                 }
                 valorAtual = values[i];
                 quantidadeAtual = 1;

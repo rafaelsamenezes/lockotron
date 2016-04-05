@@ -59,7 +59,7 @@ getMode_end:
 
 getLessRepeated:
     stmdb sp!, {r2, r3, r4, r5, r6, r7}  // Empilha os valores dos registradores que serão usados
-    mov r2, #0   // int i = 0;
+    mov r2, #1   // int i = 1;
     mov r4, r1   // int quantidadeMin = size;
     mov r5, #1   // int quantidadeAtual = 1;
     ldr r6, [r0] // int menor = values[0];
@@ -78,7 +78,7 @@ getLessRepeated_loop:
         cmp  r5, r4
         bgt endif    //  if (quantidadeAtual <= quantidadeMin)
           mov r4, r5 //quantidadeMin = quantidadeAtual;
-          mov r6, r7      // menor = values[i];
+          mov r6, r3      // menor = valorAtual;
         endif:
           mov r3, r7      // valorAtual = values[i];
           mov r5, #1      // quantidadeAtual = 1;
