@@ -22,8 +22,8 @@ getMode:
 getMode_loop:
     cmp r1, r2        // if (i < size)
     beq getMode_end   // Termina loop
-    add r0, r0, #4    // pega proximo int
     ldr r7, [r0]      // temp = values[i];
+    add r0, r0, #4    // pega proximo int
     cmp r3, r7        // values[i] == valorAtual
     bne getMode_else
         add r5, r5, #1  // quantidadeAtual++;

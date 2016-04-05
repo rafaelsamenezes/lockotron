@@ -18,7 +18,7 @@ int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_getMode(JNIEnv 
     int size = (*env)->GetArrayLength(env, userIds_);
     quickSort(userIds, 0, size-1);
     int result = getMode(userIds, size);
-    LOG("Called C function with return %d", result);
+    LOG("Called C most repeated function with return %d", result);
 
     (*env)->ReleaseIntArrayElements(env, userIds_, userIds, 0);
 
@@ -32,7 +32,7 @@ int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_lessRepeated(JN
     int size = (*env)->GetArrayLength(env, userIds_);
     quickSort(userIds, 0, size-1);
     int result = getLessRepeated(userIds, size);
-    LOG("Called C function with return %d", result);
+    LOG("Called C less repeated function with return %d", result);
 
     (*env)->ReleaseIntArrayElements(env, userIds_, userIds, 0);
 
