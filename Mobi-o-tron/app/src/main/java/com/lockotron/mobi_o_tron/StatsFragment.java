@@ -169,6 +169,9 @@ public class StatsFragment extends Fragment {
 
         String mostFrequentTime = Statistics.mostFrequentTime(activity, mLogList, userId);
         ((TextView) activity.findViewById(R.id.user_most_freq_time)).setText(mostFrequentTime != null ? mostFrequentTime : notAvailable);
+
+        String mostFrequentDay = Statistics.mostFrequentDay(activity, mLogList, userId);
+        ((TextView) activity.findViewById(R.id.user_most_freq_day)).setText(mostFrequentDay != null ? mostFrequentDay : notAvailable);
     }
 
 

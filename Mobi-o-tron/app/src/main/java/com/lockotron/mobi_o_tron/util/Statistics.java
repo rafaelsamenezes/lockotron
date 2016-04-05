@@ -8,10 +8,13 @@ import android.support.annotation.Nullable;
 import com.lockotron.mobi_o_tron.model.Historico;
 import com.lockotron.mobi_o_tron.model.Usuario;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -153,6 +156,46 @@ public class Statistics {
             }
 
         return String.format(Locale.getDefault(), "%02d:00 - %02d:00", time, time+1);
+    }
+
+    @Nullable
+    public static String mostFrequentDay(Context context, List<Historico> log, int userId){
+        List<Historico> newList = new ArrayList<>();
+
+        for (Historico l : log) {
+            if (l.getUsuario().getId() == userId) {
+                newList.add(l);
+            }
+        }
+
+        return mostFrequentDay(context, newList);
+    }
+
+    @Nullable
+    public static String mostFrequentDay(Context context, List<Historico> log) {
+        if (log.size() == 0)
+            return null;
+
+        int[] days = new int[log.size()];
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+
+        Calendar calendar = new GregorianCalendar(Locale.getDefault());
+        for (int i = 0; i < log.size(); i++) {
+            try {
+                calendar.setTime(dateFormat.parse(log.get(i).getData()));
+                days[i] = calendar.get(Calendar.DAY_OF_WEEK);
+            } catch (ParseException e) {
+                days[i] = -1;
+            }
+        }
+
+        int day;
+        if (isNative(context))
+            day = Native.getMode(days);
+        else
+            day = getMode(days);
+
+        return DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays()[day];
     }
 
     private static int lessRepeated(int[] values) {

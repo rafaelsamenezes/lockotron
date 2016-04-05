@@ -63,6 +63,7 @@
                             android:singleLine="false"
                             android:maxLines="3" />
                         <TextView
+                            android:id="@+id/user_most_freq_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_available"
