@@ -41,7 +41,7 @@ public class Statistics {
         }
 
         if (isNative(context))
-            userId = Native.mostFrequentUser(idArray);
+            userId = Native.getMode(idArray);
         else
             userId = getMode(idArray);
 
@@ -68,7 +68,7 @@ public class Statistics {
         }
 
         if (isNative(context))
-            userId = Native.lessFrequentUser(idArray);
+            userId = Native.lessRepeated(idArray);
         else
             userId = lessRepeated(idArray);
 
@@ -136,10 +136,10 @@ public class Statistics {
         if (isNative(context))
             switch (function) {
                 case MOST_FREQUENT:
-                    time = Native.mostFrequentUser(hours);
+                    time = Native.getMode(hours);
                     break;
                 case LESS_FREQUENT:
-                    time = Native.lessFrequentUser(hours);
+                    time = Native.lessRepeated(hours);
                     break;
             }
         else
@@ -206,8 +206,8 @@ public class Statistics {
 
     private static class Native {
         @SuppressWarnings("JniMissingFunction")
-        public native static int mostFrequentUser(int[] userIds);
+        public native static int getMode(int[] userIds);
         @SuppressWarnings("JniMissingFunction")
-        public native static int lessFrequentUser(int[] userIds);
+        public native static int lessRepeated(int[] userIds);
     }
 }

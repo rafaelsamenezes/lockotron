@@ -11,7 +11,7 @@
 int getMode(int* values, int size);
 int getLessRepeated(int* values, int size);
 
-int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_mostFrequentUser(JNIEnv *env, jobject instance, jintArray userIds_)
+int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_getMode(JNIEnv *env, jobject instance, jintArray userIds_)
 {
     jint *userIds = (*env)->GetIntArrayElements(env, userIds_, NULL);
 
@@ -25,7 +25,7 @@ int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_mostFrequentUse
     return result;
 }
 
-int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_lessFrequentUser(JNIEnv *env, jclass type, jintArray userIds_)
+int Java_com_lockotron_mobi_1o_1tron_util_Statistics_00024Native_lessRepeated(JNIEnv *env, jclass type, jintArray userIds_)
 {
     jint *userIds = (*env)->GetIntArrayElements(env, userIds_, NULL);
 
