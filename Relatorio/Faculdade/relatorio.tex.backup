@@ -15,15 +15,14 @@
 \title{Lock-o-tron}
 
 \author{Rafael Sá Menezes\inst{1}, Rodrigo dos Santos Tavares\inst{1},
-Felipe Leite Lobo\inst{1},\\Herbert Rocha\inst{1}, Thais Oliveira Almeida\inst{1}, Leando N. Ballico\inst{1} }
+Felipe Leite Lobo\inst{1},\\Herbert Rocha\inst{1}, Thais Oliveira Almeida\inst{1} }
 
 
 \address{Departamento de Ciência da Computação -- Centro de Ciência e Tecnologia
   \\Universidade Federal de Roraima (UFRR)\\
   Boa Vista -- RR -- Brazil
   \email{\{rafa.sa, rodrigo.tavares, felipe.lobo, herbert.rocha,}
-  \email{thais.oliveira\}@ufrr.br},
-  \email{leanball@gmail.com}
+  \email{thais.oliveira\}@ufrr.br}
 }
 
 \begin{document}
@@ -255,8 +254,8 @@ Felipe Leite Lobo\inst{1},\\Herbert Rocha\inst{1}, Thais Oliveira Almeida\inst{1
         \item[Estatísticas:] Menu onde é possível ver diversas informações sobre
         o uso do sistema.
     \end{description}
-  
-    A otimização do aplicativo foi feita utlizando JNI e Java, com códigos em C e arm7, a parte otimizada foi a de cálculos estatísticos (presentes no aplicativo). A figura~\ref{fig:android} mostra as telas do aplicativo e a figura~\ref{fig:desempenho_lock} mostra o impacto das otimizações em baixo nível.
+
+    A figura~\ref{fig:android} mostra as telas do aplicativo.
 
     \begin{figure}[!h]
 		\centering
